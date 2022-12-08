@@ -6,54 +6,187 @@
       <router-link to="#">商品列表</router-link>
       <router-link to="#">關於我們</router-link>
       <router-link to="#">聯絡我們</router-link>
+      <router-link to="#">訂單查詢</router-link>
     </nav>
+    <div class="icon-wrap">
+      <i class="bi bi-cart-fill"></i>
+      <i class="bi bi-heart-fill"></i>
+    </div>
+  </div>
+  <!-- --------------桌機↑ / 平板&手機↓--------------------- -->
+  <div class="mobile-navbar">
+    <div class="wrap">
+      <img src="@/assets/img/fakelogo2.png" alt="">
+      <div class="burger" ref="burger" @click.prevent="changeBtn" @keydown="c"></div>
+    </div>
+    <ul class="menu-list" ref="menuList">
+      <li><router-link to="#">首頁</router-link></li>
+      <li><router-link to="#">商品列表</router-link></li>
+      <li><router-link to="#">關於我們</router-link></li>
+      <li> <router-link to="#">聯絡我們</router-link></li>
+      <li><router-link to="#">訂單查詢</router-link></li>
+      <li><a href="#">購物車</a></li>
+      <li><a href="#">追蹤清單</a></li>
+
+    </ul>
   </div>
 </template>
 
 <script>
-export default {
+import { ref } from 'vue';
 
+export default {
+  setup() {
+    const burger = ref(null);
+    const menuList = ref(null);
+    const changeBtn = () => {
+      burger.value.classList.toggle('change-btn');
+      menuList.value.classList.toggle('show-hide');
+      // menuList.value.style.display = 'block';
+      console.log(burger);
+    };
+
+    return { changeBtn, burger, menuList };
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-.navbar{
+
+// 桌機------------------
+.navbar {
   position: fixed;
   z-index: 99;
   left: 0;
   right: 0;
   top: 0;
   padding: 0 1rem;
-  background: rgba(0,0,0, .8);
-  img{
+  background: rgba(0, 0, 0, .8);
+  display: flex;
+  justify-content: space-around;
+
+  @media (max-width: 900px) {
+    display: none;
+  }
+
+  img {
     width: 40px;
   }
 
-  nav a::before{
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 0%;
-    // background: #fa0;
-    background: rgba(255, 170, 0, 0.8);
-    z-index: -1;
-    transition: .3s;
+  nav {
+    padding-left: 40px;
+
+    a::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 0%;
+      // background: #fa0;
+      background: rgba(255, 170, 0, 0.8);
+      z-index: -1;
+      transition: .3s;
+    }
+
+    a {
+      position: relative;
+      display: inline-block;
+      padding: 1rem 1.5rem;
+      color: #fff;
+      text-decoration: none;
+      z-index: 2;
+
+      &:hover::before {
+        height: 100%;
+      }
+    }
   }
 
-  nav a{
-    position: relative;
-    display: inline-block;
-    padding: 1rem 1.5rem;
+  .icon-wrap i {
     color: #fff;
-    text-decoration: none;
-    z-index: 2;
-
-    &:hover::before{
-      height: 100%;
-    }
+    padding: 1rem;
+    font-size: 20px;
   }
 }
 
+// 平板 手機----------------------
+.mobile-navbar {
+  position: fixed;
+  z-index: 99;
+  width: 100%;
+  height: 50px;
+  background: #00000095;
+  @media (min-width: 900px) {
+    display: none;
+  }
+
+  .wrap{
+    img {
+    width: 40px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 3%;
+  }
+
+  .burger {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 3%;
+    width: 40px;
+    height: 4px;
+    background: #fff;
+    box-shadow: 0 12px 0 #fff, 0 -12px 0 #fff;
+    border-radius: 5px;
+    transition: .5s;
+  }
+
+  .change-btn.burger {
+    rotate: 135deg;
+    box-shadow: none;
+    background: rgb(255, 89, 89);
+  }
+
+  .burger::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 4px;
+    background: rgba(255, 89, 89, 0);
+    border-radius: 5px;
+    transition: .5s;
+  }
+
+  .change-btn.burger::after {
+    rotate: 270deg;
+    background: rgb(255, 89, 89);
+  }
+  }
+
+  ul {
+    padding: 0;
+    list-style: none;
+    text-align: center;
+    background: #290f0f99;
+    backdrop-filter: blur(30px);
+    height: 100vh;
+    margin-top: 50px;
+    opacity: 0;
+    transition: .5s;
+
+    a {
+      text-decoration: none;
+      color: #fff;
+      border-bottom: 1px dashed #cccccc90;
+      display: block;
+      padding: 1.5rem;
+    }
+  }
+
+  ul.show-hide{
+    opacity: 1;
+  }
+}
 </style>
