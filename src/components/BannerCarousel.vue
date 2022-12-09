@@ -65,22 +65,33 @@ export default {
     transform: translate(-50%, -50%);
     background: rgba(145, 49, 49, 0.2);
     backdrop-filter: blur(8px);
+    @media (max-width: 900px) {
+      padding: 1.5rem;
+    }
 
     h2 {
+      font-size: 2.5rem;
       font-weight: 700;
+      line-height: 1.5;
       color: #fff;
       margin-bottom: 1rem;
+      @media (max-width: 900px) {
+        font-size: 2rem;
+      }
+      @media (max-width: 500px) {
+        font-size: 1.6rem;
+      }
     }
 
     button {
-      border: 1px solid rgb(255, 186, 49);
-      color: rgb(255, 186, 49);
+      border: 1px solid rgb(255, 211, 77);
+      color: rgb(255, 211, 77);
       transition: .3s;
     }
 
     button:hover {
-      background: #fa0;
-      color: #fff;
+      background: rgb(255, 211, 77);
+      color: #333;
     }
   }
 }

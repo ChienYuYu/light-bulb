@@ -25,8 +25,8 @@
       <li><router-link to="#">關於我們</router-link></li>
       <li> <router-link to="#">聯絡我們</router-link></li>
       <li><router-link to="#">訂單查詢</router-link></li>
-      <li><a href="#">購物車</a></li>
-      <li><a href="#">追蹤清單</a></li>
+      <li><a href="#">購物車(0)</a></li>
+      <li><a href="#">追蹤清單(0)</a></li>
 
     </ul>
   </div>

@@ -1,16 +1,30 @@
 <template>
   <div class="home">
-    <Banner></Banner>
+    <BannerCarousel></BannerCarousel>
+    <ArticleBanner></ArticleBanner>
+    <HomeHotProduct></HomeHotProduct>
   </div>
 </template>
 
 <script>
-import Banner from '@/components/BannerComponent.vue';
+import { onMounted } from 'vue';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import BannerCarousel from '@/components/BannerCarousel.vue';
+import ArticleBanner from '@/components/ArticleBanner.vue';
+import HomeHotProduct from '@/components/HomeHotProduct.vue';
 
 export default {
   name: 'HomeView',
   components: {
-    Banner,
+    BannerCarousel,
+    ArticleBanner,
+    HomeHotProduct,
+  },
+  setup() {
+    onMounted(() => {
+      AOS.init();
+    });
   },
 };
 </script>
