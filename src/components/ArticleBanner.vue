@@ -59,9 +59,9 @@ export default {
       height: 600px;
       object-fit: cover;
 
-      @media (max-width: 900px) {
+      @media (max-width: 1200px) {
         width: 30%;
-        height: auto;
+        height: 400px;
       }
 
       @media (max-width: 500px) {
