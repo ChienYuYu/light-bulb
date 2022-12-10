@@ -52,7 +52,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 // 桌機------------------
 .navbar {
   position: fixed;
@@ -117,52 +116,53 @@ export default {
   width: 100%;
   height: 50px;
   background: #00000095;
+
   @media (min-width: 900px) {
     display: none;
   }
 
-  .wrap{
+  .wrap {
     img {
-    width: 40px;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 3%;
-  }
+      width: 40px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 3%;
+    }
 
-  .burger {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 3%;
-    width: 40px;
-    height: 4px;
-    background: #fff;
-    box-shadow: 0 12px 0 #fff, 0 -12px 0 #fff;
-    border-radius: 5px;
-    transition: .5s;
-  }
+    .burger {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 3%;
+      width: 40px;
+      height: 4px;
+      background: #fff;
+      box-shadow: 0 12px 0 #fff, 0 -12px 0 #fff;
+      border-radius: 5px;
+      transition: .5s;
+    }
 
-  .change-btn.burger {
-    rotate: 135deg;
-    box-shadow: none;
-    background: rgb(255, 89, 89);
-  }
+    .change-btn.burger {
+      rotate: 135deg;
+      box-shadow: none;
+      background: rgb(255, 89, 89);
+    }
 
-  .burger::after {
-    content: '';
-    display: block;
-    width: 40px;
-    height: 4px;
-    background: rgba(255, 89, 89, 0);
-    border-radius: 5px;
-    transition: .5s;
-  }
+    .burger::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 4px;
+      background: rgba(255, 89, 89, 0);
+      border-radius: 5px;
+      transition: .5s;
+    }
 
-  .change-btn.burger::after {
-    rotate: 270deg;
-    background: rgb(255, 89, 89);
-  }
+    .change-btn.burger::after {
+      rotate: 270deg;
+      background: rgb(255, 89, 89);
+    }
   }
 
   ul {
@@ -176,7 +176,6 @@ export default {
     top: 50px;
     width: 100%;
     left: -100%;
-    z-index: -99;
     transition: .5s;
 
     a {
@@ -185,12 +184,16 @@ export default {
       border-bottom: 1px dashed #cccccc90;
       display: block;
       padding: 1.5rem;
+
+      &:hover {
+        background: rgb(255, 211, 77);
+        color: #333;
+      }
     }
   }
 
-  ul.show-hide{
+  ul.show-hide {
     left: 0;
-    z-index: 10;
   }
 }
 </style>
