@@ -4,6 +4,7 @@
     <ArticleBanner></ArticleBanner>
     <HomeHotProduct></HomeHotProduct>
     <CouponCode></CouponCode>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -15,6 +16,7 @@ import BannerCarousel from '@/components/BannerCarousel.vue';
 import ArticleBanner from '@/components/ArticleBanner.vue';
 import HomeHotProduct from '@/components/HomeHotProduct.vue';
 import CouponCode from '@/components/HomeCouponCode.vue';
+import Footer from '@/components/FooterComponent.vue';
 
 export default {
   name: 'HomeView',
@@ -23,6 +25,7 @@ export default {
     ArticleBanner,
     HomeHotProduct,
     CouponCode,
+    Footer,
   },
   setup() {
     onMounted(() => {
