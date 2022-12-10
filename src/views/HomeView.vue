@@ -3,6 +3,7 @@
     <BannerCarousel></BannerCarousel>
     <ArticleBanner></ArticleBanner>
     <HomeHotProduct></HomeHotProduct>
+    <CouponCode></CouponCode>
   </div>
 </template>
 
@@ -13,6 +14,7 @@ import 'aos/dist/aos.css';
 import BannerCarousel from '@/components/BannerCarousel.vue';
 import ArticleBanner from '@/components/ArticleBanner.vue';
 import HomeHotProduct from '@/components/HomeHotProduct.vue';
+import CouponCode from '@/components/HomeCouponCode.vue';
 
 export default {
   name: 'HomeView',
@@ -20,6 +22,7 @@ export default {
     BannerCarousel,
     ArticleBanner,
     HomeHotProduct,
+    CouponCode,
   },
   setup() {
     onMounted(() => {

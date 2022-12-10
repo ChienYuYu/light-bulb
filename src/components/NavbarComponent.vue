@@ -172,8 +172,11 @@ export default {
     background: #290f0f99;
     backdrop-filter: blur(30px);
     height: 100vh;
-    margin-top: 50px;
-    opacity: 0;
+    position: absolute;
+    top: 50px;
+    width: 100%;
+    left: -100%;
+    z-index: -99;
     transition: .5s;
 
     a {
@@ -186,7 +189,8 @@ export default {
   }
 
   ul.show-hide{
-    opacity: 1;
+    left: 0;
+    z-index: 10;
   }
 }
 </style>

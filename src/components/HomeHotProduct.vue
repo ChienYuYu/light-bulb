@@ -4,7 +4,7 @@
     <p data-aos="fade-up" data-aos-duration="1500">超省電 高品質</p>
     <div class="container wrap">
 
-      <div class="row">
+      <div class="row g-3">
 
         <div class="col-md-4 col-lg-3">
           <div class="card">
