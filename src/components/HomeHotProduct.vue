@@ -8,7 +8,7 @@
 
         <div class="col-md-4 col-lg-3">
           <div class="card">
-            <img src="@/assets/img/sample01.jpg" class="card-img-top" alt="">
+            <img src="@/assets/img/sample03.jpg" class="card-img-top" alt="">
             <div class="card-body">
               <h5 class="card-title">Card title</h5>
               <p class="card-text">Some card title and make up the bulk of the card's content.</p>
@@ -30,7 +30,7 @@
 
         <div class="col-md-4 col-lg-3">
           <div class="card">
-            <img src="@/assets/img/sample01.jpg" class="card-img-top" alt="">
+            <img src="@/assets/img/sample04.jpg" class="card-img-top" alt="">
             <div class="card-body">
               <h5 class="card-title">Card title</h5>
               <p class="card-text">Some card title and make up the bulk of the card's content.</p>
@@ -41,7 +41,7 @@
 
         <div class="col-md-4 col-lg-3">
           <div class="card">
-            <img src="@/assets/img/sample01.jpg" class="card-img-top" alt="">
+            <img src="@/assets/img/sample06.jpg" class="card-img-top" alt="">
             <div class="card-body">
               <h5 class="card-title">Card title</h5>
               <p class="card-text">Some card title and make up the bulk of the card's content.</p>
