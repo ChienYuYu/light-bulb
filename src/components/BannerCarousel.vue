@@ -5,7 +5,6 @@
       <button class="btn">前往購物</button>
     </div>
     <swiper :slides-per-view="1" :space-between="0"
-    @swiper="onSwiper" @slideChange="onSlideChange"
       :autoplay="true" :loop="true" :modules="modules">
       <swiper-slide>
         <img src="@/assets/img/banner03.jpg" alt="">
@@ -29,15 +28,7 @@ import { Autoplay, EffectFade } from 'swiper';
 export default {
   components: { Swiper, SwiperSlide },
   setup() {
-    const onSwiper = (swiper) => {
-      console.log(swiper);
-    };
-    const onSlideChange = () => {
-      console.log('slide change');
-    };
     return {
-      onSwiper,
-      onSlideChange,
       modules: [Autoplay, EffectFade],
     };
   },

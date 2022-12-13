@@ -5,53 +5,15 @@
     <div class="container wrap">
       <!-- --------------------------- -->
     <swiper :slides-per-view="slidesPerView" :space-between="20"
-    navigation :autoplay="true" :loop="true" :modules="modules">
-        <swiper-slide>
+    navigation :autoplay="true" :loop="true" :modules="modules"
+    data-aos="fade-up" data-aos-duration="1500">
+        <swiper-slide v-for="item in hotProduct" :key="item.id">
           <div class="card">
-            <img src="@/assets/img/sample06.jpg" class="card-img-top" alt="">
+            <img :src="item.picture" class="card-img-top" alt="">
             <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn">加入購物車</a>
-            </div>
-          </div>
-        </swiper-slide>
-        <swiper-slide>
-          <div class="card">
-            <img src="@/assets/img/sample06.jpg" class="card-img-top" alt="">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn">加入購物車</a>
-            </div>
-          </div>
-        </swiper-slide>
-        <swiper-slide>
-          <div class="card">
-            <img src="@/assets/img/sample06.jpg" class="card-img-top" alt="">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn">加入購物車</a>
-            </div>
-          </div>
-        </swiper-slide>
-        <swiper-slide>
-          <div class="card">
-            <img src="@/assets/img/sample06.jpg" class="card-img-top" alt="">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn">加入購物車</a>
-            </div>
-          </div>
-        </swiper-slide>
-        <swiper-slide>
-          <div class="card">
-            <img src="@/assets/img/sample06.jpg" class="card-img-top" alt="">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some card title and make up the bulk of the card's content.</p>
+              <h5 class="card-title">{{ item.title }}</h5>
+              <p class="card-text"> {{ item.description }} </p>
+              <p class="price"><i>售價$ <span>{{ item.price }}</span></i></p>
               <a href="#" class="btn">加入購物車</a>
             </div>
           </div>
@@ -63,7 +25,8 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
+import { useStore } from 'vuex';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/swiper-bundle.css';
 import { Autoplay, Navigation } from 'swiper';
@@ -71,7 +34,15 @@ import { Autoplay, Navigation } from 'swiper';
 export default {
   components: { Swiper, SwiperSlide },
   setup() {
+    const store = useStore();
     const slidesPerView = ref(4);
+
+    const getProductData = () => {
+      store.dispatch('ProductCardHot/getProductData');
+    };
+    getProductData();
+
+    const hotProduct = computed(() => store.state.ProductCardHot.products);
 
     onMounted(() => {
       function changeShowNum() {
@@ -93,6 +64,8 @@ export default {
     return {
       slidesPerView,
       modules: [Autoplay, Navigation],
+      getProductData,
+      hotProduct,
     };
   },
 
@@ -112,6 +85,13 @@ export default {
 
   p {
     color: rgb(255, 211, 77);
+  }
+  p.price{
+    font-weight: 500;
+    color: rgb(255, 57, 57);
+    span{
+      font-size: 28px;
+    }
   }
 
   .wrap {
