@@ -1,7 +1,7 @@
 <template>
   <div class="productListPage">
     <div class="header">
-      <h1>所有商品</h1>
+      <h1>商品：{{ category }}</h1>
     </div>
     <div class="container">
       <div class="row">
@@ -13,9 +13,9 @@
                 全部</a>
             </li>
             <li>
-              <a href="#" @click.prevent="getCategory('LED燈泡')"
-              :class="{'this-category': category === 'LED燈泡'}">
-                LED燈泡</a>
+              <a href="#" @click.prevent="getCategory('燈泡')"
+              :class="{'this-category': category === '燈泡'}">
+                燈泡</a>
             </li>
             <li>
               <a href="#" @click.prevent="getCategory('吊燈')"
@@ -40,7 +40,7 @@
           </ul>
         </div>
         <div class="col-lg-10">
-          <ProductCard />
+          <ProductCard :category="category" />
         </div>
       </div>
     </div>
@@ -51,6 +51,7 @@
 <script>
 import { ref, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import ProductCard from '@/components/ProductCard.vue';
 import Footer from '@/components/FooterComponent.vue';
 
@@ -60,6 +61,9 @@ export default {
     const category = ref('');
     const route = useRoute();
     const router = useRouter();
+    const store = useStore();
+
+    store.dispatch('getProductData');
 
     const getCategory = (c) => {
       router.push(`${c}`);

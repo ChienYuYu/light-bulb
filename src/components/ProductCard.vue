@@ -1,6 +1,6 @@
 <template>
   <div class="row g-3">
-    <div class="col-lg-3 col-md-6" v-for="item in products" :key="item.id">
+    <div class="col-lg-3 col-md-6" v-for="item in renderData" :key="item.id">
       <div class="card">
         <img :src="item.picture" class="card-img-top" alt="">
         <div class="card-body">
@@ -19,11 +19,18 @@ import { computed } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
-  setup() {
+  props: ['category'],
+  setup(props) {
     const store = useStore();
     const products = computed(() => store.state.products);
+    const renderData = computed(() => {
+      if (props.category !== '全部') {
+        return products.value.filter((item) => item.category === props.category);
+      }
+      return products.value;
+    });
 
-    return { products };
+    return { products, renderData };
   },
 };
 </script>
