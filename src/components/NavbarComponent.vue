@@ -20,8 +20,8 @@
       <div class="burger" ref="burger" @click.prevent="changeBtn" @keydown="c"></div>
     </div>
     <ul class="menu-list" ref="menuList">
-      <li><router-link to="#">首頁</router-link></li>
-      <li><router-link to="#">商品列表</router-link></li>
+      <li><router-link to="/">首頁</router-link></li>
+      <li><router-link to="/product/全部">商品列表</router-link></li>
       <li><router-link to="#">關於我們</router-link></li>
       <li> <router-link to="#">聯絡我們</router-link></li>
       <li><router-link to="#">訂單查詢</router-link></li>
