@@ -1,0 +1,66 @@
+<template>
+  <div class="row g-3">
+    <div class="col-lg-3 col-md-6" v-for="item in products" :key="item.id">
+      <div class="card">
+        <img :src="item.picture" class="card-img-top" alt="">
+        <div class="card-body">
+          <h5 class="card-title">{{ item.title }}</h5>
+          <p class="card-text"> {{ item.description }} </p>
+          <p class="price"><i>售價$ <span>{{ item.price }}</span></i></p>
+          <a href="#" class="btn">加入購物車</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+
+export default {
+  setup() {
+    const store = useStore();
+    const products = computed(() => store.state.products);
+
+    return { products };
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.card {
+  border: 1px solid #222;
+  background: #222;
+  text-align: center;
+
+  h5 {
+    color: #fff;
+  }
+
+  p {
+    color: rgb(255, 211, 77);
+  }
+
+  p.price {
+    font-weight: 500;
+    color: rgb(255, 57, 57);
+
+    span {
+      font-size: 28px;
+    }
+  }
+
+  a {
+    color: #fff;
+    border: 1px solid #fff;
+    padding: .5rem 2rem;
+    width: 100%;
+  }
+
+  a:hover {
+    background: #fff;
+    color: #222;
+  }
+}
+</style>

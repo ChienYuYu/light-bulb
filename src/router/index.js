@@ -8,6 +8,11 @@ const routes = [
     component: HomeView,
   },
   {
+    path: '/product/:category',
+    name: '產品',
+    component: () => import('../views/fornt/ProductListPage.vue'),
+  },
+  {
     path: '/about',
     name: 'about',
     // route level code-splitting

@@ -4,9 +4,9 @@
     <p data-aos="fade-up" data-aos-duration="1500">超省電 高品質</p>
     <div class="container wrap">
       <!-- --------------------------- -->
-    <swiper :slides-per-view="slidesPerView" :space-between="20"
-    navigation :autoplay="true" :loop="true" :modules="modules"
-    data-aos="fade-up" data-aos-duration="1500">
+      <swiper :slides-per-view="slidesPerView" :space-between="20" navigation
+      :autoplay="true" :loop="true"
+        :modules="modules" data-aos="fade-up" data-aos-duration="1500">
         <swiper-slide v-for="item in hotProduct" :key="item.id">
           <div class="card">
             <img :src="item.picture" class="card-img-top" alt="">
@@ -38,11 +38,11 @@ export default {
     const slidesPerView = ref(4);
 
     const getProductData = () => {
-      store.dispatch('ProductCardHot/getProductData');
+      store.dispatch('getProductData');
     };
     getProductData();
 
-    const hotProduct = computed(() => store.state.ProductCardHot.products);
+    const hotProduct = computed(() => store.state.hotProduct);
 
     onMounted(() => {
       function changeShowNum() {
@@ -86,13 +86,6 @@ export default {
   p {
     color: rgb(255, 211, 77);
   }
-  p.price{
-    font-weight: 500;
-    color: rgb(255, 57, 57);
-    span{
-      font-size: 28px;
-    }
-  }
 
   .wrap {
     // padding: 3rem 0; // 會出現x軸
@@ -107,21 +100,31 @@ export default {
       color: #fff;
     }
 
+    p.price {
+      font-weight: 500;
+      color: rgb(255, 57, 57);
+
+      span {
+        font-size: 28px;
+      }
+    }
+
     a {
       color: #fff;
       border: 1px solid #fff;
       padding: .5rem 2rem;
       width: 100%;
     }
-    a:hover{
+
+    a:hover {
       background: #fff;
       color: #222;
     }
   }
 
-  .swiper{
+  .swiper {
     --swiper-navigation-color: rgb(255, 211, 77); // 按鈕顏色
-    --swiper-navigation-size: 30px;  // 按钮大小
+    --swiper-navigation-size: 30px; // 按钮大小
   }
 
 }

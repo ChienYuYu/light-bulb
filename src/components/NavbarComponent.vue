@@ -2,8 +2,8 @@
   <div class="navbar">
     <img src="@/assets/img/fakelogo2.png" alt="">
     <nav>
-      <router-link to="#">首頁</router-link>
-      <router-link to="#">商品列表</router-link>
+      <router-link to="/">首頁</router-link>
+      <router-link to="/product/全部">商品列表</router-link>
       <router-link to="#">關於我們</router-link>
       <router-link to="#">聯絡我們</router-link>
       <router-link to="#">訂單查詢</router-link>
@@ -83,7 +83,8 @@ export default {
       width: 100%;
       height: 0%;
       // background: #fa0;
-      background: rgba(255, 170, 0, 0.8);
+      // background: rgba(255, 170, 0, 0.8);
+      background: rgb(255, 211, 77);
       z-index: -1;
       transition: .3s;
     }
@@ -95,9 +96,13 @@ export default {
       color: #fff;
       text-decoration: none;
       z-index: 2;
+      transition: .3s;
 
       &:hover::before {
         height: 100%;
+      }
+      &:hover {
+        color: #333;
       }
     }
   }
