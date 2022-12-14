@@ -20,33 +20,41 @@
       <div class="burger" ref="burger" @click.prevent="changeBtn" @keydown="c"></div>
     </div>
     <ul class="menu-list" ref="menuList">
-      <li><router-link to="/">首頁</router-link></li>
-      <li><router-link to="/product/全部">商品列表</router-link></li>
-      <li><router-link to="#">關於我們</router-link></li>
-      <li> <router-link to="#">聯絡我們</router-link></li>
-      <li><router-link to="#">訂單查詢</router-link></li>
+      <li><a href="#" @click.prevent="goPage('/')">首頁</a></li>
+      <li><a href="#" @click.prevent="goPage('/product/全部')">商品列表</a></li>
+      <li><a href="#" @click.prevent="goPage('/')">關於我們</a></li>
+      <li><a href="#" @click.prevent="goPage('/')">聯絡我們</a></li>
+      <li><a href="#" @click.prevent="goPage('/')">訂單查詢</a></li>
       <li><a href="#">購物車(0)</a></li>
       <li><a href="#">追蹤清單(0)</a></li>
-
     </ul>
   </div>
 </template>
 
 <script>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default {
   setup() {
+    const router = useRouter();
     const burger = ref(null);
     const menuList = ref(null);
     const changeBtn = () => {
       burger.value.classList.toggle('change-btn');
       menuList.value.classList.toggle('show-hide');
-      // menuList.value.style.display = 'block';
       console.log(burger);
     };
 
-    return { changeBtn, burger, menuList };
+    const goPage = (p) => {
+      router.push(`${p}`);
+      changeBtn();
+      document.body.scrollTop = 0;
+    };
+
+    return {
+      changeBtn, burger, menuList, goPage,
+    };
   },
 };
 </script>
@@ -82,8 +90,6 @@ export default {
       left: 0;
       width: 100%;
       height: 0%;
-      // background: #fa0;
-      // background: rgba(255, 170, 0, 0.8);
       background: rgb(255, 211, 77);
       z-index: -1;
       transition: .3s;

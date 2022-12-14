@@ -112,8 +112,12 @@ export default {
     @media (max-width: 1200px) {
       display: flex;
       justify-content: center;
-      overflow: scroll;
+      overflow: auto;
       border-bottom: 1px solid #666;
+    }
+    @media (max-width: 767px) {
+      // 沒設定在767 justify-content這個的話 在手機 "全部"選項會顯示不出來!
+      justify-content:flex-start;
     }
 
     li:not(:last-child) {
