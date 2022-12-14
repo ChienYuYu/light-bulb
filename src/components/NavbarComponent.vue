@@ -49,7 +49,6 @@ export default {
     const goPage = (p) => {
       router.push(`${p}`);
       changeBtn();
-      document.body.scrollTop = 0;
     };
 
     return {
