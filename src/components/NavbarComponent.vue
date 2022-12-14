@@ -9,8 +9,15 @@
       <router-link to="#">訂單查詢</router-link>
     </nav>
     <div class="icon-wrap">
-      <i class="bi bi-cart-fill"></i>
-      <i class="bi bi-heart-fill"></i>
+      <i class="bi bi-cart-fill my-cart"></i>
+      <i class="bi bi-heart-fill my-favorite" @click="showHideFavorite" @keydown="1"></i>
+      <ul class="favorite-list" v-show="favoriteMenu">
+        <li><a href="#">收藏清單</a></li>
+        <li><a href="#">text here</a></li>
+        <li><a href="#">text here</a></li>
+        <li><a href="#">text here</a></li>
+        <li><a href="#">text here</a></li>
+      </ul>
     </div>
   </div>
   <!-- --------------桌機↑ / 平板&手機↓--------------------- -->
@@ -26,7 +33,7 @@
       <li><a href="#" @click.prevent="goPage('/')">聯絡我們</a></li>
       <li><a href="#" @click.prevent="goPage('/')">訂單查詢</a></li>
       <li><a href="#">購物車(0)</a></li>
-      <li><a href="#">追蹤清單(0)</a></li>
+      <li><a href="#" @click.prevent="goPage('/myFavorite')">收藏清單(0)</a></li>
     </ul>
   </div>
 </template>
@@ -40,6 +47,8 @@ export default {
     const router = useRouter();
     const burger = ref(null);
     const menuList = ref(null);
+    const favoriteMenu = ref(false);
+
     const changeBtn = () => {
       burger.value.classList.toggle('change-btn');
       menuList.value.classList.toggle('show-hide');
@@ -51,8 +60,12 @@ export default {
       changeBtn();
     };
 
+    const showHideFavorite = () => {
+      favoriteMenu.value = !favoriteMenu.value;
+    };
+
     return {
-      changeBtn, burger, menuList, goPage,
+      changeBtn, burger, menuList, goPage, showHideFavorite, favoriteMenu,
     };
   },
 };
@@ -112,10 +125,39 @@ export default {
     }
   }
 
-  .icon-wrap i {
-    color: #fff;
-    padding: 1rem;
-    font-size: 20px;
+  .icon-wrap{
+    position: relative;
+    i{
+      color: #fff;
+      padding: 1rem;
+      font-size: 20px;
+    }
+    i.my-favorite{}
+    ul.favorite-list{
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      padding: 0;
+      list-style: none;
+      background: #eee;
+      border-radius: .5rem;
+      box-shadow: 0 0 5px #111;
+      overflow: hidden;
+      a{
+        text-align: center;
+        text-decoration: none;
+        color: #333;
+        border-bottom: 1px solid #999;
+        display: block;
+        padding: 1rem .5rem;
+        &:hover{
+          background: rgb(18, 18, 29);
+          color: rgb(255, 211, 77);
+        }
+      }
+    }
   }
 }
 
