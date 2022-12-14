@@ -6,8 +6,14 @@
         <div class="card-body">
           <h5 class="card-title">{{ item.title }}</h5>
           <p class="card-text"> {{ item.description }} </p>
-          <p class="price"><i>售價$ <span>{{ item.price }}</span></i></p>
-          <a href="#" class="btn">加入購物車</a>
+          <div class="favorite-price-wrap">
+            <button class="btn favorite-btn">
+              收藏 <i class="bi bi-heart"></i>
+            </button>
+            <p class="price"><i>售價$ <span>{{ item.price }}</span></i></p>
+          </div>
+          <!-- <p class="price"><i>售價$ <span>{{ item.price }}</span></i></p> -->
+          <a href="#" class="btn add-cart-btn">加入購物車</a>
         </div>
       </div>
     </div>
@@ -49,23 +55,38 @@ export default {
     color: rgb(255, 211, 77);
   }
 
-  p.price {
-    font-weight: 500;
-    color: rgb(255, 57, 57);
+  .favorite-price-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-    span {
-      font-size: 28px;
+    button.favorite-btn{
+      color: #333;
+      background: rgb(255, 211, 77);
+      &:hover{
+      background: rgb(255, 220, 113);
+      color: #555;
+      }
+    }
+
+    p.price {
+      font-weight: 500;
+      color: rgb(255, 57, 57);
+
+      span {
+        font-size: 28px;
+      }
     }
   }
 
-  a {
+  a.add-cart-btn {
     color: #fff;
     border: 1px solid #fff;
     padding: .5rem 2rem;
     width: 100%;
   }
 
-  a:hover {
+  a.add-cart-btn:hover {
     background: #fff;
     color: #222;
   }
