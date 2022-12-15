@@ -9,12 +9,18 @@
       </p>
     </div>
     <div class="wrap">
-      <img src="@/assets/img/p01.jpg" alt="" data-aos="flip-left"
-      data-aos-duration="1000" data-aos-delay="400">
-      <img src="@/assets/img/p02.jpg" alt="" data-aos="flip-left"
-      data-aos-duration="1000" data-aos-delay="400">
-      <img src="@/assets/img/p04.jpg" alt="" data-aos="flip-left"
-      data-aos-duration="1000" data-aos-delay="400">
+      <router-link to="/product/全部">
+        <img src="@/assets/img/p01.jpg" alt="" data-aos="flip-left"
+        data-aos-duration="1000" data-aos-delay="400">
+      </router-link>
+      <router-link to="/product/全部">
+        <img src="@/assets/img/p02.jpg" alt="" data-aos="flip-left"
+        data-aos-duration="1000" data-aos-delay="400">
+      </router-link>
+      <router-link to="/product/全部">
+        <img src="@/assets/img/p04.jpg" alt="" data-aos="flip-left"
+        data-aos-duration="1000" data-aos-delay="400">
+      </router-link>
     </div>
   </div>
 </template>
@@ -44,6 +50,7 @@ export default {
     }
   }
 
+  // ----------------------------------
   .wrap {
     padding: 3rem 0;
     display: flex;
@@ -54,20 +61,31 @@ export default {
       flex-direction: column;
     }
 
-    img {
+    a{
+      display: block;
       width: 400px;
       height: 600px;
-      object-fit: cover;
+      overflow: hidden;
 
       @media (max-width: 1200px) {
         width: 30%;
-        height: 400px;
+        height: 480px;
+      }
+
+      @media (max-width: 1080px) {
+        height: 340px;
       }
 
       @media (max-width: 500px) {
         width: 90%;
+        height: 480px;
         margin-bottom: 1rem;
       }
+    }
+
+    img {
+      width: 100%;
+      height: auto;
     }
   }
 

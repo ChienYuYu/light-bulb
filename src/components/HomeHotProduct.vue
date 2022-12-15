@@ -2,10 +2,10 @@
   <div class="hot-product">
     <h2 data-aos="fade-up" data-aos-duration="1000">超值熱賣商品</h2>
     <p data-aos="fade-up" data-aos-duration="1500">超省電 高品質</p>
+    <!-- --------------------------- -->
     <div class="container wrap">
-      <!-- --------------------------- -->
-      <swiper :slides-per-view="slidesPerView" :space-between="20" navigation
-      :autoplay="true" :loop="true"
+      <swiper :slides-per-view="slidesPerView"
+      :space-between="20" navigation :autoplay="true" :loop="true"
         :modules="modules" data-aos="fade-up" data-aos-duration="1500">
         <swiper-slide v-for="item in hotProduct" :key="item">
           <div class="card">
@@ -14,7 +14,15 @@
               <h5 class="card-title">{{ item.title }}</h5>
               <p class="card-text"> {{ item.description }} </p>
               <p class="price"><i>售價$ <span>{{ item.price }}</span></i></p>
-              <a href="#" class="btn">加入購物車</a>
+
+              <div class="btn-wrap">
+                <button class="btn favorite-btn" @click="toggleFavorite(item)">
+                  收藏
+                  <i class="bi bi-heart" v-if="iconSwitch(item.id) === false"></i>
+                  <i class="bi bi-heart-fill" v-if="iconSwitch(item.id) === true"></i>
+                </button>
+                <a href="#" class="btn add-cart-btn">加入購物車</a>
+              </div>
             </div>
           </div>
         </swiper-slide>
@@ -39,17 +47,31 @@ export default {
 
     const getProductData = () => {
       store.dispatch('getProductData');
-    };
-    getProductData();
+    }; getProductData();
 
     const hotProduct = computed(() => store.state.hotProduct);
 
+    // 切換是否收藏(新增/移除收藏)
+    const toggleFavorite = (item) => {
+      store.commit('myFavorite/toggleFavorite', item);
+    };
+
+    // 判斷是否收藏切換icon
+    const iconSwitch = computed(() => (id) => {
+      const tempResult = store.state.myFavorite.myFavorite.some((item) => item.id === id);
+      return tempResult;
+    });
+
+    // 不同螢幕尺寸要顯示的張數
     onMounted(() => {
       function changeShowNum() {
-        if (window.innerWidth < 768) {
+        if (window.innerWidth < 670) {
           slidesPerView.value = 1;
         }
-        if (window.innerWidth >= 768) {
+        if (window.innerWidth > 670) {
+          slidesPerView.value = 2;
+        }
+        if (window.innerWidth > 1000) {
           slidesPerView.value = 3;
         }
         if (window.innerWidth >= 1200) {
@@ -60,12 +82,15 @@ export default {
       window.addEventListener('resize', changeShowNum);
       changeShowNum();
     });
+    // ---------------------------------------
 
     return {
       slidesPerView,
       modules: [Autoplay, Navigation],
       getProductData,
       hotProduct,
+      toggleFavorite,
+      iconSwitch,
     };
   },
 
@@ -85,8 +110,10 @@ export default {
 
   p {
     color: rgb(255, 211, 77);
+    margin-bottom: 0;
   }
 
+  // -----------------------------------
   .wrap {
     // padding: 3rem 0; // 會出現x軸
     padding-top: 3rem;
@@ -109,18 +136,39 @@ export default {
       }
     }
 
-    a {
-      color: #fff;
-      border: 1px solid #fff;
-      padding: .5rem 2rem;
-      width: 100%;
-    }
+    // -----------------------------------
+    .btn-wrap {
+      display: flex;
+      padding: 1rem 0;
 
-    a:hover {
-      background: #fff;
-      color: #222;
+      button.favorite-btn {
+        white-space: nowrap;
+        color: #333;
+        background: rgb(255, 211, 77);
+        border-radius: 0;
+
+        &:hover {
+          background: rgb(255, 220, 113);
+          color: #555;
+        }
+      }
+
+      a.add-cart-btn {
+        border-radius: 0;
+        color: #fff;
+        border: 1px solid #fff;
+        padding: .5rem 2rem;
+        width: 100%;
+      }
+
+      a.add-cart-btn:hover {
+        background: #fff;
+        color: #222;
+      }
     }
   }
+
+    // ------------------------------------------
 
   .swiper {
     --swiper-navigation-color: rgb(255, 211, 77); // 按鈕顏色
