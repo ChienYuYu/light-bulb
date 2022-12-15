@@ -52,7 +52,7 @@
 
 <script>
 import store from '@/store';
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
 export default {
@@ -88,12 +88,15 @@ export default {
     // 移除收藏
     const removeFavorite = (item) => {
       store.commit('myFavorite/toggleFavorite', item);
+    };
+
+    watch(favoriteNum, () => {
       if (favoriteNum.value === 0) {
         setTimeout(() => {
           favoriteMenu.value = false;
         }, 2000);
       }
-    };
+    });
 
     return {
       changeBtn,
