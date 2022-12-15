@@ -2,10 +2,10 @@
   <div class="banner">
     <div class="slogan">
       <h2>神說要有光 就有了光</h2>
-      <button class="btn">前往購物</button>
+      <router-link to="/product/全部" class="btn">前往購物</router-link>
     </div>
     <swiper :slides-per-view="1" :space-between="0"
-      :autoplay="true" :loop="true" :modules="modules">
+    :autoplay="true" :loop="true" :modules="modules">
       <swiper-slide>
         <img src="@/assets/img/banner03.jpg" alt="">
       </swiper-slide>
@@ -56,6 +56,7 @@ export default {
     transform: translate(-50%, -50%);
     background: rgba(145, 49, 49, 0.2);
     backdrop-filter: blur(8px);
+
     @media (max-width: 900px) {
       padding: 1.5rem;
     }
@@ -66,21 +67,23 @@ export default {
       line-height: 1.5;
       color: #fff;
       margin-bottom: 1rem;
+
       @media (max-width: 900px) {
         font-size: 2rem;
       }
+
       @media (max-width: 500px) {
         font-size: 1.6rem;
       }
     }
 
-    button {
+    a {
       border: 1px solid rgb(255, 211, 77);
       color: rgb(255, 211, 77);
       transition: .3s;
     }
 
-    button:hover {
+    a:hover {
       background: rgb(255, 211, 77);
       color: #333;
     }

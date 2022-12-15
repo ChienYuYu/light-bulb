@@ -17,11 +17,16 @@
 
       </i>
       <ul class="favorite-list" v-show="favoriteMenu">
-        <li><a href="#">收藏清單</a></li>
-        <li><a href="#">text here</a></li>
-        <li><a href="#">text here</a></li>
-        <li><a href="#">text here</a></li>
-        <li><a href="#">text here</a></li>
+        <li v-if="favoriteNum !== 0">
+          <router-link to="/myFavorite" @click="showHideFavorite">【收藏清單】</router-link>
+        </li>
+        <li v-if="favoriteNum === 0">
+          <a href="#">尚無收藏</a>
+        </li>
+        <li v-for="item in favoriteList" :key="item">
+          <a href="#">{{ item.title }}</a>
+          <button class="btn" @click="removeFavorite(item)">X</button>
+        </li>
       </ul>
     </div>
   </div>
@@ -38,7 +43,9 @@
       <li><a href="#" @click.prevent="goPage('/')">聯絡我們</a></li>
       <li><a href="#" @click.prevent="goPage('/')">訂單查詢</a></li>
       <li><a href="#">購物車(0)</a></li>
-      <li><a href="#" @click.prevent="goPage('/myFavorite')">收藏清單(0)</a></li>
+      <li>
+        <a href="#" @click.prevent="goPage('/myFavorite')">收藏清單({{ favoriteNum }})</a>
+      </li>
     </ul>
   </div>
 </template>
@@ -54,6 +61,7 @@ export default {
     const burger = ref(null);
     const menuList = ref(null);
     const favoriteMenu = ref(false);
+    const favoriteList = computed(() => store.state.myFavorite.myFavorite);
     const favoriteNum = computed(() => store.state.myFavorite.myFavorite.length);
 
     const changeBtn = () => {
@@ -67,8 +75,24 @@ export default {
       changeBtn();
     };
 
+    // 顯示/隱藏 收藏清單
     const showHideFavorite = () => {
       favoriteMenu.value = !favoriteMenu.value;
+      if (favoriteNum.value === 0) {
+        setTimeout(() => {
+          favoriteMenu.value = false;
+        }, 2000);
+      }
+    };
+
+    // 移除收藏
+    const removeFavorite = (item) => {
+      store.commit('myFavorite/toggleFavorite', item);
+      if (favoriteNum.value === 0) {
+        setTimeout(() => {
+          favoriteMenu.value = false;
+        }, 2000);
+      }
     };
 
     return {
@@ -78,7 +102,9 @@ export default {
       goPage,
       showHideFavorite,
       favoriteMenu,
+      favoriteList,
       favoriteNum,
+      removeFavorite,
     };
   },
 };
@@ -174,17 +200,33 @@ export default {
       box-shadow: 0 0 5px #111;
       overflow: hidden;
 
-      a {
-        text-align: center;
-        text-decoration: none;
-        color: #333;
+      li {
+        display: flex;
+        justify-content: space-between;
         border-bottom: 1px solid #999;
-        display: block;
-        padding: 1rem .5rem;
 
-        &:hover {
-          background: rgb(18, 18, 29);
-          color: rgb(255, 211, 77);
+        a {
+          width: 100%;
+          text-align: center;
+          text-decoration: none;
+          color: #333;
+          display: block;
+          padding: 1rem .5rem;
+
+          &:hover {
+            background: rgb(18, 18, 29);
+            color: rgb(255, 211, 77);
+          }
+        }
+
+        button {
+          border: none;
+          border-radius: 0;
+          padding: 1rem;
+          &:hover{
+            color: #fff;
+            background: rgb(255, 68, 68);
+          }
         }
       }
     }

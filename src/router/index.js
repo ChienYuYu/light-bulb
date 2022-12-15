@@ -15,7 +15,7 @@ const routes = [
   {
     path: '/myFavorite',
     name: '收藏清單',
-    component: () => import('../views/fornt/favoritePageMobile.vue'),
+    component: () => import('../views/fornt/favoritePage.vue'),
   },
 ];
 
