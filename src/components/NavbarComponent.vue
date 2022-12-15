@@ -10,7 +10,12 @@
     </nav>
     <div class="icon-wrap">
       <i class="bi bi-cart-fill my-cart"></i>
-      <i class="bi bi-heart-fill my-favorite" @click="showHideFavorite" @keydown="1"></i>
+      <i class="bi bi-heart-fill my-favorite" @click="showHideFavorite" @keydown="1">
+        <span class="bage bg-danger" v-if="favoriteNum > 0">
+          {{ favoriteNum }}
+        </span>
+
+      </i>
       <ul class="favorite-list" v-show="favoriteMenu">
         <li><a href="#">收藏清單</a></li>
         <li><a href="#">text here</a></li>
@@ -39,7 +44,8 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import store from '@/store';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 export default {
@@ -48,6 +54,7 @@ export default {
     const burger = ref(null);
     const menuList = ref(null);
     const favoriteMenu = ref(false);
+    const favoriteNum = computed(() => store.state.myFavorite.myFavorite.length);
 
     const changeBtn = () => {
       burger.value.classList.toggle('change-btn');
@@ -65,7 +72,13 @@ export default {
     };
 
     return {
-      changeBtn, burger, menuList, goPage, showHideFavorite, favoriteMenu,
+      changeBtn,
+      burger,
+      menuList,
+      goPage,
+      showHideFavorite,
+      favoriteMenu,
+      favoriteNum,
     };
   },
 };
@@ -119,21 +132,36 @@ export default {
       &:hover::before {
         height: 100%;
       }
+
       &:hover {
         color: #333;
       }
     }
   }
 
-  .icon-wrap{
+  .icon-wrap {
     position: relative;
-    i{
+
+    i {
       color: #fff;
       padding: 1rem;
       font-size: 20px;
     }
-    i.my-favorite{}
-    ul.favorite-list{
+
+    i.my-favorite {
+      cursor: pointer;
+
+      .bage {
+        position: absolute;
+        top: -15%;
+        right: 3%;
+        font-size: 10px;
+        padding: 0 5px;
+        border-radius: 50%;
+      }
+    }
+
+    ul.favorite-list {
       position: absolute;
       top: 50px;
       left: 50%;
@@ -145,19 +173,22 @@ export default {
       border-radius: .5rem;
       box-shadow: 0 0 5px #111;
       overflow: hidden;
-      a{
+
+      a {
         text-align: center;
         text-decoration: none;
         color: #333;
         border-bottom: 1px solid #999;
         display: block;
         padding: 1rem .5rem;
-        &:hover{
+
+        &:hover {
           background: rgb(18, 18, 29);
           color: rgb(255, 211, 77);
         }
       }
     }
+
   }
 }
 

@@ -1,4 +1,5 @@
 import { createStore } from 'vuex';
+import myFavorite from './myFavorite';
 
 export default createStore({
   state: {
@@ -27,5 +28,6 @@ export default createStore({
     },
   },
   modules: {
+    myFavorite,
   },
 });

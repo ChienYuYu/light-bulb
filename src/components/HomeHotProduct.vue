@@ -7,7 +7,7 @@
       <swiper :slides-per-view="slidesPerView" :space-between="20" navigation
       :autoplay="true" :loop="true"
         :modules="modules" data-aos="fade-up" data-aos-duration="1500">
-        <swiper-slide v-for="item in hotProduct" :key="item.id">
+        <swiper-slide v-for="item in hotProduct" :key="item">
           <div class="card">
             <img :src="item.picture" class="card-img-top" alt="">
             <div class="card-body">
