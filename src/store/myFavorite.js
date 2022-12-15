@@ -11,6 +11,22 @@ export default {
       } else {
         state.myFavorite = state.myFavorite.filter((item) => item.id !== data.id);
       }
+      this.commit('myFavorite/updateLocalStorage');
+      // modules要注意寫法 this.commit('ooo/xxx')
+    },
+
+    // localStorage ------------------------------
+    initLocalStorage(state) {
+    //  瀏覽器首次載入會沒有localstorage資料會報錯誤，
+    // 判斷如果為空就創立一個 []
+      if (localStorage.getItem('favoriteItem') === null) {
+        localStorage.setItem('favoriteItem', JSON.stringify([]));
+      }
+      state.myFavorite = JSON.parse(localStorage.getItem('favoriteItem'));
+    },
+
+    updateLocalStorage(state) {
+      localStorage.setItem('favoriteItem', JSON.stringify(state.myFavorite));
     },
   },
   actions: {},

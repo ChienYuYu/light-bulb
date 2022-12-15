@@ -64,6 +64,11 @@ export default {
     const favoriteList = computed(() => store.state.myFavorite.myFavorite);
     const favoriteNum = computed(() => store.state.myFavorite.myFavorite.length);
 
+    // 執行初始localStorage
+    const initLocalStorage = () => {
+      store.commit('myFavorite/initLocalStorage');
+    }; initLocalStorage();
+
     const changeBtn = () => {
       burger.value.classList.toggle('change-btn');
       menuList.value.classList.toggle('show-hide');
@@ -99,6 +104,7 @@ export default {
     });
 
     return {
+      // initLocalStorage,
       changeBtn,
       burger,
       menuList,
