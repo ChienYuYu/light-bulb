@@ -9,12 +9,15 @@
       <router-link to="/order-search">訂單查詢</router-link>
     </nav>
     <div class="icon-wrap">
-      <i class="bi bi-cart-fill my-cart"></i>
+      <i class="bi bi-cart-fill my-cart">
+        <span class="bage bg-danger" v-if="cartNum > 0">
+          {{ cartNum }}
+        </span>
+      </i>
       <i class="bi bi-heart-fill my-favorite" @click="showHideFavorite" @keydown="1">
         <span class="bage bg-danger" v-if="favoriteNum > 0">
           {{ favoriteNum }}
         </span>
-
       </i>
       <ul class="favorite-list" v-show="favoriteMenu">
         <li v-if="favoriteNum !== 0">
@@ -42,7 +45,7 @@
       <li><a href="#" @click.prevent="goPage('/about')">關於我們</a></li>
       <li><a href="#" @click.prevent="goPage('/contact')">聯絡我們</a></li>
       <li><a href="#" @click.prevent="goPage('/order-search')">訂單查詢</a></li>
-      <li><a href="#">購物車(0)</a></li>
+      <li><a href="#">購物車({{ cartNum }})</a></li>
       <li>
         <a href="#" @click.prevent="goPage('/myFavorite')">收藏清單({{ favoriteNum }})</a>
       </li>
@@ -63,11 +66,7 @@ export default {
     const favoriteMenu = ref(false);
     const favoriteList = computed(() => store.state.myFavorite.myFavorite);
     const favoriteNum = computed(() => store.state.myFavorite.myFavorite.length);
-
-    // 執行初始localStorage
-    const initLocalStorage = () => {
-      store.commit('myFavorite/initLocalStorage');
-    }; initLocalStorage();
+    const cartNum = computed(() => store.state.shoppingCart.shoppingCart.length);
 
     const changeBtn = () => {
       burger.value.classList.toggle('change-btn');
@@ -114,6 +113,7 @@ export default {
       favoriteList,
       favoriteNum,
       removeFavorite,
+      cartNum,
     };
   },
 };
@@ -181,14 +181,15 @@ export default {
       color: #fff;
       padding: 1rem;
       font-size: 20px;
+      position: relative;
     }
 
-    i.my-favorite {
+    i.my-favorite, i.my-cart {
       cursor: pointer;
 
       .bage {
         position: absolute;
-        top: -15%;
+        top: 20%;
         right: 3%;
         font-size: 10px;
         padding: 0 5px;
