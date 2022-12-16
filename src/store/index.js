@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 import myFavorite from './myFavorite';
+import shoppingCart from './shoppingCart';
 
 export default createStore({
   state: {
@@ -29,5 +30,6 @@ export default createStore({
   },
   modules: {
     myFavorite,
+    shoppingCart,
   },
 });

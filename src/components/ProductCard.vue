@@ -14,7 +14,9 @@
             </button>
             <p class="price"><i>售價$ <span>{{ item.price }}</span></i></p>
           </div>
-          <a href="#" class="btn add-cart-btn">加入購物車</a>
+          <a href="#" class="btn add-cart-btn" @click.prevent="addCart(item)">
+            加入購物車
+          </a>
         </div>
       </div>
     </div>
@@ -50,11 +52,17 @@ export default {
       return tempResult;
     });
 
+    // 加入購物車
+    const addCart = (item) => {
+      store.commit('shoppingCart/addCart', item);
+    };
+
     return {
       products,
       renderData,
       toggleFavorite,
       iconSwitch,
+      addCart,
     };
   },
 };

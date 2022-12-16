@@ -21,7 +21,7 @@
                   <i class="bi bi-heart" v-if="iconSwitch(item.id) === false"></i>
                   <i class="bi bi-heart-fill" v-if="iconSwitch(item.id) === true"></i>
                 </button>
-                <a href="#" class="btn add-cart-btn">加入購物車</a>
+                <a href="#" class="btn add-cart-btn" @click.prevent="addCart(item)">加入購物車</a>
               </div>
             </div>
           </div>
@@ -62,6 +62,11 @@ export default {
       return tempResult;
     });
 
+    // 加入購物車
+    const addCart = (item) => {
+      store.commit('shoppingCart/addCart', item);
+    };
+
     // 不同螢幕尺寸要顯示的張數
     onMounted(() => {
       function changeShowNum() {
@@ -91,6 +96,7 @@ export default {
       hotProduct,
       toggleFavorite,
       iconSwitch,
+      addCart,
     };
   },
 
