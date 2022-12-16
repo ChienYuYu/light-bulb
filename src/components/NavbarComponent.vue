@@ -3,7 +3,9 @@
     <img src="@/assets/img/fakelogo2.png" alt="">
     <nav>
       <router-link to="/">首頁</router-link>
-      <router-link to="/product/全部">商品列表</router-link>
+      <router-link to="/product/全部"
+      :class="{'router-link-exact-active': activeMenuItem}">商品列表</router-link>
+      <!-- <router-link to="/product/">商品列表</router-link> -->
       <router-link to="/about">關於我們</router-link>
       <router-link to="/contact">聯絡我們</router-link>
       <router-link to="/order-search">訂單查詢</router-link>
@@ -56,18 +58,21 @@
 <script>
 import store from '@/store';
 import { ref, computed, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 export default {
   setup() {
     const router = useRouter();
+    const route = useRoute();
     const burger = ref(null);
     const menuList = ref(null);
     const favoriteMenu = ref(false);
     const favoriteList = computed(() => store.state.myFavorite.myFavorite);
     const favoriteNum = computed(() => store.state.myFavorite.myFavorite.length);
     const cartNum = computed(() => store.state.shoppingCart.shoppingCart.length);
+    const activeMenuItem = ref(false);
 
+    // 套用css / 切換漢堡 && 切換選單顯示隱藏
     const changeBtn = () => {
       burger.value.classList.toggle('change-btn');
       menuList.value.classList.toggle('show-hide');
@@ -106,6 +111,15 @@ export default {
       }
     });
 
+    // 路徑包含/product就套用 .router-link-exact-active css樣式
+    watch(route, () => {
+      if (route.path.includes('/product')) {
+        activeMenuItem.value = true;
+      } else {
+        activeMenuItem.value = false;
+      }
+    });
+
     return {
       changeBtn,
       burger,
@@ -118,6 +132,7 @@ export default {
       removeFavorite,
       cartNum,
       goCartPage,
+      activeMenuItem,
     };
   },
 };
@@ -176,6 +191,19 @@ export default {
         color: #333;
       }
     }
+
+    // ----------------------------
+    // .router-link-active{
+    //   color: rgb(255, 211, 77);
+    // }
+    a.router-link-exact-active {
+      color: rgb(255, 211, 77);
+      &:hover{
+        color: #333;
+      }
+    }
+
+    // ----------------------------
   }
 
   .icon-wrap {
@@ -188,7 +216,8 @@ export default {
       position: relative;
     }
 
-    i.my-favorite, i.my-cart {
+    i.my-favorite,
+    i.my-cart {
       cursor: pointer;
 
       .bage {
@@ -237,7 +266,8 @@ export default {
           border: none;
           border-radius: 0;
           padding: 1rem;
-          &:hover{
+
+          &:hover {
             color: #fff;
             background: rgb(255, 68, 68);
           }
