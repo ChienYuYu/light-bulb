@@ -4,9 +4,9 @@
     <nav>
       <router-link to="/">首頁</router-link>
       <router-link to="/product/全部">商品列表</router-link>
-      <router-link to="#">關於我們</router-link>
-      <router-link to="#">聯絡我們</router-link>
-      <router-link to="#">訂單查詢</router-link>
+      <router-link to="/about">關於我們</router-link>
+      <router-link to="/contact">聯絡我們</router-link>
+      <router-link to="/order-search">訂單查詢</router-link>
     </nav>
     <div class="icon-wrap">
       <i class="bi bi-cart-fill my-cart"></i>
@@ -39,9 +39,9 @@
     <ul class="menu-list" ref="menuList">
       <li><a href="#" @click.prevent="goPage('/')">首頁</a></li>
       <li><a href="#" @click.prevent="goPage('/product/全部')">商品列表</a></li>
-      <li><a href="#" @click.prevent="goPage('/')">關於我們</a></li>
-      <li><a href="#" @click.prevent="goPage('/')">聯絡我們</a></li>
-      <li><a href="#" @click.prevent="goPage('/')">訂單查詢</a></li>
+      <li><a href="#" @click.prevent="goPage('/about')">關於我們</a></li>
+      <li><a href="#" @click.prevent="goPage('/contact')">聯絡我們</a></li>
+      <li><a href="#" @click.prevent="goPage('/order-search')">訂單查詢</a></li>
       <li><a href="#">購物車(0)</a></li>
       <li>
         <a href="#" @click.prevent="goPage('/myFavorite')">收藏清單({{ favoriteNum }})</a>

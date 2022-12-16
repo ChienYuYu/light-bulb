@@ -1,7 +1,7 @@
 <template>
-  <div class="about">
+  <div class="order-seaarch">
     <div class="header">
-      <h1>關於我們</h1>
+      <h1>訂單查詢</h1>
     </div>
   </div>
 </template>
@@ -13,12 +13,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.header{
-  background: url(@/assets/img/aboutPage01.jpg);
+.header {
+  background: url(@/assets/img/orderSearchPage.jpg);
   width: 100%;
   height: 300px;
   background-size: cover;
-  background-position: center 60%;
+  background-position: center 45%;
 
   h1 {
     background: #00000080;
@@ -30,5 +30,4 @@ export default {
     backdrop-filter: blur(3px);
   }
 }
-
 </style>
