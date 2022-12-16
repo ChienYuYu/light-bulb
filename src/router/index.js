@@ -34,7 +34,12 @@ const routes = [
       {
         path: '/myFavorite',
         name: '收藏清單',
-        component: () => import('../views/fornt/favoritePage.vue'),
+        component: () => import('../views/fornt/FavoritePage.vue'),
+      },
+      {
+        path: '/cart',
+        name: '購物車',
+        component: () => import('../views/fornt/ShoppingCartPage.vue'),
       },
     ],
   },

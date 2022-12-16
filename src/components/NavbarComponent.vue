@@ -9,7 +9,7 @@
       <router-link to="/order-search">訂單查詢</router-link>
     </nav>
     <div class="icon-wrap">
-      <i class="bi bi-cart-fill my-cart">
+      <i class="bi bi-cart-fill my-cart" @click="goCartPage" @keydown="1">
         <span class="bage bg-danger" v-if="cartNum > 0">
           {{ cartNum }}
         </span>
@@ -45,7 +45,7 @@
       <li><a href="#" @click.prevent="goPage('/about')">關於我們</a></li>
       <li><a href="#" @click.prevent="goPage('/contact')">聯絡我們</a></li>
       <li><a href="#" @click.prevent="goPage('/order-search')">訂單查詢</a></li>
-      <li><a href="#">購物車({{ cartNum }})</a></li>
+      <li><a href="#" @click.prevent="goPage('/cart')">購物車({{ cartNum }})</a></li>
       <li>
         <a href="#" @click.prevent="goPage('/myFavorite')">收藏清單({{ favoriteNum }})</a>
       </li>
@@ -71,12 +71,16 @@ export default {
     const changeBtn = () => {
       burger.value.classList.toggle('change-btn');
       menuList.value.classList.toggle('show-hide');
-      console.log(burger);
+      // console.log(burger);
     };
 
     const goPage = (p) => {
       router.push(`${p}`);
       changeBtn();
+    };
+
+    const goCartPage = () => {
+      router.push('/cart');
     };
 
     // 顯示/隱藏 收藏清單
@@ -103,7 +107,6 @@ export default {
     });
 
     return {
-      // initLocalStorage,
       changeBtn,
       burger,
       menuList,
@@ -114,6 +117,7 @@ export default {
       favoriteNum,
       removeFavorite,
       cartNum,
+      goCartPage,
     };
   },
 };
