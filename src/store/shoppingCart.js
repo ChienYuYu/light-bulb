@@ -4,7 +4,7 @@ export default {
     shoppingCart: [],
   },
   mutations: {
-    // 加入購物車
+    // 加入購物車---------------
     addCart(state, data) {
       // findIndex()判斷資料是否存在// 不存在=> push() // 存在=> 數量+1 & 總價:價格x數量
       const tempV = state.shoppingCart.findIndex((item) => item.id === data.id);
@@ -20,11 +20,16 @@ export default {
         const tempObj = state.shoppingCart[tempV];
         state.shoppingCart[tempV].totalPrice = tempObj.price * tempObj.qty;
       }
-      // 資料寫入localStorage
       this.commit('shoppingCart/updateCartLocalStorage');
     },
 
-    // localStorage --------------------------------
+    // 移除項目-------------------
+    removeCart(state, data) {
+      state.shoppingCart = state.shoppingCart.filter((item) => item.id !== data.id);
+      this.commit('shoppingCart/updateCartLocalStorage');
+    },
+
+    // localStorage -----------------
     initCartLocalStorage(state) {
     //  瀏覽器首次載入會沒有localstorage資料會報錯誤，
     // 判斷如果為空就創立一個 []
@@ -34,6 +39,7 @@ export default {
       state.shoppingCart = JSON.parse(localStorage.getItem('myCart'));
     },
 
+    // 寫入localStorage ---------------
     updateCartLocalStorage(state) {
       localStorage.setItem('myCart', JSON.stringify(state.shoppingCart));
     },

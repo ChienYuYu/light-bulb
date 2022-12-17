@@ -1,25 +1,39 @@
 <template>
   <div class="icon-wrap">
-      <i class="bi bi-cart-fill my-cart" @click="goCartPage" @keydown="1">
+      <i class="bi bi-cart-fill my-cart" @click="showHideList('cart')" @keydown="1">
         <span class="bage bg-danger" v-if="cartNum > 0">
           {{ cartNum }}
         </span>
       </i>
-      <i class="bi bi-heart-fill my-favorite" @click="showHideFavorite" @keydown="1">
+      <i class="bi bi-heart-fill my-favorite" @click="showHideList('favorite')" @keydown="1">
         <span class="bage bg-danger" v-if="favoriteNum > 0">
           {{ favoriteNum }}
         </span>
       </i>
+      <!-- 購物車清單------------------------------------------- -->
+      <ul class="favorite-list" v-show="cartMenu">
+        <li v-if="cartNum !== 0">
+          <router-link to="/cart" @click="showHideList('cart')">【購物車】</router-link>
+        </li>
+        <li v-if="cartNum === 0">
+          <router-link to="/product/全部">購物車沒東西</router-link>
+        </li>
+        <li v-for="item in cartList" :key="item">
+          <a href="#">{{ item.title }}</a>
+          <button class="btn remove-favorite-btn" @click="removeItem('cart', item)">X</button>
+        </li>
+      </ul>
+      <!-- 收藏清單------------------------------------------- -->
       <ul class="favorite-list" v-show="favoriteMenu">
         <li v-if="favoriteNum !== 0">
-          <router-link to="/myFavorite" @click="showHideFavorite">【收藏清單】</router-link>
+          <router-link to="/myFavorite" @click="showHideList('favorite')">【收藏清單】</router-link>
         </li>
         <li v-if="favoriteNum === 0">
-          <a href="#">尚無收藏</a>
+          <router-link to="/product/全部">尚無收藏</router-link>
         </li>
         <li v-for="item in favoriteList" :key="item">
           <a href="#">{{ item.title }}</a>
-          <button class="btn remove-favorite-btn" @click="removeFavorite(item)">X</button>
+          <button class="btn remove-favorite-btn" @click="removeItem('favorite', item)">X</button>
         </li>
       </ul>
     </div>
@@ -34,7 +48,11 @@ export default {
   setup() {
     const router = useRouter();
     const store = useStore();
+
     const cartNum = computed(() => store.state.shoppingCart.shoppingCart.length);
+    const cartMenu = ref(false);
+    const cartList = computed(() => store.state.shoppingCart.shoppingCart);
+
     const favoriteNum = computed(() => store.state.myFavorite.myFavorite.length);
     const favoriteMenu = ref(false);
     const favoriteList = computed(() => store.state.myFavorite.myFavorite);
@@ -42,24 +60,47 @@ export default {
     const goCartPage = () => {
       router.push('/cart');
     };
+    // 顯示/隱藏  購物車清單 or 收藏清單 ---------------------
+    const showHideList = (menu) => {
+      if (menu === 'cart') {
+        cartMenu.value = !cartMenu.value;
+        favoriteMenu.value = false;
+        if (cartNum.value === 0) {
+          setTimeout(() => {
+            cartMenu.value = false;
+          }, 2000);
+        }
+      }
 
-    // 顯示/隱藏 收藏清單
-    const showHideFavorite = () => {
-      favoriteMenu.value = !favoriteMenu.value;
-      if (favoriteNum.value === 0) {
-        setTimeout(() => {
-          favoriteMenu.value = false;
-        }, 2000);
+      if (menu === 'favorite') {
+        favoriteMenu.value = !favoriteMenu.value;
+        cartMenu.value = false;
+        if (favoriteNum.value === 0) {
+          setTimeout(() => {
+            favoriteMenu.value = false;
+          }, 2000);
+        }
       }
     };
 
-    // 移除收藏
-    const removeFavorite = (item) => {
-      store.commit('myFavorite/toggleFavorite', item);
+    // 移除 購物車or收藏項目 ---------------------
+    const removeItem = (CF, item) => {
+      if (CF === 'cart') {
+        store.commit('shoppingCart/removeCart', item);
+      }
+
+      if (CF === 'favorite') {
+        store.commit('myFavorite/toggleFavorite', item);
+      }
     };
 
-    // 收藏選單沒東西的話兩秒後消失
-    watch(favoriteNum, () => {
+    // 購物車 / 收藏選單 沒東西的話兩秒後消失
+    watch([favoriteNum, cartNum], () => {
+      if (cartNum.value === 0) {
+        setTimeout(() => {
+          cartMenu.value = false;
+        }, 2000);
+      }
       if (favoriteNum.value === 0) {
         setTimeout(() => {
           favoriteMenu.value = false;
@@ -70,11 +111,13 @@ export default {
     return {
       goCartPage,
       cartNum,
+      cartMenu,
+      cartList,
       favoriteMenu,
-      showHideFavorite,
       favoriteNum,
       favoriteList,
-      removeFavorite,
+      showHideList,
+      removeItem,
     };
   },
 };

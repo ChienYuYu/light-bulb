@@ -13,7 +13,7 @@
     <IconWrap /> <!-- component -->
   </div>
   <!-- --------------桌機↑ / 平板&手機↓--------------------- -->
-  <NavbarMobile></NavbarMobile>
+  <NavbarMobile /> <!-- component -->
 </template>
 
 <script>
