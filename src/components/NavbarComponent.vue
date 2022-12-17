@@ -2,12 +2,13 @@
   <div class="navbar">
     <img src="@/assets/img/fakelogo2.png" alt="">
     <nav>
-      <router-link to="/">首頁</router-link>
+      <router-link to="/" class="nav-item">首頁</router-link>
       <router-link to="/product/全部"
+      class="nav-item"
       :class="{'router-link-exact-active': activeProductItem}">商品列表</router-link>
-      <router-link to="/about">關於我們</router-link>
-      <router-link to="/contact">聯絡我們</router-link>
-      <router-link to="/order-search">訂單查詢</router-link>
+      <router-link to="/about" class="nav-item">關於我們</router-link>
+      <router-link to="/contact" class="nav-item">聯絡我們</router-link>
+      <router-link to="/order-search" class="nav-item">訂單查詢</router-link>
     </nav>
     <div class="icon-wrap">
       <i class="bi bi-cart-fill my-cart" @click="goCartPage" @keydown="1">
@@ -29,7 +30,7 @@
         </li>
         <li v-for="item in favoriteList" :key="item">
           <a href="#">{{ item.title }}</a>
-          <button class="btn" @click="removeFavorite(item)">X</button>
+          <button class="btn remove-favorite-btn" @click="removeFavorite(item)">X</button>
         </li>
       </ul>
     </div>
@@ -51,6 +52,7 @@
         <a href="#" @click.prevent="goPage('/myFavorite')">收藏清單({{ favoriteNum }})</a>
       </li>
     </ul>
+
   </div>
 </template>
 
@@ -77,6 +79,7 @@ export default {
       // console.log(burger);
     };
 
+    // 手機選單切換頁面 & 觸發漢堡切換 / 選單收闔
     const goPage = (p) => {
       router.push(`${p}`);
       changeBtn();
@@ -160,7 +163,7 @@ export default {
   nav {
     padding-left: 40px;
 
-    a::before {
+    a.nav-item::before {
       content: '';
       position: absolute;
       bottom: 0;
@@ -172,7 +175,7 @@ export default {
       transition: .3s;
     }
 
-    a {
+    a.nav-item {
       position: relative;
       display: inline-block;
       padding: 1rem 1.5rem;
@@ -191,16 +194,12 @@ export default {
     }
 
     // ----------------------------
-    // .router-link-active{
-    //   color: rgb(255, 211, 77);
-    // }
-    a.router-link-exact-active {
+    a.nav-item.router-link-exact-active {
       color: rgb(255, 211, 77);
       &:hover{
         color: #333;
       }
     }
-
     // ----------------------------
   }
 
@@ -260,7 +259,7 @@ export default {
           }
         }
 
-        button {
+        button.remove-favorite-btn {
           border: none;
           border-radius: 0;
           padding: 1rem;
