@@ -4,8 +4,7 @@
     <nav>
       <router-link to="/">首頁</router-link>
       <router-link to="/product/全部"
-      :class="{'router-link-exact-active': activeMenuItem}">商品列表</router-link>
-      <!-- <router-link to="/product/">商品列表</router-link> -->
+      :class="{'router-link-exact-active': activeProductItem}">商品列表</router-link>
       <router-link to="/about">關於我們</router-link>
       <router-link to="/contact">聯絡我們</router-link>
       <router-link to="/order-search">訂單查詢</router-link>
@@ -70,7 +69,6 @@ export default {
     const favoriteList = computed(() => store.state.myFavorite.myFavorite);
     const favoriteNum = computed(() => store.state.myFavorite.myFavorite.length);
     const cartNum = computed(() => store.state.shoppingCart.shoppingCart.length);
-    const activeMenuItem = ref(false);
 
     // 套用css / 切換漢堡 && 切換選單顯示隱藏
     const changeBtn = () => {
@@ -103,6 +101,7 @@ export default {
       store.commit('myFavorite/toggleFavorite', item);
     };
 
+    // 收藏選單沒東西的話兩秒後消失
     watch(favoriteNum, () => {
       if (favoriteNum.value === 0) {
         setTimeout(() => {
@@ -112,12 +111,11 @@ export default {
     });
 
     // 路徑包含/product就套用 .router-link-exact-active css樣式
-    watch(route, () => {
+    const activeProductItem = computed(() => {
       if (route.path.includes('/product')) {
-        activeMenuItem.value = true;
-      } else {
-        activeMenuItem.value = false;
+        return true;
       }
+      return false;
     });
 
     return {
@@ -132,7 +130,7 @@ export default {
       removeFavorite,
       cartNum,
       goCartPage,
-      activeMenuItem,
+      activeProductItem,
     };
   },
 };
