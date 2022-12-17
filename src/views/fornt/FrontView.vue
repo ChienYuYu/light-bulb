@@ -5,7 +5,7 @@
 
 <script>
 import { useStore } from 'vuex';
-import Navbar from '@/components/NavbarComponent.vue';
+import Navbar from '@/components/Navbar/NavbarComponent.vue';
 
 export default {
   components: { Navbar },
