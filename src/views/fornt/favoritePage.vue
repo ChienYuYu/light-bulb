@@ -75,7 +75,7 @@ export default {
 .header {
   background: url(@/assets/img/favoritePage01.jpg);
   width: 100%;
-  height: 200px;
+  height: 300px;
   background-size: cover;
   background-position: center 30%;
 
@@ -84,7 +84,7 @@ export default {
     color: #fff;
     font-weight: 700;
     letter-spacing: .5rem;
-    line-height: 200px;
+    line-height: 300px;
     text-align: center;
     backdrop-filter: blur(2px);
   }

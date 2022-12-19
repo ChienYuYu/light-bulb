@@ -23,6 +23,22 @@ export default {
       this.commit('shoppingCart/updateCartLocalStorage');
     },
 
+    // 修改數量
+    setQty(state, data) {
+      const i = state.shoppingCart.findIndex((item) => item.id === data.id);
+      const tempItem = state.shoppingCart[i];
+      if (data.addOrSub === 'add') {
+        tempItem.qty += 1;
+      } else {
+        if (tempItem.qty === 1) {
+          return;
+        }
+        tempItem.qty -= 1;
+      }
+      tempItem.totalPrice = tempItem.qty * tempItem.price;
+      this.commit('shoppingCart/updateCartLocalStorage');
+    },
+
     // 移除項目-------------------
     removeCart(state, data) {
       state.shoppingCart = state.shoppingCart.filter((item) => item.id !== data.id);
@@ -31,8 +47,8 @@ export default {
 
     // localStorage -----------------
     initCartLocalStorage(state) {
-    //  瀏覽器首次載入會沒有localstorage資料會報錯誤，
-    // 判斷如果為空就創立一個 []
+      //  瀏覽器首次載入會沒有localstorage資料會報錯誤，
+      // 判斷如果為空就創立一個 []
       if (localStorage.getItem('myCart') === null) {
         localStorage.setItem('myCart', '[]');
       }

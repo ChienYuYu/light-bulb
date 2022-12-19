@@ -19,43 +19,52 @@
                 <!-- ------------------- -->
                 <div class="price-group">
                   <p class="price">售價: ${{ item.price }}</p>
-                  <p class="price">總價: ${{ item.price }}</p>
+                  <p class="price">總價: ${{ item.totalPrice }}</p>
                 </div>
 
                 <div class="qty">
-                  <button class="sub">-</button>
-                  <input type="number" class="qty" aria-label="1" v-model="qty">
-                  <button class="add">+</button>
+                  <button class="sub" @click="setQty(item.id, 'sub')">-</button>
+                  <input type="number" class="qty" aria-label="1" v-model="item.qty">
+                  <button class="add" @click="setQty(item.id, 'add')">+</button>
                 </div>
                 <!-- ------------------- -->
               </div>
-              <button class="btn remove">X</button>
+              <button class="btn remove" @click="removeCart(item)">X</button>
             </li>
           </ul>
           <div class="pay-btn-wrap">
             <router-link to="/product/全部" class="btn">繼續購物</router-link>
-            <router-link to="/" class="btn">前往結帳</router-link>
+            <router-link to="/checkout" class="btn">前往結帳</router-link>
           </div>
         </div>
       </div>
     </div>
     <!-- ----------------- -->
   </div>
-  <!-- <Footer></Footer> -->
 </template>
 
 <script>
-// import Footer from '@/components/FooterComponent.vue';
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
-  // components: { Footer },
   setup() {
     const store = useStore();
     const carts = computed(() => store.state.shoppingCart.shoppingCart);
-    const qty = ref(1);
-    return { carts, qty };
+
+    const removeCart = (item) => {
+      store.commit('shoppingCart/removeCart', item);
+    };
+
+    const setQty = (id, addOrSub) => {
+      store.commit('shoppingCart/setQty', { id, addOrSub });
+    };
+
+    return {
+      carts,
+      removeCart,
+      setQty,
+    };
   },
 };
 </script>
@@ -129,10 +138,11 @@ ul.cart-list {
     .price-qty-wrap {
       display: flex;
       align-items: center;
+      justify-content: space-between;
 
       @media (max-width: 767px) {
         border-bottom: 1px solid #666;
-        justify-content: space-between;
+        // justify-content: space-between;
       }
 
       .price-group {

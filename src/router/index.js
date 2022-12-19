@@ -41,6 +41,11 @@ const routes = [
         name: '購物車',
         component: () => import('../views/fornt/ShoppingCartPage.vue'),
       },
+      {
+        path: '/checkout',
+        name: '結帳',
+        component: () => import('../views/fornt/CheckoutPage.vue'),
+      },
     ],
   },
 ];
