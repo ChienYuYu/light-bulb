@@ -6,7 +6,15 @@
     <div class="container">
       <div class="col-10 part1 mx-auto">
         <img src="@/assets/img/aboutPage02.jpg" alt="">
-        <div class="text-group">
+        <div class="txt">
+          <h2>創辦人 <span>伊厄參寺吾</span></h2>
+          <p>伊先生是冕光集團創辦人、冕光公司榮譽董事長、
+              冕光基金會董事長，也是冕光、冕光人壽董事，並曾任台積電董事。
+              他長期推廣再生，積極推動台灣產業轉型升級，提升台灣永續競爭力，
+              並站在「環境」與「科技」的天平兩端，扮演「環境科技整合的推動者」，
+              跨域創造價值。</p>
+        </div>
+        <!-- <div class="text-group">
           <div class="txt">
             <h2>創辦人 <span>伊厄參寺吾</span></h2>
             <p>伊先生是冕光集團創辦人、冕光公司榮譽董事長、
@@ -15,7 +23,7 @@
               並站在「環境」與「科技」的天平兩端，扮演「環境科技整合的推動者」，
               跨域創造價值。</p>
           </div>
-          <!-- <div class="txt">
+          <div class="txt">
             <h2>企業理念</h2>
               <p>
               秉持著「品質、服務、踏實、創新」四大經營理念，
@@ -24,8 +32,8 @@
               冕光全體同仁自我期許能將全球最新的流行元素化作源源不絕的創新動力，
               搭配公司多年來累積的生產管理及運籌經驗，不斷地將最新穎且富有市場價值的照明產品推向全世界各個角落。
             </p>
-          </div> -->
-        </div>
+          </div>
+        </div> -->
       </div>
 
       <div class="col-10 col-md-8 part2 mx-auto">
@@ -55,7 +63,7 @@ export default {
 <style lang="scss" scoped>
 .about {
   background: rgb(18, 18, 29);
-  height: 100vh;
+  // height: 100vh;
 }
 
 .header {
