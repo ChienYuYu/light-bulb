@@ -13,7 +13,7 @@
       <!-- 購物車清單------------------------------------------- -->
       <ul class="favorite-list" v-show="cartMenu">
         <li v-if="cartNum !== 0">
-          <router-link to="/cart" @click="showHideList('cart')">【購物車】</router-link>
+          <router-link to="/cart" @click="showHideList('cart')">【前往購物車】</router-link>
         </li>
         <li v-if="cartNum === 0">
           <router-link to="/product/全部">購物車沒東西</router-link>
@@ -29,7 +29,7 @@
       <!-- 收藏清單------------------------------------------- -->
       <ul class="favorite-list" v-show="favoriteMenu">
         <li v-if="favoriteNum !== 0">
-          <router-link to="/myFavorite" @click="showHideList('favorite')">【收藏清單】</router-link>
+          <router-link to="/myFavorite" @click="showHideList('favorite')">【前往收藏清單】</router-link>
         </li>
         <li v-if="favoriteNum === 0">
           <router-link to="/product/全部">尚無收藏</router-link>

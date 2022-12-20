@@ -179,8 +179,9 @@ ul.cart-list {
           width: 30%;
           text-align: center;
           padding: 0;
-          border: 1px solid#eee;
-          background: #eee;
+          border: 1px solid#aaa;
+          background: #111;
+          color: #fff;
 
           @media (max-width: 767px) {
             width: 50%;

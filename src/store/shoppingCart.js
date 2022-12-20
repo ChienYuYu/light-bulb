@@ -4,7 +4,7 @@ export default {
     shoppingCart: [],
   },
   mutations: {
-    // 加入購物車---------------
+    // 加入購物車-------------------------------------------
     addCart(state, data) {
       // findIndex()判斷資料是否存在// 不存在=> push() // 存在=> 數量+1 & 總價:價格x數量
       const tempV = state.shoppingCart.findIndex((item) => item.id === data.id);
@@ -23,7 +23,7 @@ export default {
       this.commit('shoppingCart/updateCartLocalStorage');
     },
 
-    // 修改數量
+    // 修改數量-------------------------------------------
     setQty(state, data) {
       const i = state.shoppingCart.findIndex((item) => item.id === data.id);
       const tempItem = state.shoppingCart[i];
@@ -39,13 +39,30 @@ export default {
       this.commit('shoppingCart/updateCartLocalStorage');
     },
 
-    // 移除項目-------------------
+    // 需同時加入購物車 & 數量設定 (ProductItem.vue頁面的加入購物車邏輯)
+    addCart2(state, data) {
+      const temp = state.shoppingCart.findIndex((value) => value.id === data.item.id);
+      if (temp === -1) {
+        state.shoppingCart.push({
+          ...data.item,
+          qty: data.qty,
+          totalPrice: data.item.price * data.qty,
+        });
+      } else {
+        state.shoppingCart[temp].qty += data.qty;
+        state.shoppingCart[temp].totalPrice = state
+          .shoppingCart[temp].price * state.shoppingCart[temp].qty;
+      }
+      this.commit('shoppingCart/updateCartLocalStorage');
+    },
+
+    // 移除項目-------------------------------------------
     removeCart(state, data) {
       state.shoppingCart = state.shoppingCart.filter((item) => item.id !== data.id);
       this.commit('shoppingCart/updateCartLocalStorage');
     },
 
-    // localStorage -----------------
+    // localStorage -------------------------------------
     initCartLocalStorage(state) {
       //  瀏覽器首次載入會沒有localstorage資料會報錯誤，
       // 判斷如果為空就創立一個 []
@@ -55,7 +72,7 @@ export default {
       state.shoppingCart = JSON.parse(localStorage.getItem('myCart'));
     },
 
-    // 寫入localStorage ---------------
+    // 寫入localStorage --------------------------------
     updateCartLocalStorage(state) {
       localStorage.setItem('myCart', JSON.stringify(state.shoppingCart));
     },

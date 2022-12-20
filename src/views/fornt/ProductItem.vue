@@ -2,24 +2,24 @@
   <div class="product-item">
     <div class="container">
       <!-- ------------------------------------------- -->
-      <div class="row part-1">
+      <div class="row part-1" v-for="item in getItem" :key="item.id">
         <div class="col-md-6 pic">
-          <img src="@/assets/img/sample04.jpg" alt="">
+          <img :src="item.picture" alt="">
         </div>
         <div class="col-md-6 title-price-qty">
           <div class="txt-group">
-            <h2 class="title">標題標題</h2>
-            <p class="description">文字文字文字</p>
-            <p class="price">$299</p>
+            <h2 class="title">{{ item.title }}</h2>
+            <p class="description">{{ item.description }}</p>
+            <p class="price">${{ item.price }}</p>
           </div>
           <div class="qty-group">
-            <button class="sub">-</button>
-            <input type="number" aria-label="1" value="1">
-            <button class="add">+</button>
+            <button class="sub" @click="setQty('sub')">-</button>
+            <input type="number" aria-label="1" v-model="qty">
+            <button class="add" @click="setQty('add')">+</button>
           </div>
           <div class="row button-wrap">
             <div class="col">
-              <button class="btn add-cart">加入購物車</button>
+              <button class="btn add-cart" @click="addCart2(item)">加入購物車</button>
             </div>
             <div class="col">
               <button class="btn direct-buy">直接購買</button>
@@ -73,9 +73,42 @@
 <script>
 import Footer from '@/components/FooterComponent.vue';
 import HotProduct from '@/components/HomeHotProduct.vue';
+import { useRoute } from 'vue-router';
+import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
   components: { Footer, HotProduct },
+  setup() {
+    const route = useRoute();
+    const store = useStore();
+    const qty = ref(1);
+
+    const getItem = computed(() => store
+      .state.products.filter((item) => item.id === route.params.id));
+
+    const setQty = (p) => {
+      if (p === 'add') {
+        qty.value += 1;
+      } else {
+        if (qty.value === 1) {
+          return;
+        }
+        qty.value -= 1;
+      }
+    };
+
+    const addCart2 = (item) => {
+      store.commit('shoppingCart/addCart2', { item, qty: qty.value });
+    };
+
+    return {
+      qty,
+      getItem,
+      addCart2,
+      setQty,
+    };
+  },
 };
 </script>
 
@@ -93,6 +126,7 @@ export default {
   // col---------
   img {
     width: 100%;
+    border-radius: .5rem;
   }
 
   // col---------
