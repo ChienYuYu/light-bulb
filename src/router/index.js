@@ -15,6 +15,18 @@ const routes = [
         path: '/product/:category',
         name: '產品',
         component: () => import('../views/fornt/ProductListPage.vue'),
+        // children: [
+        //   {
+        //     path: 'item',
+        //     name: '產品',
+        //     component: () => import('../views/fornt/ProductItem.vue'),
+        //   },
+        // ],
+      },
+      {
+        path: '/product-item/:id',
+        name: '產品',
+        component: () => import('../views/fornt/ProductItem.vue'),
       },
       {
         path: '/about',
