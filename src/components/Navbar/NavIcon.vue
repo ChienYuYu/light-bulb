@@ -19,7 +19,10 @@
           <router-link to="/product/全部">購物車沒東西</router-link>
         </li>
         <li v-for="item in cartList" :key="item">
-          <a href="#">{{ item.title }}</a>
+          <router-link :to= "{ name: 'productItem', params:{id: item.id}}">
+            {{ item.title }}
+          </router-link>
+          <!-- <a href="#">{{ item.title }}</a> -->
           <button class="btn remove-favorite-btn" @click="removeItem('cart', item)">X</button>
         </li>
       </ul>
@@ -32,7 +35,10 @@
           <router-link to="/product/全部">尚無收藏</router-link>
         </li>
         <li v-for="item in favoriteList" :key="item">
-          <a href="#">{{ item.title }}</a>
+          <router-link :to= "{ name: 'productItem', params:{id: item.id}}">
+            {{ item.title }}
+          </router-link>
+          <!-- <a href="#">{{ item.title }}</a> -->
           <button class="btn remove-favorite-btn" @click="removeItem('favorite', item)">X</button>
         </li>
       </ul>

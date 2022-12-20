@@ -26,13 +26,15 @@
             <li v-for="item in favoriteList" :key="item">
               <img :src="item.picture" alt="">
               <div class="txt">
-                <h3> {{ item.title }} </h3>
+                <router-link :to= "{ name: 'productItem', params:{id: item.id}}">
+                  {{ item.title }}
+                </router-link>
                 <p>${{ item.price }}</p>
-                <button class="btn add-cart-mobile">加入購物車</button>
+                <button class="btn add-cart-mobile" @click="addCart(item)">加入購物車</button>
               </div>
               <!-- ------------- -->
               <div class="btn-wrap">
-                <button class="btn add-cart-pad">加入購物車</button>
+                <button class="btn add-cart-pad"  @click="addCart(item)">加入購物車</button>
                 <button class="btn remove" @click="removeFavorite(item)">X</button>
               </div>
             </li>
@@ -60,7 +62,11 @@ export default {
       store.commit('myFavorite/toggleFavorite', item);
     };
 
-    return { favoriteList, removeFavorite };
+    const addCart = (item) => {
+      store.commit('shoppingCart/addCart', item);
+    };
+
+    return { favoriteList, removeFavorite, addCart };
   },
 };
 </script>
@@ -114,14 +120,17 @@ export default {
     }
 
     .txt {
-      h3 {
+      color: #fff;
+      a{
+        text-decoration: none;
         font-size: 1rem;
         font-weight: 700;
+        color: #fff;
+        &:hover{
+          color: rgb(255, 211, 77);
+        }
       }
 
-      color: #fff;
-
-      h3,
       p {
         margin-bottom: 0;
       }

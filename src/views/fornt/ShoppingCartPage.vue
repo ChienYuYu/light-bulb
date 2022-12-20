@@ -12,7 +12,9 @@
             <li v-for="item in carts" :key="item.id">
               <div class="img-title-group col-12 col-md-6">
                 <img :src="item.picture" alt="">
-                <h3 class="title">{{ item.title }}</h3>
+                <router-link :to= "{ name: 'productItem', params:{id: item.id}}">
+                  <h3 class="title">{{ item.title }}</h3>
+                </router-link>
               </div>
               <!-- ------------------- -->
               <div class="price-qty-wrap col-12 col-md-5">
@@ -122,6 +124,9 @@ ul.cart-list {
     .img-title-group {
       display: flex;
       align-items: center;
+      a{
+        text-decoration: none;
+      }
 
       @media (max-width: 767px) {
         border-bottom: 1px solid #666;
@@ -135,6 +140,9 @@ ul.cart-list {
       h3.title {
         color: #fff;
         font-size: 1.3rem;
+        &:hover{
+          color: rgb(255, 211, 77);
+        }
       }
 
     }

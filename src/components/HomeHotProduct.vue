@@ -9,7 +9,10 @@
         :modules="modules" data-aos="fade-up" data-aos-duration="1500">
         <swiper-slide v-for="item in hotProduct" :key="item">
           <div class="card">
-            <img :src="item.picture" class="card-img-top" alt="">
+            <router-link :to= "{ name: 'productItem', params:{id: item.id}}">
+              <img :src="item.picture" class="card-img-top" alt="">
+            </router-link>
+            <!-- <img :src="item.picture" class="card-img-top" alt=""> -->
             <div class="card-body">
               <h5 class="card-title">{{ item.title }}</h5>
               <p class="card-text"> {{ item.description }} </p>
