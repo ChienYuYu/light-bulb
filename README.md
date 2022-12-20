@@ -1,24 +1,42 @@
-# light-bulb
+# 燈具電商網站
 
-## Project setup
-```
-npm install
-```
+【DEMO : https://chienyuyu.github.io/light-bulb/ 】
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+<br>
 
-### Compiles and minifies for production
-```
-npm run build
-```
+******************
+## 使用技術、套件
 
-### Lints and fixes files
-```
-npm run lint
-```
+|  技術/套件   | 簡述  |
+| :----- | :----- |
+| Vue Cli   | 以 Vue.js 開發 SPA 網站 |
+| VueRouter  | 設定路由 |
+| Bootstrap 5  | 格線系統使用、開發 UI 介面 |
+| AOS  | 進場動畫 |
+| Swiper  | 熱賣商品輪播 |
+| vue-sweetalert2  | 彈出提示窗 |
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+***
+使用自建JSON檔模擬後端資料→
+https://github.com/ChienYuYu/myJSON
+******************
+
+<br>
+
+![image](demo/CPT2212202157-720x354.gif)
+
+<br>
+
+![image](demo/CPT2212202158-720x354.gif)
+
+<br>
+
+![image](demo/CPT2212202159-720x354.gif)
+
+*****************
+
+<br>
+
+圖片素材均來自cc0免版權圖庫 Unsplash、Pexels、Pixabay
+
+所有內容純屬虛構、所有商品均無實際販售。
