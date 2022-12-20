@@ -47,7 +47,7 @@
 
 <script>
 import { ref, computed, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, onBeforeRouteUpdate } from 'vue-router';
 import { useStore } from 'vuex';
 
 export default {
@@ -112,6 +112,11 @@ export default {
           favoriteMenu.value = false;
         }, 2000);
       }
+    });
+
+    onBeforeRouteUpdate(() => {
+      cartMenu.value = false;
+      favoriteMenu.value = false;
     });
 
     return {
