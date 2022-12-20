@@ -12,7 +12,7 @@
             <li v-for="item in carts" :key="item.id">
               <div class="img-title-group col-12 col-md-6">
                 <img :src="item.picture" alt="">
-                <router-link :to= "{ name: 'productItem', params:{id: item.id}}">
+                <router-link :to="{ name: 'productItem', params: { id: item.id } }">
                   <h3 class="title">{{ item.title }}</h3>
                 </router-link>
               </div>
@@ -31,9 +31,18 @@
                 </div>
                 <!-- ------------------- -->
               </div>
-              <button class="btn remove" @click="removeCart(item)">X</button>
+              <div class="qty2-remove-wrap">
+                <div class="qty2">
+                  <button class="sub" @click="setQty(item.id, 'sub')">-</button>
+                  <input type="number" class="qty" aria-label="1" v-model="item.qty">
+                  <button class="add" @click="setQty(item.id, 'add')">+</button>
+                </div>
+                <button class="btn remove" @click="removeCart(item)">X</button>
+              </div>
             </li>
           </ul>
+          <!-- 總金額 -->
+          <p class="text-end sum text-white">合計： ${{ sum }}</p>
           <div class="pay-btn-wrap">
             <router-link to="/product/全部" class="btn">繼續購物</router-link>
             <router-link to="/checkout" class="btn">前往結帳</router-link>
@@ -66,10 +75,13 @@ export default {
       store.commit('shoppingCart/setQty', { id, addOrSub });
     };
 
+    const sum = computed(() => store.getters['shoppingCart/sum']);
+
     return {
       carts,
       removeCart,
       setQty,
+      sum,
     };
   },
 };
@@ -124,7 +136,8 @@ ul.cart-list {
     .img-title-group {
       display: flex;
       align-items: center;
-      a{
+
+      a {
         text-decoration: none;
       }
 
@@ -140,7 +153,8 @@ ul.cart-list {
       h3.title {
         color: #fff;
         font-size: 1.3rem;
-        &:hover{
+
+        &:hover {
           color: rgb(255, 211, 77);
         }
       }
@@ -160,6 +174,10 @@ ul.cart-list {
       .price-group {
         padding: 1rem;
 
+        @media (max-width: 513px) {
+          margin: 0 auto;
+        }
+
         @media (max-width: 767px) {
           display: flex;
         }
@@ -173,7 +191,11 @@ ul.cart-list {
 
       .qty {
         width: 50%;
+
         // border: 1px solid #f00;
+        @media (max-width: 513px) {
+          display: none;
+        }
 
         input[type=number] {
           width: 30%;
@@ -196,17 +218,52 @@ ul.cart-list {
       }
     }
 
-    button.remove {
-      color: rgb(255, 68, 68);
-      padding: .5rem 1rem;
-      margin: .6rem;
-      border: 1px solid rgb(255, 68, 68);
+    .qty2-remove-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .qty2 {
+        width: 50%;
+        display: none;
 
-      &:hover {
-        background: rgb(255, 68, 68);
-        color: #fff;
+        // border: 1px solid #f00;
+        @media (max-width: 513px) {
+          display: block;
+        }
+
+        input[type=number] {
+          width: 30%;
+          text-align: center;
+          padding: 0;
+          border: 1px solid#aaa;
+          background: #111;
+          color: #fff;
+
+          @media (max-width: 767px) {
+            width: 50%;
+          }
+        }
+
+        button.sub,
+        button.add {
+          background: rgb(255, 211, 77);
+          border: none;
+        }
+      }
+
+      button.remove {
+        color: rgb(255, 68, 68);
+        padding: .5rem 1rem;
+        margin: .6rem;
+        border: 1px solid rgb(255, 68, 68);
+
+        &:hover {
+          background: rgb(255, 68, 68);
+          color: #fff;
+        }
       }
     }
+
   }
 }
 

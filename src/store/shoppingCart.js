@@ -2,6 +2,7 @@ export default {
   namespaced: true,
   state: {
     shoppingCart: [],
+    // sum: 0,
   },
   mutations: {
     // 加入購物車-------------------------------------------
@@ -78,5 +79,14 @@ export default {
     },
   },
   actions: {},
-  getters: {},
+  getters: {
+    // 總金額
+    sum(state) {
+      let sum = 0;
+      state.shoppingCart.forEach((item) => {
+        sum += item.totalPrice;
+      });
+      return sum;
+    },
+  },
 };
