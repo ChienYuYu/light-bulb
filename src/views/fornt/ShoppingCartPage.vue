@@ -5,7 +5,7 @@
     </div>
 
     <!-- ----------------- -->
-    <div class="main">
+    <div class="main" v-if="carts.length > 0">
       <div class="row">
         <div class="col-md-12 col-lg-10 col-xl-6 mx-auto">
           <ul class="cart-list">
@@ -38,6 +38,10 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="empty-cart" v-if="carts.length === 0">
+      <h2>購物車空空的</h2>
+      <router-link to="/product/全部" class="btn">購物去</router-link>
     </div>
     <!-- ----------------- -->
   </div>
@@ -209,6 +213,27 @@ ul.cart-list {
 
     &:hover {
       color: #fff;
+    }
+  }
+}
+
+// --------------------------
+.empty-cart {
+  text-align: center;
+  padding: 3rem;
+
+  h2 {
+    color: #fff;
+    margin-bottom: 3rem;
+  }
+
+  a {
+    width: 90%;
+    background: rgb(255, 211, 77);
+    color: #333;
+
+    @media (min-width: 768px) {
+      width: 40%;
     }
   }
 }
