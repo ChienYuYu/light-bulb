@@ -48,8 +48,18 @@ const routes = [
       },
       {
         path: '/checkout',
-        name: '結帳',
+        name: '確認訂單',
         component: () => import('../views/fornt/CheckoutPage.vue'),
+      },
+      {
+        path: '/buyerInfo',
+        name: '購買資料',
+        component: () => import('../views/fornt/BuyerInfo.vue'),
+      },
+      {
+        path: '/sendOrder',
+        name: '送出訂單',
+        component: () => import('../views/fornt/SendOrder.vue'),
       },
     ],
   },

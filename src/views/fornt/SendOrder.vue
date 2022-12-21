@@ -1,10 +1,10 @@
 <template>
-  <div class="checkout">
+  <div class="send-order">
     <div class="header">
-      <h1>確認訂單</h1>
+      <h1>送出訂單</h1>
     </div>
     <ProgressBar />
-    <div class="shopping-details">
+    <div class="order">
       <div class="container">
         <table class="table text-center text-white">
           <thead>
@@ -21,27 +21,30 @@
               <td>$9999</td>
             </tr>
             <tr>
-              <td colspan="3">
-                <div class="d-flex justify-content-center">
-                  <input type="text" aria-label="1" placeholder="使用優惠碼"
-                  class="form-control rounded-0 w-50">
-                  <button class="btn rounded-0 use">使用</button>
-                </div>
-              </td>
+              <th colspan="1"></th>
+              <th colspan="1" class="">總計 $98237</th>
+              <th colspan="1">折扣後: $9999</th>
             </tr>
             <tr>
-              <th colspan="1"></th>
-              <th colspan="1" class="text-end">總計 $98237</th>
-              <th colspan="1">
-                <p class="">折扣後: $9999</p>
-              </th>
+              <th colspan="4"></th>
+            </tr>
+            <tr>
+              <th scope="col">訂購人 / 電話</th>
+              <th scope="col">收件人 / 電話</th>
+              <th scope="col">收件地址</th>
+            </tr>
+            <tr>
+              <td>梅川伊芙 / 0911111111</td>
+              <td>梅川庫梓 / 0922222222</td>
+              <td>苗栗縣台北區台南路200號</td>
             </tr>
           </tbody>
         </table>
+
         <div class="row justify-content-center">
           <div class="btn-group col-md-6">
-            <router-link to='/cart' class="btn">返回修改</router-link>
-            <router-link to='/buyerInfo' class="btn">下一步</router-link>
+            <router-link to='/buyerInfo' class="btn">上一頁</router-link>
+            <router-link to='/' class="btn">送出訂單</router-link>
           </div>
         </div>
       </div>
@@ -60,7 +63,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.checkout {
+.send-order {
   background: rgb(18, 18, 29);
 }
 
@@ -82,22 +85,8 @@ export default {
   }
 }
 
-.shopping-details {
+.order {
   padding: 5rem 0;
-
-  input[type=text] {
-    background: #111;
-    color: #fff;
-    border-right: none;
-  }
-
-  button.use {
-    background: rgb(255, 211, 77);
-
-    &:hover {
-      color: #eee;
-    }
-  }
 
   .btn-group {
     padding: 3rem 0;
