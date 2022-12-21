@@ -64,6 +64,7 @@ export default {
 
     onMounted(() => {
       store.commit('checkout/initSum', sum.value);
+      store.commit('checkout/initSessionStorage');
     });
 
     const useCoupon = () => {
