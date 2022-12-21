@@ -15,33 +15,31 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>產品名稱</td>
-              <td>$999 / 10</td>
-              <td>$9999</td>
+            <tr v-for="item in shoppingCart" :key="item.id">
+              <td>{{ item.title }}</td>
+              <td>${{ item.price }} / {{ item.qty }}</td>
+              <td>${{ item.totalPrice }}</td>
             </tr>
             <tr>
               <td colspan="3">
                 <div class="d-flex justify-content-center">
-                  <input type="text" aria-label="1" placeholder="使用優惠碼"
-                  class="form-control rounded-0 w-50">
-                  <button class="btn rounded-0 use">使用</button>
+                  <input type="text" aria-label="1" placeholder="輸入優惠碼"
+                  class="form-control rounded-0 w-50"  v-model.trim="couponCode">
+                  <button class="btn rounded-0 use" @click="useCoupon">使用</button>
                 </div>
               </td>
             </tr>
             <tr>
               <th colspan="1"></th>
-              <th colspan="1" class="text-end">總計 $98237</th>
-              <th colspan="1">
-                <p class="">折扣後: $9999</p>
-              </th>
+              <th colspan="1" class="text-end">總計 ${{ sum }}</th>
+              <th colspan="1">折扣後: ${{ couponPrice }}</th>
             </tr>
           </tbody>
         </table>
         <div class="row justify-content-center">
           <div class="btn-group col-md-6">
             <router-link to='/cart' class="btn">返回修改</router-link>
-            <router-link to='/buyerInfo' class="btn">下一步</router-link>
+            <router-link to='/buyerInfo' class="btn" @click="writeItemInfo">下一步</router-link>
           </div>
         </div>
       </div>
@@ -53,9 +51,40 @@
 <script>
 import ProgressBar from '@/components/ProgressBar.vue';
 import Footer from '@/components/FooterComponent.vue';
+import { ref, computed, onMounted } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
   components: { Footer, ProgressBar },
+  setup() {
+    const store = useStore();
+    const couponCode = ref('');
+    const shoppingCart = computed(() => store.state.shoppingCart.shoppingCart);
+    const sum = computed(() => store.getters['shoppingCart/sum']);
+
+    onMounted(() => {
+      store.commit('checkout/initSum', sum.value);
+    });
+
+    const useCoupon = () => {
+      store.commit('checkout/useCoupon', { couponCode: couponCode.value, sum: sum.value });
+    };
+
+    const couponPrice = computed(() => store.getters['checkout/couponPrice']);
+
+    const writeItemInfo = () => {
+      store.commit('checkout/writeItemInfo', shoppingCart.value);
+    };
+
+    return {
+      shoppingCart,
+      couponCode,
+      sum,
+      couponPrice,
+      useCoupon,
+      writeItemInfo,
+    };
+  },
 };
 </script>
 
