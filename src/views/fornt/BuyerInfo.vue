@@ -9,36 +9,42 @@
         <form class="row g-3">
           <div class="col-md-6">
             <input type="text" class="form-control" id="buyer-name"
-              aria-label="1" placeholder="訂購人姓名">
+              aria-label="1" placeholder="訂購人姓名"
+              v-model="buyerInfo.buyerName">
           </div>
           <div class="col-md-6">
             <input type="tel" class="form-control" id="buyer-phone"
-            aria-label="1" placeholder="訂購人電話">
+            aria-label="1" placeholder="訂購人電話"
+            v-model="buyerInfo.buyerPhone">
           </div>
           <!-- -------------------------------- -->
           <div class="col-md-6">
             <input type="text" class="form-control" id="recipient-name"
-              aria-label="1" placeholder="收件人姓名">
+              aria-label="1" placeholder="收件人姓名"
+              v-model="buyerInfo.recipientName">
           </div>
           <div class="col-md-6">
             <input type="tel" class="form-control" id="recipient-phone"
-            aria-label="1" placeholder="收件人電話">
+            aria-label="1" placeholder="收件人電話"
+            v-model="buyerInfo.recipientPhone">
           </div>
           <div class="col-lg-12">
-            <button class="btn same w-100">收件人同訂購人</button>
+            <button class="btn same w-100" @click.prevent="sameAsBuyer">收件人同訂購人</button>
           </div>
           <!-- -------------------------------- -->
           <div class="col-12">
             <input type="mail" class="form-control" id="email"
-            placeholder="訂購人Email" aria-label="1">
+            placeholder="訂購人Email" aria-label="1"
+            v-model="buyerInfo.email">
           </div>
           <div class="col-12">
             <input type="text" class="form-control" id="inputAddress"
-            placeholder="收件地址" aria-label="1">
+            placeholder="收件地址" aria-label="1"
+            v-model="buyerInfo.address">
           </div>
           <div class="col btn-group">
-            <RouterLink to="/checkout" class="btn ">返回</RouterLink>
-            <RouterLink to="/sendOrder" class="btn ">下一步</RouterLink>
+            <RouterLink to="/checkout" class="btn">返回</RouterLink>
+            <RouterLink to="/sendOrder" class="btn" @click="writeBuyerInfo">下一步</RouterLink>
           </div>
         </form>
       </div>
@@ -50,9 +56,33 @@
 <script>
 import ProgressBar from '@/components/ProgressBar.vue';
 import Footer from '@/components/FooterComponent.vue';
+import { ref } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
   components: { Footer, ProgressBar },
+  setup() {
+    const store = useStore();
+    const buyerInfo = ref({
+      buyerName: '',
+      buyerPhone: '',
+      recipientName: '',
+      recipientPhone: '',
+      email: '',
+      address: '',
+    });
+
+    const sameAsBuyer = () => {
+      buyerInfo.value.recipientName = buyerInfo.value.buyerName;
+      buyerInfo.value.recipientPhone = buyerInfo.value.buyerPhone;
+    };
+
+    const writeBuyerInfo = () => {
+      store.commit('checkout/writeBuyerInfo', buyerInfo.value);
+    };
+
+    return { buyerInfo, sameAsBuyer, writeBuyerInfo };
+  },
 };
 </script>
 

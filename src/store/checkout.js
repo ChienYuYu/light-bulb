@@ -25,7 +25,9 @@ export default {
     },
 
     // orderInfo: {} 寫入購買者 & 收件資料
-    writeBuyerInfo() {},
+    writeBuyerInfo(state, data) {
+      state.orderInfo = { ...state.orderInfo, ...data };
+    },
 
   },
   actions: {},
