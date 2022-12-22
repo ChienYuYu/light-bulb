@@ -44,7 +44,7 @@
           </div>
           <div class="col btn-group">
             <RouterLink to="/checkout" class="btn">返回</RouterLink>
-            <RouterLink to="/sendOrder" class="btn" @click="writeBuyerInfo">下一步</RouterLink>
+            <RouterLink to="" class="btn" @click.prevent="writeBuyerInfo">下一步</RouterLink>
           </div>
         </form>
       </div>
@@ -54,15 +54,18 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
 import ProgressBar from '@/components/ProgressBar.vue';
 import Footer from '@/components/FooterComponent.vue';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 export default {
   components: { Footer, ProgressBar },
   setup() {
     const store = useStore();
+    const router = useRouter();
     const buyerInfo = ref({
       buyerName: '',
       buyerPhone: '',
@@ -72,16 +75,50 @@ export default {
       address: '',
     });
 
+    const keepInputShow = () => {
+      const x = JSON.parse(sessionStorage.getItem('orderInfo'));
+      if (x.buyerName !== undefined) {
+        buyerInfo.value.buyerName = x.buyerName;
+        buyerInfo.value.buyerPhone = x.buyerPhone;
+        buyerInfo.value.recipientName = x.recipientName;
+        buyerInfo.value.recipientPhone = x.recipientPhone;
+        buyerInfo.value.email = x.email;
+        buyerInfo.value.address = x.address;
+      }
+    };
+
+    onMounted(() => {
+      store.commit('checkout/initSessionStorage');
+      keepInputShow();
+    });
+
     const sameAsBuyer = () => {
       buyerInfo.value.recipientName = buyerInfo.value.buyerName;
       buyerInfo.value.recipientPhone = buyerInfo.value.buyerPhone;
     };
 
+    // 寫入收件資料 && 驗證欄位是否為空
     const writeBuyerInfo = () => {
-      store.commit('checkout/writeBuyerInfo', buyerInfo.value);
+      const x = Object.values(buyerInfo.value);
+      // console.log(Object.values(buyerInfo.value));
+      if (x.includes('')) {
+        Swal.fire({
+          icon: 'error',
+          title: '欄位不能為空',
+          text: '所有欄位都必須填寫',
+        });
+      } else {
+        store.commit('checkout/writeBuyerInfo', buyerInfo.value);
+        router.push('/sendOrder');
+      }
     };
 
-    return { buyerInfo, sameAsBuyer, writeBuyerInfo };
+    return {
+      buyerInfo,
+      sameAsBuyer,
+      writeBuyerInfo,
+      keepInputShow,
+    };
   },
 };
 </script>
@@ -111,6 +148,11 @@ export default {
 
 .info {
   padding: 5rem 0;
+
+  input{
+    background: #111;
+    color: #fff;
+  }
   button.same{
     border: 1px solid rgb(255, 211, 77);
     color: rgb(255, 211, 77);

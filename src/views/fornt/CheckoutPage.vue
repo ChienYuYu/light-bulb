@@ -24,8 +24,10 @@
               <td colspan="3">
                 <div class="d-flex justify-content-center">
                   <input type="text" aria-label="1" placeholder="輸入優惠碼"
-                  class="form-control rounded-0 w-50"  v-model.trim="couponCode">
-                  <button class="btn rounded-0 use" @click="useCoupon">使用</button>
+                  class="form-control rounded-0 w-50"  v-model.trim="couponCode"
+                  :disabled=" couponCode === '已使用優惠券' ">
+                  <button class="btn rounded-0 use" @click="useCoupon"
+                  :disabled=" couponCode === '已使用優惠券' ">使用</button>
                 </div>
               </td>
             </tr>
@@ -62,9 +64,19 @@ export default {
     const shoppingCart = computed(() => store.state.shoppingCart.shoppingCart);
     const sum = computed(() => store.getters['shoppingCart/sum']);
 
+    const keepInput = () => {
+      const x = JSON.parse(sessionStorage.getItem('orderInfo'));
+      if (x.useCoupon !== undefined) {
+        if (x.useCoupon === true) {
+          couponCode.value = '已使用優惠券';
+        }
+      }
+    };
+
     onMounted(() => {
       store.commit('checkout/initSum', sum.value);
       store.commit('checkout/initSessionStorage');
+      keepInput();
     });
 
     const useCoupon = () => {
@@ -84,6 +96,7 @@ export default {
       couponPrice,
       useCoupon,
       writeItemInfo,
+      keepInput,
     };
   },
 };

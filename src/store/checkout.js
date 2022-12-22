@@ -30,6 +30,7 @@ export default {
     // orderInfo: {} 寫入購買者 & 收件資料
     writeBuyerInfo(state, data) {
       state.orderInfo = { ...state.orderInfo, ...data };
+      this.commit('checkout/saveInSessionStorage');
     },
 
     // 初始sessionStorage 沒有資料就建立一個{}
