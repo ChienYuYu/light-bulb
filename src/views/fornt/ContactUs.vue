@@ -5,20 +5,22 @@
     </div>
 
     <div class="container send-message">
-      <form class="info-group col-10 col-md-8 col-lg-6">
+      <form class="info-group col-10 col-md-8 col-lg-6" @submit="sendMsg">
         <div class="col-12 mb-3">
           <label for="phone-number" class="form-label w-100">
-            <input type="tel" class="form-control phone" id="phone-number" placeholder="請輸入手機">
+            <input type="tel" class="form-control phone" id="phone-number"
+            placeholder="請輸入手機" v-model="contactData.phone" >
           </label>
         </div>
         <div class="col-12 mb-3">
           <label for="email" class="form-label w-100">
-            <input type="email" class="form-control email" id="email" placeholder="請輸入Email">
+            <input type="email" class="form-control email" id="email"
+            placeholder="請輸入Email" v-model="contactData.email">
           </label>
         </div>
         <div class="col-12 mb-3">
           <textarea name="" id="message" rows="3" class="form-control msg" aria-label="1"
-            placeholder="請輸入訊息"></textarea>
+            placeholder="請輸入訊息" v-model="contactData.message"></textarea>
         </div>
         <div class="col-12">
           <input type="submit" class="btn submit-btn col-12">
@@ -38,11 +40,39 @@
 
 <script>
 import Footer from '@/components/FooterComponent.vue';
+import Swal from 'sweetalert2';
+import { ref } from 'vue';
 
 export default {
   components: { Footer },
   setup() {
-    return {};
+    const contactData = ref({
+      phone: '',
+      email: '',
+      message: '',
+    });
+
+    const sendMsg = () => {
+      const x = Object.values(contactData.value);
+      console.log(x);
+      if (x.includes('')) {
+        Swal.fire({
+          icon: 'error',
+          title: '欄位不能為空',
+          text: '所有欄位都必須填寫',
+        });
+      } else {
+        Swal.fire({
+          icon: 'success',
+          title: '訊息已送出',
+          showConfirmButton: false,
+          timer: 1200,
+        });
+        contactData.value = {};
+      }
+    };
+
+    return { contactData, sendMsg };
   },
 };
 </script>
