@@ -23,7 +23,7 @@
             placeholder="請輸入訊息" v-model="contactData.message"></textarea>
         </div>
         <div class="col-12">
-          <input type="submit" class="btn submit-btn col-12">
+          <input type="submit" class="btn submit-btn col-12" value="提交">
         </div>
       </form>
     </div>
