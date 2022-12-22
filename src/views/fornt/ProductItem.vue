@@ -22,7 +22,8 @@
               <button class="btn add-cart" @click="addCart2(item)">加入購物車</button>
             </div>
             <div class="col">
-              <button class="btn direct-buy">直接購買</button>
+              <router-link to='/cart' class="btn direct-buy"
+              @click="addCart2(item)">直接購買</router-link>
             </div>
           </div>
           <div class="inside shopping-notes">
@@ -189,7 +190,7 @@ export default {
   .button-wrap {
     padding-bottom: 2rem;
 
-    button {
+    button, .direct-buy {
       width: 100%;
       border: 1px solid rgb(255, 211, 77);
       color: rgb(255, 211, 77);

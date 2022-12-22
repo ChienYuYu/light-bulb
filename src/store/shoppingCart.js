@@ -1,3 +1,5 @@
+import Swal from 'sweetalert2';
+
 export default {
   namespaced: true,
   state: {
@@ -22,6 +24,7 @@ export default {
         state.shoppingCart[tempV].totalPrice = tempObj.price * tempObj.qty;
       }
       this.commit('shoppingCart/updateCartLocalStorage');
+      this.commit('shoppingCart/sweetAlert');
     },
 
     // 修改數量-------------------------------------------
@@ -55,6 +58,7 @@ export default {
           .shoppingCart[temp].price * state.shoppingCart[temp].qty;
       }
       this.commit('shoppingCart/updateCartLocalStorage');
+      this.commit('shoppingCart/sweetAlert');
     },
 
     // 移除項目-------------------------------------------
@@ -76,6 +80,16 @@ export default {
     // 寫入localStorage --------------------------------
     updateCartLocalStorage(state) {
       localStorage.setItem('myCart', JSON.stringify(state.shoppingCart));
+    },
+
+    // 共用加入購物車sweetalert
+    sweetAlert() {
+      Swal.fire({
+        icon: 'success',
+        title: '已加入購物車',
+        showConfirmButton: false,
+        timer: 800,
+      });
     },
   },
   actions: {},
