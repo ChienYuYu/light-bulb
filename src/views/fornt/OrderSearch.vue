@@ -61,9 +61,18 @@ import Swal from 'sweetalert2';
 export default {
   components: { Footer },
   setup() {
-    const orderData = ref(JSON.parse(sessionStorage.getItem('orderSearch')));
+    const orderData = ref({});
     const inputPhone = ref('');
     const showData = ref(false);
+
+    // 初始sessionStorage 沒有資料就建立一個{}
+    const initSessionStorage = () => {
+      if (sessionStorage.getItem('orderSearch') === null) {
+        sessionStorage.setItem('orderSearch', '{}');
+      }
+      orderData.value = JSON.parse(sessionStorage.getItem('orderSearch'));
+    }; initSessionStorage();
+    // -----------------------------------
 
     const searchData = () => {
       if (inputPhone.value === orderData.value.buyerPhone) {
@@ -81,7 +90,7 @@ export default {
     };
 
     return {
-      orderData, inputPhone, showData, searchData,
+      orderData, inputPhone, showData, searchData, initSessionStorage,
     };
   },
 };
