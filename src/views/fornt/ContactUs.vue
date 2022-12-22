@@ -54,7 +54,6 @@ export default {
 
     const sendMsg = () => {
       const x = Object.values(contactData.value);
-      console.log(x);
       if (x.includes('')) {
         Swal.fire({
           icon: 'error',

@@ -71,6 +71,7 @@ export default {
     });
 
     const sendOrder = () => {
+      sessionStorage.setItem('orderSearch', JSON.stringify(buyerInfo.value));
       localStorage.removeItem('myCart');
       sessionStorage.removeItem('orderInfo');
       store.commit('shoppingCart/initCartLocalStorage');
