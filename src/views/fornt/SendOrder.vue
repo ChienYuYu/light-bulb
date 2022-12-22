@@ -18,7 +18,7 @@
             <tr v-for="item in itemInfo" :key="item.id">
               <td>{{ item.title }}</td>
               <td>${{ item.price }} / {{ item.qty }}</td>
-              <td>$9999</td>
+              <td>${{ item.totalPrice }}</td>
             </tr>
             <tr>
               <th colspan="1"></th>
