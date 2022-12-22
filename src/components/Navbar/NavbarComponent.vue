@@ -1,6 +1,8 @@
 <template>
   <div class="navbar">
-    <img src="@/assets/img/fakelogo2.png" alt="">
+    <router-link to="/">
+      <img src="@/assets/img/fakelogo2.png" alt="">
+    </router-link>
     <nav>
       <router-link to="/" class="nav-item">首頁</router-link>
       <router-link to="/product/全部"

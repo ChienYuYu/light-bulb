@@ -2,7 +2,9 @@
   <!-- --------------桌機↑ / 平板&手機↓--------------------- -->
   <div class="mobile-navbar">
     <div class="wrap">
-      <img src="@/assets/img/fakelogo2.png" alt="">
+      <router-link to="/">
+        <img src="@/assets/img/fakelogo2.png" alt="">
+      </router-link>
       <div class="burger" ref="burger" @click.prevent="changeBtn" @keydown="c"></div>
     </div>
     <ul class="menu-list" ref="menuList">
