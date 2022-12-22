@@ -15,15 +15,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>產品名稱</td>
-              <td>$999 / 10</td>
+            <tr v-for="item in itemInfo" :key="item.id">
+              <td>{{ item.title }}</td>
+              <td>${{ item.price }} / {{ item.qty }}</td>
               <td>$9999</td>
             </tr>
             <tr>
               <th colspan="1"></th>
-              <th colspan="1" class="">總計 $98237</th>
-              <th colspan="1">折扣後: $9999</th>
+              <th colspan="1" class="">總計 ${{ buyerInfo.sum }}</th>
+              <th colspan="1">折扣後: ${{ buyerInfo.couponPrice }}</th>
             </tr>
             <tr>
               <th colspan="4"></th>
@@ -34,9 +34,9 @@
               <th scope="col">收件地址</th>
             </tr>
             <tr>
-              <td>梅川伊芙 / 0911111111</td>
-              <td>梅川庫梓 / 0922222222</td>
-              <td>苗栗縣台北區台南路200號</td>
+              <td>{{ buyerInfo.buyerName }} / {{ buyerInfo.buyerPhone }}</td>
+              <td>{{ buyerInfo.recipientName }} / {{ buyerInfo.recipientPhone }}</td>
+              <td>{{ buyerInfo.address }}</td>
             </tr>
           </tbody>
         </table>
@@ -44,7 +44,7 @@
         <div class="row justify-content-center">
           <div class="btn-group col-md-6">
             <router-link to='/buyerInfo' class="btn">上一頁</router-link>
-            <router-link to='/' class="btn">送出訂單</router-link>
+            <router-link to='/' class="btn" @click="sendOrder">送出訂單</router-link>
           </div>
         </div>
       </div>
@@ -56,9 +56,36 @@
 <script>
 import ProgressBar from '@/components/ProgressBar.vue';
 import Footer from '@/components/FooterComponent.vue';
+import { computed, onMounted } from 'vue';
+import { useStore } from 'vuex';
+import Swal from 'sweetalert2';
 
 export default {
   components: { Footer, ProgressBar },
+  setup() {
+    const store = useStore();
+    const buyerInfo = computed(() => store.state.checkout.orderInfo);
+    const itemInfo = computed(() => store.state.checkout.orderInfo.buyItem);
+    onMounted(() => {
+      store.commit('checkout/initSessionStorage');
+    });
+
+    const sendOrder = () => {
+      localStorage.removeItem('myCart');
+      sessionStorage.removeItem('orderInfo');
+      store.commit('shoppingCart/initCartLocalStorage');
+      Swal.fire({
+        icon: 'success',
+        title: '訂單已送出',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    };
+
+    return {
+      buyerInfo, itemInfo, sendOrder,
+    };
+  },
 };
 </script>
 

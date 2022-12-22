@@ -1,3 +1,5 @@
+import Swal from 'sweetalert2';
+
 export default {
   namespaced: true,
   state: {
@@ -16,14 +18,27 @@ export default {
         state.couponStatus = true;
         state.orderInfo = { ...state.orderInfo, useCoupon: true };
         this.commit('checkout/saveInSessionStorage');
+        Swal.fire({
+          icon: 'success',
+          title: '套用優惠券',
+          showConfirmButton: false,
+          timer: 1500,
+        });
       } else {
-        console.log('輸入的優惠碼不存在');
+        Swal.fire({
+          icon: 'error',
+          title: '輸入的優惠碼不存在',
+          showConfirmButton: false,
+          timer: 1500,
+        });
       }
     },
 
     // orderInfo: {} 寫入購買項目&總價
     writeItemInfo(state, data) {
-      state.orderInfo = { ...state.orderInfo, buyItem: data, sum: this.getters['checkout/couponPrice'] };
+      state.orderInfo = {
+        ...state.orderInfo, buyItem: data, sum: state.sum, couponPrice: this.getters['checkout/couponPrice'],
+      };
       this.commit('checkout/saveInSessionStorage');
     },
 
