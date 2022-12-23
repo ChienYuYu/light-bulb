@@ -29,7 +29,9 @@ export default {
   },
   setup() {
     onMounted(() => {
-      AOS.init();
+      AOS.init({
+        once: true,
+      });
     });
   },
 };
