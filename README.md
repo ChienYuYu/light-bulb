@@ -13,8 +13,8 @@
 | VueRouter  | 設定路由 |
 | Vuex  | 數據共享 |
 | Bootstrap 5  | 格線系統使用、開發 UI 介面 |
-| AOS  | 進場動畫 |
-| Swiper  | 熱賣商品輪播 |
+| AOS  | 元件進場動畫 |
+| Swiper  | 圖片輪播 |
 | vue-sweetalert2  | 彈出提示窗 |
 
 ***
