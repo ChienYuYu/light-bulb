@@ -67,7 +67,10 @@
 
     </div>
   </div>
-  <HotProduct></HotProduct>
+  <HotProduct>
+    <template #title>你可能會喜歡</template>
+    <template #slogan>更多熱賣商品</template>
+  </HotProduct>
   <Footer></Footer>
 </template>
 

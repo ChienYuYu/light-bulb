@@ -1,7 +1,11 @@
 <template>
   <div class="hot-product">
-    <h2 data-aos="fade-up" data-aos-duration="1000">超值熱賣商品</h2>
-    <p data-aos="fade-up" data-aos-duration="1500">超省電 高品質</p>
+    <h2 data-aos="fade-up" data-aos-duration="1000">
+      <slot name="title">超值熱賣商品</slot>
+    </h2>
+    <p data-aos="fade-up" data-aos-duration="1500">
+      <slot name="slogan">超省電 高品質</slot>
+    </p>
     <!-- --------------------------- -->
     <div class="container wrap">
       <swiper :slides-per-view="slidesPerView"
