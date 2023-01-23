@@ -1,12 +1,15 @@
 <template>
   <div class="wrapper">
-    <form class="col-lg-3 login-wrap">
-      <h2>登入</h2>
+    <form class="col-lg-3 register-wrap">
+      <h2>註冊</h2>
       <input type="email" placeholder="請輸入Email" aria-label="a" class="form-control">
       <input type="password" placeholder="請輸入密碼" aria-label="a" class="form-control">
-      <button class="btn">登入</button>
-      <div class="register-btn-wrap">
-        <router-link to="register">註冊</router-link>
+      <input type="password" placeholder="再次輸入密碼" aria-label="a" class="form-control">
+      <input type="text" placeholder="請輸入姓名" aria-label="a" class="form-control">
+
+      <button class="btn">註冊</button>
+      <div class="login-btn-wrap">
+        <router-link to="/login">返回登入</router-link>
       </div>
     </form>
   </div>
@@ -26,7 +29,7 @@ export default {};
   align-items: center;
 }
 
-form.login-wrap {
+form.register-wrap {
   border: 1px solid #999;
   padding: 2rem;
   border-radius: 1rem;
@@ -59,7 +62,7 @@ form.login-wrap {
     }
   }
 
-  .register-btn-wrap {
+  .login-btn-wrap {
     display: flex;
     justify-content: center;
     padding: 2rem 0;
