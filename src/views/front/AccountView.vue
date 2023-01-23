@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <form>
+    <form class="col-lg-2">
       <h2>我的帳戶</h2>
       <div>
         <label for="email">
@@ -18,6 +18,7 @@
         <label for="address">
           <p>地址</p>
           <input type="text" class="form-control">
+          <!-- <textarea class="form-control" name="" id="" cols="30" rows="3"></textarea> -->
         </label>
       </div>
       <button class="btn">更新資料</button>
@@ -42,12 +43,15 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-
+  form {
+    // border: 1px solid #eee;
+  }
   h2 {
     color: #fff;
     margin-bottom: 2rem;
   }
   label{
+    width: 100%;
     color: #fff;
     padding-bottom: 1rem;
     p{
