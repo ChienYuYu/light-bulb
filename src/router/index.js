@@ -71,6 +71,11 @@ const routes = [
         name: '註冊',
         component: () => import('../views/front/RegisterView.vue'),
       },
+      {
+        path: '/user/account',
+        name: '帳戶',
+        component: () => import('../views/front/AccountView.vue'),
+      },
     ],
   },
 ];
