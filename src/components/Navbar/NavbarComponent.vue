@@ -1,16 +1,20 @@
 <template>
   <div class="navbar">
-    <router-link to="/">
+    <div class="logo-wrap">
+      <router-link to="/">
+        <img src="@/assets/img/fakelogo2.png" alt="">
+      </router-link>
+    </div>
+    <!-- <router-link to="/">
       <img src="@/assets/img/fakelogo2.png" alt="">
-    </router-link>
+    </router-link> -->
     <nav>
       <router-link to="/" class="nav-item">首頁</router-link>
-      <router-link to="/product/全部"
-      class="nav-item"
-      :class="{'router-link-exact-active': activeProductItem}">商品列表</router-link>
+      <router-link to="/product/全部" class="nav-item"
+        :class="{ 'router-link-exact-active': activeProductItem }">商品列表</router-link>
       <router-link to="/about" class="nav-item">關於我們</router-link>
       <router-link to="/contact" class="nav-item">聯絡我們</router-link>
-      <router-link to="/order-search" class="nav-item">訂單查詢</router-link>
+      <!-- <router-link to="/order-search" class="nav-item">訂單查詢</router-link> -->
     </nav>
     <IconWrap /> <!-- component -->
   </div>
@@ -60,13 +64,15 @@ export default {
   @media (max-width: 900px) {
     display: none;
   }
-
-  img {
+  div.logo-wrap{
+    // border: 1px solid #fff;
+    width: 158px;
+    img {
     width: 40px;
+  }
   }
 
   nav {
-    padding-left: 40px;
 
     a.nav-item::before {
       content: '';
@@ -101,13 +107,14 @@ export default {
     // ----------------------------
     a.nav-item.router-link-exact-active {
       color: rgb(255, 211, 77);
-      &:hover{
+
+      &:hover {
         color: #333;
       }
     }
+
     // ----------------------------
   }
 
 }
-
 </style>
