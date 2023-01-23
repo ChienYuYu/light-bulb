@@ -61,6 +61,11 @@ const routes = [
         name: '送出訂單',
         component: () => import('../views/fornt/SendOrder.vue'),
       },
+      {
+        path: '/login',
+        name: '登入',
+        component: () => import('../views/fornt/LoginView.vue'),
+      },
     ],
   },
 ];
