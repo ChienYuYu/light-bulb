@@ -14,17 +14,26 @@
         {{ favoriteNum }}
       </span>
     </i>
-    <!-- ////////////////////// -->
+    <!-- /////////////////////////////////////////// -->
     <i class="bi bi-person-circle my-menu"
     @click="showHideList('me')" @keydown="1"
     :class="{'active' : myMenu}"></i>
     <!-- 個人選項------------------------------------------- -->
     <ul class="my-list" v-show="myMenu">
-      <li><router-link to="/user/account">我的帳戶</router-link></li>
-      <li><router-link to="/user/purchase_record">購買紀錄</router-link></li>
-      <li><a href="#">登出</a></li>
+      <li v-if="isLogin">
+        <router-link to="/user/account">我的帳戶</router-link>
+      </li>
+      <li v-if="isLogin">
+        <router-link to="/user/purchase_record">購買紀錄</router-link>
+      </li>
+      <li v-if="isLogin">
+        <a href="#">登出</a>
+      </li>
+      <li v-if="isLogin === false">
+        <router-link to="/login">登入</router-link>
+      </li>
     </ul>
-    <!-- ////////////////////// -->
+    <!-- /////////////////////////////////////////// -->
 
     <!-- 購物車清單------------------------------------------- -->
     <ul class="cart-list" v-show="cartMenu">
@@ -70,7 +79,7 @@ export default {
   setup() {
     const router = useRouter();
     const store = useStore();
-
+    const isLogin = ref(false);
     const myMenu = ref(false);
 
     const cartNum = computed(() => store.state.shoppingCart.shoppingCart.length);
@@ -157,6 +166,7 @@ export default {
       showHideList,
       removeItem,
       myMenu,
+      isLogin,
     };
   },
 };
