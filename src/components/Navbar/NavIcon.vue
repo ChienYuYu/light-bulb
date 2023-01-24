@@ -20,8 +20,8 @@
     :class="{'active' : myMenu}"></i>
     <!-- 個人選項------------------------------------------- -->
     <ul class="my-list" v-show="myMenu">
-      <li><router-link to="/login">我的帳戶</router-link></li>
-      <li><a href="#">購買清單</a></li>
+      <li><router-link to="/user/account">我的帳戶</router-link></li>
+      <li><router-link to="/user/purchase_record">購買紀錄</router-link></li>
       <li><a href="#">登出</a></li>
     </ul>
     <!-- ////////////////////// -->

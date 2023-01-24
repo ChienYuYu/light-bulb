@@ -76,6 +76,11 @@ const routes = [
         name: '帳戶',
         component: () => import('../views/front/AccountView.vue'),
       },
+      {
+        path: '/user/purchase_record',
+        name: '購買紀錄',
+        component: () => import('../views/front/PurchaseRecord.vue'),
+      },
     ],
   },
 ];

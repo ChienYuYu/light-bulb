@@ -18,14 +18,13 @@
         <label for="address">
           <p>地址</p>
           <input type="text" class="form-control">
-          <!-- <textarea class="form-control" name="" id="" cols="30" rows="3"></textarea> -->
         </label>
       </div>
       <button class="btn">更新資料</button>
 
     </form>
+    <Footer />
   </div>
-  <Footer />
 </template>
 
 <script>
@@ -38,13 +37,19 @@ export default {
 
 <style lang="scss" scoped>
 .wrapper {
-  height: 100vh;
   background: rgb(18, 18, 29);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  padding-top: 10rem;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+
   form {
-    // border: 1px solid #eee;
+    margin: 0 auto;
   }
   h2 {
     color: #fff;
