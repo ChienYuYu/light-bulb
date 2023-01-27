@@ -77,7 +77,7 @@ export default {
       try {
         // 注意第二參數，這裡使用空物件佔位，因為post Credentials要放第三參數 !!!
         const res = await axios.post('http://localhost:3000/customer/verify', {}, { withCredentials: true });
-        if (res.data.isLogin === false) {
+        if (!res.data.isLogin) {
           router.push('/login');
         } else {
           // console.log(res);
@@ -114,8 +114,10 @@ export default {
       }
     }
 
+    verifyLogin(); // ???????????????
+
     onMounted(() => {
-      verifyLogin();
+      // verifyLogin();
     });
 
     return {

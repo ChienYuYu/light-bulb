@@ -12,14 +12,24 @@
       <li><a href="#" @click.prevent="goPage('/product/全部')">商品列表</a></li>
       <li><a href="#" @click.prevent="goPage('/about')">關於我們</a></li>
       <li><a href="#" @click.prevent="goPage('/contact')">聯絡我們</a></li>
-      <!-- <li><a href="#" @click.prevent="goPage('/order-search')">訂單查詢</a></li> -->
-      <li><a href="#" @click.prevent="goPage('/user/account')">我的帳戶</a></li>
-      <li><a href="#" @click.prevent="goPage('/user/purchase_record')">購買紀錄</a></li>
-      <li><a href="#" @click.prevent="goPage('/cart')">購物車({{ cartNum }})</a></li>
-      <li>
+      <li v-if="!isLogin">
+        <a href="#" @click.prevent="goPage('/login')">登入</a>
+      </li>
+      <li v-if="isLogin">
+        <a href="#" @click.prevent="goPage('/user/account')">我的帳戶</a>
+      </li>
+      <li v-if="isLogin">
+        <a href="#" @click.prevent="goPage('/user/purchase_record')">購買紀錄</a>
+      </li>
+      <li v-if="isLogin">
+        <a href="#" @click.prevent="goPage('/cart')">購物車({{ cartNum }})</a>
+      </li>
+      <li v-if="isLogin">
         <a href="#" @click.prevent="goPage('/myFavorite')">收藏清單({{ favoriteNum }})</a>
       </li>
-      <li><a href="#" @click.prevent="goPage('/')">登出</a></li>
+      <li v-if="isLogin">
+        <a href="#" @click.prevent="goPage('/')">登出</a>
+      </li>
     </ul>
   </div>
 </template>
@@ -51,6 +61,8 @@ export default {
       changeBtn();
     };
 
+    const isLogin = computed(() => store.commit('loginStatus'));
+
     return {
       favoriteNum,
       cartNum,
@@ -58,6 +70,7 @@ export default {
       burger,
       menuList,
       goPage,
+      isLogin,
     };
   },
 };
