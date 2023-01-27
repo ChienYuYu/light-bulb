@@ -12,7 +12,7 @@
       <input type="text" placeholder="請輸入姓名"
       aria-label="a" class="form-control" v-model.trim="inputData.name">
 
-      <button class="btn" @click="register">註冊</button>
+      <button class="btn" @click.prevent="register">註冊</button>
       <div class="login-btn-wrap">
         <router-link to="/login">返回登入</router-link>
       </div>

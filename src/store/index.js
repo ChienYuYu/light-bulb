@@ -1,10 +1,12 @@
 import { createStore } from 'vuex';
+import axios from 'axios';
 import myFavorite from './myFavorite';
 import shoppingCart from './shoppingCart';
 import checkout from './checkout';
 
 export default createStore({
   state: {
+    isLogin: false,
     products: [],
     hotProduct: [],
   },
@@ -18,6 +20,10 @@ export default createStore({
     hotProduct(state) {
       state.hotProduct = state.products.filter((item) => item.tag.includes('hot'));
     },
+    loginStatus(state, tf) {
+      state.isLogin = tf;
+    },
+
   },
   actions: {
     getProductData(context) {
@@ -28,6 +34,16 @@ export default createStore({
           context.commit('storeProductData', result);
         });
     },
+    verifyLogin(context) {
+      axios.post('http://localhost:3000/customer/verify', {}, { withCredentials: true })
+        .then((res) => {
+          if (res.data.isLogin === true) {
+            context.commit('loginStatus', true);
+          }
+        })
+        .catch();
+    },
+
   },
   modules: {
     myFavorite,

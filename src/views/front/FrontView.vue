@@ -21,6 +21,11 @@ export default {
     const initCartLocalStorage = () => {
       store.commit('shoppingCart/initCartLocalStorage');
     }; initCartLocalStorage();
+
+    // 驗證是否登入 //////////////////
+    const verifyLogin = () => {
+      store.dispatch('verifyLogin');
+    }; verifyLogin();
   },
 };
 </script>

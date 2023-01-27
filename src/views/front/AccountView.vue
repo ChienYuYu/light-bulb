@@ -5,22 +5,32 @@
       <div>
         <label for="email">
           <p>Email:</p>
-          <input type="email" class="form-control">
+          <input type="email" class="form-control"
+          v-model.trim="userInfo.email">
         </label>
       </div>
       <div>
         <label for="name">
           <p>名字:</p>
-          <input type="text" class="form-control">
+          <input type="text" class="form-control"
+          v-model.trim="userInfo.name">
         </label>
       </div>
       <div>
         <label for="address">
           <p>地址</p>
-          <input type="text" class="form-control">
+          <input type="text" class="form-control"
+          v-model.trim="userInfo.address">
         </label>
       </div>
-      <button class="btn">更新資料</button>
+      <div>
+        <label for="tel">
+          <p>電話</p>
+          <input type="tel" class="form-control"
+          v-model.trim="userInfo.tel">
+        </label>
+      </div>
+      <button class="btn" @click.prevent="updateUserData">更新資料</button>
 
     </form>
     <Footer />
@@ -28,14 +38,98 @@
 </template>
 
 <script>
+import { onMounted, ref } from 'vue';
+import axios from 'axios';
 import Footer from '@/components/FooterComponent.vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import Swal from 'sweetalert2';
 
 export default {
   components: { Footer },
+  setup() {
+    const store = useStore();
+    const verifyID = ref('');
+    const router = useRouter();
+    const userInfo = ref({});
+
+    async function getUserData() {
+      try {
+        const res = await axios
+          // 用get 這裡的Credentials要放第二參數
+          .get(`http://localhost:3000/customer/user/${verifyID.value}`, { withCredentials: true });
+        const {
+          name, email, address, tel,
+        } = res.data;
+
+        userInfo.value = {
+          name,
+          email,
+          address,
+          tel,
+        };
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    async function verifyLogin() {
+      try {
+        // 注意第二參數，這裡使用空物件佔位，因為post Credentials要放第三參數 !!!
+        const res = await axios.post('http://localhost:3000/customer/verify', {}, { withCredentials: true });
+        if (res.data.isLogin === false) {
+          router.push('/login');
+        } else {
+          // console.log(res);
+          verifyID.value = await res.data.user;
+          store.commit('loginStatus', true);
+          getUserData();
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    async function updateUserData() {
+      try {
+        const res = await axios
+          .put(`http://localhost:3000/customer/user/${verifyID.value}`, userInfo.value, { withCredentials: true });
+        Swal.fire({
+          title: res.data.msg,
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    onMounted(() => {
+      verifyLogin();
+    });
+
+    return {
+      verifyLogin, getUserData, verifyID, userInfo, updateUserData,
+    };
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+// /* Chrome, Safari, Edge, Opera */
+// input::-webkit-outer-spin-button,
+// input::-webkit-inner-spin-button {
+//   -webkit-appearance: none;
+//   margin: 0;
+// }
+
+// /* Firefox */
+// input[type=number] {
+//   -moz-appearance: textfield;
+// }
+// // ↑隱藏input type = nimber箭頭 /////////////
+
 .wrapper {
   background: rgb(18, 18, 29);
   position: fixed;
@@ -51,31 +145,38 @@ export default {
   form {
     margin: 0 auto;
   }
+
   h2 {
     color: #fff;
     margin-bottom: 2rem;
   }
-  label{
+
+  label {
     width: 100%;
     color: #fff;
     padding-bottom: 1rem;
-    p{
+
+    p {
       margin-bottom: .3rem;
     }
   }
-  input{
+
+  input {
     background: #111;
     color: #fff;
-    &:focus{
+
+    &:focus {
       box-shadow: none;
-      border: 1px solid rgb(255, 211, 77) ;
+      border: 1px solid rgb(255, 211, 77);
     }
   }
-  button{
+
+  button {
     margin-top: 1rem;
     width: 100%;
     background: rgb(255, 211, 77);
-    &:hover{
+
+    &:hover {
       color: #fff;
     }
   }

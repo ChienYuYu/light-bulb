@@ -27,7 +27,7 @@
         <router-link to="/user/purchase_record">購買紀錄</router-link>
       </li>
       <li v-if="isLogin">
-        <a href="#">登出</a>
+        <a href="#" @click.prevent="logout">登出</a>
       </li>
       <li v-if="isLogin === false">
         <router-link to="/login">登入</router-link>
@@ -74,12 +74,13 @@
 import { ref, computed, watch } from 'vue';
 import { useRouter, onBeforeRouteUpdate } from 'vue-router';
 import { useStore } from 'vuex';
+import axios from 'axios';
 
 export default {
   setup() {
     const router = useRouter();
     const store = useStore();
-    const isLogin = ref(false);
+    // const isLogin = ref(false);
     const myMenu = ref(false);
 
     const cartNum = computed(() => store.state.shoppingCart.shoppingCart.length);
@@ -90,9 +91,21 @@ export default {
     const favoriteMenu = ref(false);
     const favoriteList = computed(() => store.state.myFavorite.myFavorite);
 
+    const isLogin = computed(() => store.state.isLogin);
+
     const goCartPage = () => {
       router.push('/cart');
     };
+
+    const logout = () => {
+      axios.post('http://localhost:3000/customer/logout', {}, { withCredentials: true })
+        .then(() => {
+          store.commit('loginStatus', false);
+          router.push('/login');
+        })
+        .catch((e) => console.log(e));
+    };
+
     // 顯示/隱藏  購物車清單 or 收藏清單 ---------------------
     const showHideList = (menu) => {
       if (menu === 'me') {
@@ -167,6 +180,7 @@ export default {
       removeItem,
       myMenu,
       isLogin,
+      logout,
     };
   },
 };

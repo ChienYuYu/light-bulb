@@ -2,9 +2,12 @@
   <div class="wrapper">
     <form class="col-lg-3 login-wrap">
       <h2>登入</h2>
-      <input type="email" placeholder="請輸入Email" aria-label="a" class="form-control">
-      <input type="password" placeholder="請輸入密碼" aria-label="a" class="form-control">
-      <button class="btn">登入</button>
+      <input type="email" placeholder="請輸入Email"
+      aria-label="a" class="form-control" v-model.trim="inputData.email">
+      <input type="password" placeholder="請輸入密碼"
+      aria-label="a" class="form-control" v-model.trim="inputData.password">
+      <!-- form裡click記得prevent -->
+      <button class="btn" @click.prevent="login">登入</button>
       <div class="register-btn-wrap">
         <router-link to="register">註冊</router-link>
       </div>
@@ -13,7 +16,41 @@
 </template>
 
 <script>
-export default {};
+import { ref } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
+import { useStore } from 'vuex';
+
+export default {
+  setup() {
+    const inputData = ref({});
+    const router = useRouter();
+    const store = useStore();
+
+    async function login() {
+      try {
+        const res = await axios.post('http://localhost:3000/customer/login', inputData.value, { withCredentials: true });
+        if (res.data.success) {
+          store.commit('loginStatus', true);
+          router.push('/user/account');
+        } else {
+          Swal.fire({
+            title: res.data.msg,
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+        // console.log(res);
+      } catch (e) {
+        console.log('error', e);
+      }
+    }
+
+    return { inputData, login };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -34,7 +71,7 @@ form.login-wrap {
   backdrop-filter: blur(10px);
   background: #222222a0;
 
-  h2{
+  h2 {
     color: #fff;
     text-align: center;
   }
@@ -45,7 +82,7 @@ form.login-wrap {
     color: #fff;
     border: 1px solid #333;
 
-    &:focus{
+    &:focus {
       box-shadow: none;
       border: 1px solid rgb(255, 211, 77);
     }
@@ -54,7 +91,8 @@ form.login-wrap {
   button {
     width: 100%;
     background: rgb(255, 211, 77);
-    &:hover{
+
+    &:hover {
       color: #fff;
     }
   }
@@ -63,6 +101,7 @@ form.login-wrap {
     display: flex;
     justify-content: center;
     padding: 2rem 0;
+
     a {
       text-decoration: none;
       color: #fff;
