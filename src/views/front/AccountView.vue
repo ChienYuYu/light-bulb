@@ -4,14 +4,14 @@
       <h2>我的帳戶</h2>
       <div>
         <label for="email">
-          <p>Email:</p>
+          <p>Email</p>
           <input type="email" class="form-control"
-          v-model.trim="userInfo.email">
+          v-model.trim="userInfo.email" disabled>
         </label>
       </div>
       <div>
         <label for="name">
-          <p>名字:</p>
+          <p>姓名</p>
           <input type="text" class="form-control"
           v-model.trim="userInfo.name">
         </label>
@@ -91,6 +91,15 @@ export default {
     }
 
     async function updateUserData() {
+      if (userInfo.value.name === '') {
+        Swal.fire({
+          title: '姓名欄位不得為空',
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        return;
+      }
       try {
         const res = await axios
           .put(`http://localhost:3000/customer/user/${verifyID.value}`, userInfo.value, { withCredentials: true });
@@ -117,18 +126,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// /* Chrome, Safari, Edge, Opera */
-// input::-webkit-outer-spin-button,
-// input::-webkit-inner-spin-button {
-//   -webkit-appearance: none;
-//   margin: 0;
-// }
-
-// /* Firefox */
-// input[type=number] {
-//   -moz-appearance: textfield;
-// }
-// // ↑隱藏input type = nimber箭頭 /////////////
 
 .wrapper {
   background: rgb(18, 18, 29);
@@ -169,6 +166,10 @@ export default {
       box-shadow: none;
       border: 1px solid rgb(255, 211, 77);
     }
+  }
+
+  input[type = email] {
+    color: #aaa;
   }
 
   button {
