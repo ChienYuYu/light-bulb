@@ -1,10 +1,12 @@
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 export default {
   namespaced: true,
   state: {
     shoppingCart: [],
     // sum: 0,
+    userId: '',
   },
   mutations: {
     // 加入購物車-------------------------------------------
@@ -25,6 +27,7 @@ export default {
       }
       this.commit('shoppingCart/updateCartLocalStorage');
       this.commit('shoppingCart/sweetAlert');
+      this.dispatch('shoppingCart/saveOnFirebase');
     },
 
     // 修改數量-------------------------------------------
@@ -91,8 +94,24 @@ export default {
         timer: 800,
       });
     },
+
+    // 登入後儲存ID
+    saveUserId(state, data) {
+      state.userId = data;
+    },
   },
-  actions: {},
+  actions: {
+    saveOnFirebase() {
+      const id = this.state.shoppingCart.userId;
+      const cart = this.state.shoppingCart.shoppingCart;
+      // console.log(cart);
+      axios.post(`http://localhost:3000/customer/cart/${id}`, cart, { withCredentials: true })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((e) => console.log(e));
+    },
+  },
   getters: {
     // 總金額
     sum(state) {

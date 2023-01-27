@@ -32,6 +32,8 @@ export default {
       try {
         const res = await axios.post('http://localhost:3000/customer/login', inputData.value, { withCredentials: true });
         if (res.data.success) {
+          // store.commit('saveUserId', res.data.user);
+          store.commit('shoppingCart/saveUserId', res.data.user);
           store.commit('loginStatus', true);
           router.push('/user/account');
         } else {
