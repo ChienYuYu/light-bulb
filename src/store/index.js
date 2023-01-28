@@ -7,7 +7,6 @@ import checkout from './checkout';
 export default createStore({
   state: {
     isLogin: false,
-    // userId: '',
     products: [],
     hotProduct: [],
   },
@@ -24,9 +23,6 @@ export default createStore({
     loginStatus(state, tf) {
       state.isLogin = tf;
     },
-    // saveUserId(state, data) {
-    //   state.userId = data;
-    // },
 
   },
   actions: {

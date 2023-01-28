@@ -13,7 +13,7 @@
         :modules="modules" data-aos="fade-up" data-aos-duration="1500">
         <swiper-slide v-for="item in hotProduct" :key="item">
           <div class="card">
-            <router-link :to= "{ name: 'productItem', params:{id: item.id}}">
+            <router-link :to="{ name: 'productItem', params: { id: item.id } }">
               <img :src="item.picture" class="card-img-top" alt="">
             </router-link>
             <!-- <img :src="item.picture" class="card-img-top" alt=""> -->
@@ -63,7 +63,18 @@ export default {
 
     // 切換是否收藏(新增/移除收藏)
     const toggleFavorite = (item) => {
-      store.commit('myFavorite/toggleFavorite', item);
+      const checkLogin = store.state.isLogin;
+      if (checkLogin) {
+        store.commit('myFavorite/toggleFavorite', item);
+      } else {
+        Swal.fire({
+          icon: 'info',
+          text: '登入後才能加入收藏清單',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        router.push('/login');
+      }
     };
 
     // 判斷是否收藏切換icon
@@ -195,7 +206,7 @@ export default {
     }
   }
 
-    // ------------------------------------------
+  // ------------------------------------------
 
   .swiper {
     --swiper-navigation-color: rgb(255, 211, 77); // 按鈕顏色

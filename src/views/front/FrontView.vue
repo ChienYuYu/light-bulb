@@ -12,11 +12,6 @@ export default {
   setup() {
     const store = useStore();
 
-    // 執行初始收藏清單localStorage
-    const initLocalStorage = () => {
-      store.commit('myFavorite/initFavoriteLocalStorage');
-    }; initLocalStorage();
-
     // 驗證是否登入 //////////////////
     const verifyLogin = () => {
       store.dispatch('verifyLogin');

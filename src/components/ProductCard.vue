@@ -2,7 +2,7 @@
   <div class="row g-3">
     <div class="col-lg-3 col-md-6" v-for="item in renderData" :key="item">
       <div class="card">
-        <router-link :to= "{ name: 'productItem', params:{id: item.id}}">
+        <router-link :to="{ name: 'productItem', params: { id: item.id } }">
           <img :src="item.picture" class="card-img-top" alt="">
         </router-link>
         <div class="card-body">
@@ -47,7 +47,18 @@ export default {
 
     // 切換是否收藏(新增/移除收藏)
     const toggleFavorite = (item) => {
-      store.commit('myFavorite/toggleFavorite', item);
+      const checkLogin = store.state.isLogin;
+      if (checkLogin) {
+        store.commit('myFavorite/toggleFavorite', item);
+      } else {
+        Swal.fire({
+          icon: 'info',
+          text: '登入後才能加入收藏清單',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        router.push('/login');
+      }
     };
 
     // 判斷是否收藏 切換icon
@@ -102,12 +113,13 @@ export default {
     justify-content: space-between;
     align-items: center;
 
-    button.favorite-btn{
+    button.favorite-btn {
       color: #333;
       background: rgb(255, 211, 77);
-      &:hover{
-      background: rgb(255, 220, 113);
-      color: #555;
+
+      &:hover {
+        background: rgb(255, 220, 113);
+        color: #555;
       }
     }
 

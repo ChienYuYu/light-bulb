@@ -13,11 +13,13 @@ export default {
     initCart(state, data) {
       state.shoppingCart = data;
     },
+
     // 登出後歸零vuex購物車 跟userId
     resetCartAndUser(state) {
       state.shoppingCart = [];
       state.userId = '';
     },
+
     // 加入購物車-------------------------------------------
     addCart(state, data) {
       // findIndex()判斷資料是否存在// 不存在=> push() // 存在=> 數量+1 & 總價:價格x數量
@@ -95,24 +97,24 @@ export default {
   },
   actions: {
     // 存入資料庫網路請求
-    saveOnFirebase() {
-      const id = this.state.shoppingCart.userId;
-      const cart = this.state.shoppingCart.shoppingCart;
+    saveOnFirebase(context) {
+      const id = context.state.userId;
+      const cart = context.state.shoppingCart;
       axios.post(`http://localhost:3000/customer/cart/${id}`, cart, { withCredentials: true })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((e) => console.log(e));
+        .then()
+        // eslint-disable-next-line no-alert
+        .catch((e) => alert(e));
     },
 
     // 取得購物車網路請求
     getCartOnFirebase(context) {
-      const id = this.state.shoppingCart.userId;
+      const id = context.state.userId;
       axios.get(`http://localhost:3000/customer/cart/${id}`)
         .then((res) => {
           context.commit('initCart', res.data.cart);
         })
-        .catch((e) => console.log(e));
+        // eslint-disable-next-line no-alert
+        .catch((e) => alert(e));
     },
   },
   getters: {

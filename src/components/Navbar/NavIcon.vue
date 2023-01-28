@@ -101,6 +101,7 @@ export default {
         .then(() => {
           store.commit('loginStatus', false);
           store.commit('shoppingCart/resetCartAndUser');
+          store.commit('myFavorite/resetFavoriteAndUser');
           router.push('/login');
         })
         .catch((e) => console.log(e));
