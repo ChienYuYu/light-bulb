@@ -45,11 +45,14 @@ import { useStore } from 'vuex';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/swiper-bundle.css';
 import { Autoplay, Navigation } from 'swiper';
+import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
 
 export default {
   components: { Swiper, SwiperSlide },
   setup() {
     const store = useStore();
+    const router = useRouter();
     const slidesPerView = ref(4);
 
     const getProductData = () => {
@@ -71,7 +74,18 @@ export default {
 
     // 加入購物車
     const addCart = (item) => {
-      store.commit('shoppingCart/addCart', item);
+      const checkLogin = store.state.isLogin;
+      if (checkLogin) {
+        store.commit('shoppingCart/addCart', item);
+      } else {
+        Swal.fire({
+          icon: 'info',
+          text: '登入後才能加入購物車',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        router.push('/login');
+      }
     };
 
     // 不同螢幕尺寸要顯示的張數

@@ -26,14 +26,16 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import Swal from 'sweetalert2';
 
 export default {
   props: ['category'],
   setup(props) {
     const store = useStore();
-
+    const router = useRouter();
     const products = computed(() => store.state.products);
 
     const renderData = computed(() => {
@@ -56,7 +58,18 @@ export default {
 
     // 加入購物車
     const addCart = (item) => {
-      store.commit('shoppingCart/addCart', item);
+      const checkLogin = store.state.isLogin;
+      if (checkLogin) {
+        store.commit('shoppingCart/addCart', item);
+      } else {
+        Swal.fire({
+          icon: 'info',
+          text: '登入後才能加入購物車',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        router.push('/login');
+      }
     };
 
     return {
