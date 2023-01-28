@@ -35,6 +35,7 @@ export default {
           // store.commit('saveUserId', res.data.user);
           store.commit('shoppingCart/saveUserId', res.data.user);
           store.commit('loginStatus', true);
+          store.dispatch('shoppingCart/getCartOnFirebase');
           router.push('/user/account');
         } else {
           Swal.fire({

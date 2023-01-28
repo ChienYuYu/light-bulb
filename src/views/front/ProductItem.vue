@@ -77,14 +77,16 @@
 <script>
 import Footer from '@/components/FooterComponent.vue';
 import HotProduct from '@/components/HomeHotProduct.vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
+import Swal from 'sweetalert2';
 
 export default {
   components: { Footer, HotProduct },
   setup() {
     const route = useRoute();
+    const router = useRouter();
     const store = useStore();
     const qty = ref(1);
 
@@ -103,7 +105,18 @@ export default {
     };
 
     const addCart2 = (item) => {
-      store.commit('shoppingCart/addCart2', { item, qty: qty.value });
+      const checkLogin = store.state.isLogin;
+      if (checkLogin) {
+        store.commit('shoppingCart/addCart2', { item, qty: qty.value });
+      } else {
+        Swal.fire({
+          icon: 'info',
+          text: '登入後才能加入購物車',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        router.push('/login');
+      }
     };
 
     return {

@@ -17,11 +17,6 @@ export default {
       store.commit('myFavorite/initFavoriteLocalStorage');
     }; initLocalStorage();
 
-    // 執行初始購物車localStorage
-    const initCartLocalStorage = () => {
-      store.commit('shoppingCart/initCartLocalStorage');
-    }; initCartLocalStorage();
-
     // 驗證是否登入 //////////////////
     const verifyLogin = () => {
       store.dispatch('verifyLogin');

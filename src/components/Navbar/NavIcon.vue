@@ -80,7 +80,6 @@ export default {
   setup() {
     const router = useRouter();
     const store = useStore();
-    // const isLogin = ref(false);
     const myMenu = ref(false);
 
     const cartNum = computed(() => store.state.shoppingCart.shoppingCart.length);
@@ -101,6 +100,7 @@ export default {
       axios.post('http://localhost:3000/customer/logout', {}, { withCredentials: true })
         .then(() => {
           store.commit('loginStatus', false);
+          store.commit('shoppingCart/resetCartAndUser');
           router.push('/login');
         })
         .catch((e) => console.log(e));

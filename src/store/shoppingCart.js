@@ -9,6 +9,15 @@ export default {
     userId: '',
   },
   mutations: {
+    // 網路請求取得購物車後 寫入vuex ////////////////
+    initCart(state, data) {
+      state.shoppingCart = data;
+    },
+    // 登出後歸零vuex購物車 跟userId
+    resetCartAndUser(state) {
+      state.shoppingCart = [];
+      state.userId = '';
+    },
     // 加入購物車-------------------------------------------
     addCart(state, data) {
       // findIndex()判斷資料是否存在// 不存在=> push() // 存在=> 數量+1 & 總價:價格x數量
@@ -25,7 +34,6 @@ export default {
         const tempObj = state.shoppingCart[tempV];
         state.shoppingCart[tempV].totalPrice = tempObj.price * tempObj.qty;
       }
-      this.commit('shoppingCart/updateCartLocalStorage');
       this.commit('shoppingCart/sweetAlert');
       this.dispatch('shoppingCart/saveOnFirebase');
     },
@@ -43,7 +51,7 @@ export default {
         tempItem.qty -= 1;
       }
       tempItem.totalPrice = tempItem.qty * tempItem.price;
-      this.commit('shoppingCart/updateCartLocalStorage');
+      this.dispatch('shoppingCart/saveOnFirebase');
     },
 
     // 需同時加入購物車 & 數量設定 (ProductItem.vue頁面的加入購物車邏輯)
@@ -60,29 +68,14 @@ export default {
         state.shoppingCart[temp].totalPrice = state
           .shoppingCart[temp].price * state.shoppingCart[temp].qty;
       }
-      this.commit('shoppingCart/updateCartLocalStorage');
+      this.dispatch('shoppingCart/saveOnFirebase');
       this.commit('shoppingCart/sweetAlert');
     },
 
     // 移除項目-------------------------------------------
     removeCart(state, data) {
       state.shoppingCart = state.shoppingCart.filter((item) => item.id !== data.id);
-      this.commit('shoppingCart/updateCartLocalStorage');
-    },
-
-    // localStorage -------------------------------------
-    initCartLocalStorage(state) {
-      //  瀏覽器首次載入會沒有localstorage資料會報錯誤，
-      // 判斷如果為空就創立一個 []
-      if (localStorage.getItem('myCart') === null) {
-        localStorage.setItem('myCart', '[]');
-      }
-      state.shoppingCart = JSON.parse(localStorage.getItem('myCart'));
-    },
-
-    // 寫入localStorage --------------------------------
-    updateCartLocalStorage(state) {
-      localStorage.setItem('myCart', JSON.stringify(state.shoppingCart));
+      this.dispatch('shoppingCart/saveOnFirebase');
     },
 
     // 共用加入購物車sweetalert
@@ -101,13 +94,23 @@ export default {
     },
   },
   actions: {
+    // 存入資料庫網路請求
     saveOnFirebase() {
       const id = this.state.shoppingCart.userId;
       const cart = this.state.shoppingCart.shoppingCart;
-      // console.log(cart);
       axios.post(`http://localhost:3000/customer/cart/${id}`, cart, { withCredentials: true })
         .then((res) => {
           console.log(res);
+        })
+        .catch((e) => console.log(e));
+    },
+
+    // 取得購物車網路請求
+    getCartOnFirebase(context) {
+      const id = this.state.shoppingCart.userId;
+      axios.get(`http://localhost:3000/customer/cart/${id}`)
+        .then((res) => {
+          context.commit('initCart', res.data.cart);
         })
         .catch((e) => console.log(e));
     },
