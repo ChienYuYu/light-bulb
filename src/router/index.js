@@ -83,6 +83,23 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/admin-login',
+    name: '管理員登入',
+    component: () => import('../views/back/AdministratorLogin.vue'),
+  },
+  {
+    path: '/management',
+    name: '後台',
+    component: () => import('../views/back/ManagementView.vue'),
+    children: [
+      {
+        path: '/management/order',
+        name: '訂單管理',
+        component: () => import('../views/back/ManagementOrder.vue'),
+      },
+    ],
+  },
 ];
 
 const router = createRouter({
