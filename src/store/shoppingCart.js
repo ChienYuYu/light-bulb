@@ -6,7 +6,6 @@ export default {
   state: {
     shoppingCart: [],
     // sum: 0,
-    userId: '',
   },
   mutations: {
     // 網路請求取得購物車後 寫入vuex ////////////////
@@ -17,7 +16,6 @@ export default {
     // 登出後歸零vuex購物車 跟userId
     resetCartAndUser(state) {
       state.shoppingCart = [];
-      state.userId = '';
     },
 
     // 加入購物車-------------------------------------------
@@ -98,7 +96,7 @@ export default {
   actions: {
     // 存入資料庫網路請求
     saveOnFirebase(context) {
-      const id = context.state.userId;
+      const id = localStorage.getItem('userId');
       const cart = context.state.shoppingCart;
       axios.post(`http://localhost:3000/customer/cart/${id}`, cart, { withCredentials: true })
         .then()
@@ -108,7 +106,7 @@ export default {
 
     // 取得購物車網路請求
     getCartOnFirebase(context) {
-      const id = context.state.userId;
+      const id = localStorage.getItem('userId');
       axios.get(`http://localhost:3000/customer/cart/${id}`)
         .then((res) => {
           context.commit('initCart', res.data.cart);

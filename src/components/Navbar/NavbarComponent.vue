@@ -64,12 +64,14 @@ export default {
   @media (max-width: 900px) {
     display: none;
   }
-  div.logo-wrap{
+
+  div.logo-wrap {
     // border: 1px solid #fff;
     width: 158px;
+
     img {
-    width: 40px;
-  }
+      width: 40px;
+    }
   }
 
   nav {

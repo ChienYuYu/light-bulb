@@ -32,8 +32,8 @@ export default {
       try {
         const res = await axios.post('http://localhost:3000/customer/login', inputData.value, { withCredentials: true });
         if (res.data.success) {
-          store.commit('shoppingCart/saveUserId', res.data.user);
-          store.commit('myFavorite/saveUserId', res.data.user);
+          // 取出id存入localStorage 避免vuex刷新state遺失問題
+          localStorage.setItem('userId', res.data.user);
           store.commit('loginStatus', true);
           store.dispatch('shoppingCart/getCartOnFirebase');
           store.dispatch('myFavorite/getFavoriteOnFirebase');

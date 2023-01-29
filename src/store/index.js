@@ -39,6 +39,8 @@ export default createStore({
         .then((res) => {
           if (res.data.isLogin === true) {
             context.commit('loginStatus', true);
+            this.dispatch('myFavorite/getFavoriteOnFirebase');
+            this.dispatch('shoppingCart/getCartOnFirebase');
           } else {
             context.commit('loginStatus', false);
           }

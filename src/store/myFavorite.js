@@ -4,13 +4,8 @@ export default {
   namespaced: true,
   state: {
     myFavorite: [],
-    userId: '',
   },
   mutations: {
-    // 登入後儲存ID
-    saveUserId(state, data) {
-      state.userId = data;
-    },
     initFavorite(state, data) {
       state.myFavorite = data;
     },
@@ -18,7 +13,7 @@ export default {
     // 登出後歸零vuex收藏清單 跟userId
     resetFavoriteAndUser(state) {
       state.myFavorite = [];
-      state.userId = '';
+      // state.userId = '';
     },
 
     // 新增移除收藏
@@ -36,7 +31,7 @@ export default {
   actions: {
     // 存入資料庫網路請求
     saveOnFirebase(context) {
-      const id = context.state.userId;
+      const id = localStorage.getItem('userId');
       const favorite = context.state.myFavorite;
       axios.post(`http://localhost:3000/customer/favorite/${id}`, favorite, { withCredentials: true })
         .then()
@@ -46,7 +41,7 @@ export default {
 
     // 取得收藏清單網路請求
     getFavoriteOnFirebase(context) {
-      const id = context.state.userId;
+      const id = localStorage.getItem('userId');
       axios.get(`http://localhost:3000/customer/favorite/${id}`)
         .then((res) => {
           context.commit('initFavorite', res.data.favorite);

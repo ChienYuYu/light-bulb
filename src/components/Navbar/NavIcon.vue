@@ -1,23 +1,20 @@
 <template>
   <div class="icon-wrap">
     <i class="bi bi-cart-fill my-cart"
-    @click="showHideList('cart')" @keydown="1"
-    :class="{'active' : cartMenu}">
+    @click="showHideList('cart')" @keydown="1" :class="{'active' : cartMenu}">
       <span class="bage bg-danger" v-if="cartNum > 0">
         {{ cartNum }}
       </span>
     </i>
-    <i class="bi bi-heart-fill my-favorite"
-    @click="showHideList('favorite')" @keydown="1"
-    :class="{'active' : favoriteMenu}">
+    <i class="bi bi-heart-fill my-favorite" @click="showHideList('favorite')" @keydown="1"
+      :class="{ 'active': favoriteMenu }">
       <span class="bage bg-danger" v-if="favoriteNum > 0">
         {{ favoriteNum }}
       </span>
     </i>
     <!-- /////////////////////////////////////////// -->
     <i class="bi bi-person-circle my-menu"
-    @click="showHideList('me')" @keydown="1"
-    :class="{'active' : myMenu}"></i>
+    @click="showHideList('me')" @keydown="1" :class="{ 'active': myMenu }"></i>
     <!-- 個人選項------------------------------------------- -->
     <ul class="my-list" v-show="myMenu">
       <li v-if="isLogin">
@@ -102,6 +99,7 @@ export default {
           store.commit('loginStatus', false);
           store.commit('shoppingCart/resetCartAndUser');
           store.commit('myFavorite/resetFavoriteAndUser');
+          localStorage.removeItem('userId');
           router.push('/login');
         })
         .catch((e) => console.log(e));
@@ -197,7 +195,8 @@ export default {
     font-size: 20px;
     position: relative;
   }
-  i.active{
+
+  i.active {
     color: rgb(255, 211, 77);
   }
 
