@@ -71,7 +71,6 @@
 import { ref, computed, watch } from 'vue';
 import { useRouter, onBeforeRouteUpdate } from 'vue-router';
 import { useStore } from 'vuex';
-import axios from 'axios';
 
 export default {
   setup() {
@@ -94,15 +93,8 @@ export default {
     };
 
     const logout = () => {
-      axios.post('http://localhost:3000/customer/logout', {}, { withCredentials: true })
-        .then(() => {
-          store.commit('loginStatus', false);
-          store.commit('shoppingCart/resetCartAndUser');
-          store.commit('myFavorite/resetFavoriteAndUser');
-          localStorage.removeItem('userId');
-          router.push('/login');
-        })
-        .catch((e) => console.log(e));
+      store.dispatch('logout');
+      router.push('/login');
     };
 
     // 顯示/隱藏  購物車清單 or 收藏清單 ---------------------

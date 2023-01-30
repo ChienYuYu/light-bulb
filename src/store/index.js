@@ -48,6 +48,17 @@ export default createStore({
         .catch();
     },
 
+    logout(context) {
+      axios.post('http://localhost:3000/customer/logout', {}, { withCredentials: true })
+        .then(() => {
+          context.commit('loginStatus', false);
+          context.commit('shoppingCart/resetCartAndUser');
+          context.commit('myFavorite/resetFavoriteAndUser');
+          localStorage.removeItem('userId');
+        })
+        .catch((e) => console.log(e));
+    },
+
   },
   modules: {
     myFavorite,

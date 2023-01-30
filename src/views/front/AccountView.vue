@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import axios from 'axios';
 import Footer from '@/components/FooterComponent.vue';
 import { useRouter } from 'vue-router';
@@ -114,11 +114,7 @@ export default {
       }
     }
 
-    verifyLogin(); // ???????????????
-
-    onMounted(() => {
-      // verifyLogin();
-    });
+    verifyLogin();
 
     return {
       verifyLogin, getUserData, verifyID, userInfo, updateUserData,

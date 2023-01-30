@@ -28,7 +28,7 @@
         <a href="#" @click.prevent="goPage('/myFavorite')">收藏清單({{ favoriteNum }})</a>
       </li>
       <li v-if="isLogin">
-        <a href="#" @click.prevent="goPage('/')">登出</a>
+        <a href="#" @click.prevent="logout('/')">登出</a>
       </li>
     </ul>
   </div>
@@ -61,7 +61,13 @@ export default {
       changeBtn();
     };
 
-    const isLogin = computed(() => store.commit('loginStatus'));
+    const isLogin = computed(() => store.state.isLogin);
+
+    const logout = () => {
+      store.dispatch('logout');
+      changeBtn();
+      router.push('/login');
+    };
 
     return {
       favoriteNum,
@@ -71,6 +77,7 @@ export default {
       menuList,
       goPage,
       isLogin,
+      logout,
     };
   },
 };
