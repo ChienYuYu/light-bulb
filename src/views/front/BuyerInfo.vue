@@ -8,39 +8,22 @@
       <div class="col-10 col-md-6 mx-auto">
         <form class="row g-3">
           <div class="col-md-6">
-            <input type="text" class="form-control" id="buyer-name"
-              aria-label="1" placeholder="訂購人姓名"
-              v-model="buyerInfo.buyerName">
-          </div>
-          <div class="col-md-6">
-            <input type="tel" class="form-control" id="buyer-phone"
-            aria-label="1" placeholder="訂購人電話"
-            v-model="buyerInfo.buyerPhone">
-          </div>
-          <!-- -------------------------------- -->
-          <div class="col-md-6">
             <input type="text" class="form-control" id="recipient-name"
-              aria-label="1" placeholder="收件人姓名"
-              v-model="buyerInfo.recipientName">
+            aria-label="1" placeholder="收件人姓名"
+              v-model="recipientInfo.recipientName">
           </div>
           <div class="col-md-6">
             <input type="tel" class="form-control" id="recipient-phone"
             aria-label="1" placeholder="收件人電話"
-            v-model="buyerInfo.recipientPhone">
+              v-model="recipientInfo.recipientPhone">
           </div>
           <div class="col-lg-12">
-            <button class="btn same w-100" @click.prevent="sameAsBuyer">收件人同訂購人</button>
-          </div>
-          <!-- -------------------------------- -->
-          <div class="col-12">
-            <input type="mail" class="form-control" id="email"
-            placeholder="訂購人Email" aria-label="1"
-            v-model="buyerInfo.email">
+            <button class="btn same w-100" @click.prevent="sameAsBuyer">收件人就是我</button>
           </div>
           <div class="col-12">
-            <input type="text" class="form-control" id="inputAddress"
-            placeholder="收件地址" aria-label="1"
-            v-model="buyerInfo.address">
+            <input type="text" class="form-control" id="inputAddress" placeholder="收件地址"
+            aria-label="1"
+              v-model="recipientInfo.recipientAddress">
           </div>
           <div class="col btn-group">
             <RouterLink to="/checkout" class="btn">返回</RouterLink>
@@ -60,6 +43,7 @@ import Footer from '@/components/FooterComponent.vue';
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 export default {
   components: { Footer, ProgressBar },
@@ -69,46 +53,65 @@ export default {
     const buyerInfo = ref({
       buyerName: '',
       buyerPhone: '',
+      buyerAddress: '',
+    });
+    const recipientInfo = ref({
       recipientName: '',
       recipientPhone: '',
-      email: '',
-      address: '',
+      recipientAddress: '',
     });
 
+    // 確保路由切換後再切回欄位資料還在
     const keepInputShow = () => {
       const x = JSON.parse(sessionStorage.getItem('orderInfo'));
-      if (x.buyerName !== undefined) {
-        buyerInfo.value.buyerName = x.buyerName;
-        buyerInfo.value.buyerPhone = x.buyerPhone;
-        buyerInfo.value.recipientName = x.recipientName;
-        buyerInfo.value.recipientPhone = x.recipientPhone;
-        buyerInfo.value.email = x.email;
-        buyerInfo.value.address = x.address;
+      if (x.recipientName !== undefined) {
+        recipientInfo.value.recipientName = x.recipientName;
+        recipientInfo.value.recipientPhone = x.recipientPhone;
+        recipientInfo.value.recipientAddress = x.recipientAddress;
       }
+    };
+
+    // 取得帳號資訊(購買者(自己))
+    const getBuyerInfo = () => {
+      const id = localStorage.getItem('userId');
+      axios.get(`http://localhost:3000/customer/user/${id}`, { withCredentials: true })
+        .then((res) => {
+          const x = buyerInfo.value;
+          x.buyerName = res.data.name;
+          x.buyerPhone = res.data.tel;
+          x.buyerAddress = res.data.address;
+        })
+        // eslint-disable-next-line no-alert
+        .catch((e) => alert(e));
     };
 
     onMounted(() => {
       store.commit('checkout/initSessionStorage');
       keepInputShow();
+      getBuyerInfo();
     });
 
+    // 收件人就是我按鈕事件
     const sameAsBuyer = () => {
-      buyerInfo.value.recipientName = buyerInfo.value.buyerName;
-      buyerInfo.value.recipientPhone = buyerInfo.value.buyerPhone;
+      const x = recipientInfo.value;
+      const y = buyerInfo.value;
+      x.recipientName = y.buyerName;
+      x.recipientPhone = y.buyerPhone;
+      x.recipientAddress = y.buyerAddress;
     };
 
     // 寫入收件資料 && 驗證欄位是否為空
     const writeBuyerInfo = () => {
-      const x = Object.values(buyerInfo.value);
-      // console.log(Object.values(buyerInfo.value));
-      if (x.includes('')) {
+      const x = Object.values(recipientInfo.value);
+      if (x.includes('') || x.includes(undefined)) {
         Swal.fire({
           icon: 'error',
           title: '欄位不能為空',
           text: '所有欄位都必須填寫',
         });
       } else {
-        store.commit('checkout/writeBuyerInfo', buyerInfo.value);
+        const data = { ...buyerInfo.value, ...recipientInfo.value };
+        store.commit('checkout/writeBuyerInfo', data);
         router.push('/sendOrder');
       }
     };
@@ -118,6 +121,8 @@ export default {
       sameAsBuyer,
       writeBuyerInfo,
       keepInputShow,
+      recipientInfo,
+      getBuyerInfo,
     };
   },
 };
@@ -149,15 +154,17 @@ export default {
 .info {
   padding: 5rem 0;
 
-  input{
+  input {
     background: #111;
     color: #fff;
   }
-  button.same{
+
+  button.same {
     border: 1px solid rgb(255, 211, 77);
     color: rgb(255, 211, 77);
     padding: .2rem .3rem;
-    &:hover{
+
+    &:hover {
       background: rgb(255, 211, 77);
       color: #333;
     }

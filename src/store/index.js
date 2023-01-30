@@ -54,7 +54,8 @@ export default createStore({
           context.commit('loginStatus', false);
           context.commit('shoppingCart/resetCartAndUser');
           context.commit('myFavorite/resetFavoriteAndUser');
-          localStorage.removeItem('userId');
+          // localStorage.removeItem('userId');
+          localStorage.clear();
         })
         .catch((e) => console.log(e));
     },

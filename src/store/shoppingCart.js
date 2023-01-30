@@ -5,7 +5,6 @@ export default {
   namespaced: true,
   state: {
     shoppingCart: [],
-    // sum: 0,
   },
   mutations: {
     // 網路請求取得購物車後 寫入vuex ////////////////

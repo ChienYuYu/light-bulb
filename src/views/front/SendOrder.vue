@@ -22,8 +22,8 @@
             </tr>
             <tr>
               <th colspan="1"></th>
-              <th colspan="1" class="">總計 ${{ buyerInfo.sum }}</th>
-              <th colspan="1">折扣後: ${{ buyerInfo.couponPrice }}</th>
+              <th colspan="1" class="">總計 ${{ orderInfo.sum }}</th>
+              <th colspan="1">折扣後: ${{ orderInfo.couponPrice }}</th>
             </tr>
             <tr>
               <th colspan="4"></th>
@@ -34,9 +34,9 @@
               <th scope="col">收件地址</th>
             </tr>
             <tr>
-              <td>{{ buyerInfo.buyerName }} / {{ buyerInfo.buyerPhone }}</td>
-              <td>{{ buyerInfo.recipientName }} / {{ buyerInfo.recipientPhone }}</td>
-              <td>{{ buyerInfo.address }}</td>
+              <td>{{ orderInfo.buyerName }} / {{ orderInfo.buyerPhone }}</td>
+              <td>{{ orderInfo.recipientName }} / {{ orderInfo.recipientPhone }}</td>
+              <td>{{ orderInfo.recipientAddress }}</td>
             </tr>
           </tbody>
         </table>
@@ -59,32 +59,44 @@ import Footer from '@/components/FooterComponent.vue';
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 export default {
   components: { Footer, ProgressBar },
   setup() {
     const store = useStore();
-    const buyerInfo = computed(() => store.state.checkout.orderInfo);
+    const orderInfo = computed(() => store.state.checkout.orderInfo);
     const itemInfo = computed(() => store.state.checkout.orderInfo.buyItem);
     onMounted(() => {
       store.commit('checkout/initSessionStorage');
     });
 
-    const sendOrder = () => {
-      sessionStorage.setItem('orderSearch', JSON.stringify(buyerInfo.value));
-      localStorage.removeItem('myCart');
-      sessionStorage.removeItem('orderInfo');
-      store.commit('shoppingCart/initCartLocalStorage');
-      Swal.fire({
-        icon: 'success',
-        title: '訂單已送出',
-        showConfirmButton: false,
-        timer: 1500,
-      });
+    const sendOrder = async () => {
+      try {
+        // 透過API將資料傳至後端(訂單api)
+        const data = JSON.parse(sessionStorage.getItem('orderInfo'));
+        await axios.post('http://localhost:3000/order', data);
+
+        // 清空vuex && firebase購物車
+        store.commit('shoppingCart/resetCartAndUser');
+        store.dispatch('shoppingCart/saveOnFirebase');
+        sessionStorage.removeItem('orderInfo');
+
+        Swal.fire({
+          icon: 'success',
+          title: '訂單已送出',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } catch (e) {
+        // eslint-disable-next-line no-alert
+        alert(e);
+        console.log(e);
+      }
     };
 
     return {
-      buyerInfo, itemInfo, sendOrder,
+      orderInfo, itemInfo, sendOrder,
     };
   },
 };

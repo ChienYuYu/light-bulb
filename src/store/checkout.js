@@ -44,7 +44,7 @@ export default {
 
     // orderInfo: {} 寫入購買者 & 收件資料
     writeBuyerInfo(state, data) {
-      state.orderInfo = { ...state.orderInfo, ...data };
+      state.orderInfo = { ...state.orderInfo, ...data, user_id: localStorage.getItem('userId') };
       this.commit('checkout/saveInSessionStorage');
     },
 
