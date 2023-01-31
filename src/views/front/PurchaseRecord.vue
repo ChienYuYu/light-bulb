@@ -3,18 +3,16 @@
     <div class="box">
       <div class="wrap">
         <h2>購買紀錄</h2>
-        <div class="history">
-          <p class="date">2023/2/1</p>
+        <h3 v-if="noRecord">- 尚無購買紀錄 -</h3>
+        <div class="history" v-for="(item, i) in order" :key="i">
+          <p class="date">{{ item.date }}</p>
           <div>
-            <p class="m-date">2023/2/1</p>
+            <p class="m-date">{{ item.date }}</p>
             <ul>
-              <li>8w led燈泡 x3 / $59</li>
-              <li>ooxx質感檯燈 x1 / $1299</li>
-              <li>asdfse浮誇落地燈 x1 / $3380</li>
-              <li>8w 愛迪生可調光燈泡 x3 / $249</li>
+              <li v-for="(p, i) in item.buyItem" :key="i">{{ p.title }}</li>
             </ul>
           </div>
-          <p>$2500</p>
+          <p>${{ item.couponPrice }}</p>
         </div>
       </div>
       <Footer />
@@ -24,9 +22,32 @@
 
 <script>
 import Footer from '@/components/FooterComponent.vue';
+import axios from 'axios';
+import { ref, onMounted } from 'vue';
 
 export default {
   components: { Footer },
+  setup() {
+    const order = ref([]);
+    const noRecord = ref(true);
+
+    onMounted(async () => {
+      const id = localStorage.getItem('userId');
+      try {
+        const res = await axios.get(`http://localhost:3000/customer/history/${id}`, { withCredentials: true });
+        if (res.data.order.length !== 0) {
+          noRecord.value = false;
+        } else {
+          noRecord.value = true;
+        }
+        order.value = res.data.order;
+      } catch (e) {
+        // eslint-disable-next-line no-alert
+        alert(e);
+      }
+    });
+    return { noRecord, order };
+  },
 };
 </script>
 
@@ -52,6 +73,12 @@ export default {
     h2 {
       color: #fff;
       margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    h3 {
+      color: #888;
+      margin-top: 6rem;
       text-align: center;
     }
 

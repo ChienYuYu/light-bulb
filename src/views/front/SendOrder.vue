@@ -72,10 +72,11 @@ export default {
     });
 
     const sendOrder = async () => {
+      const time = new Date().toLocaleString();
       try {
         // 透過API將資料傳至後端(訂單api)
         const data = JSON.parse(sessionStorage.getItem('orderInfo'));
-        await axios.post('http://localhost:3000/order', data);
+        await axios.post('http://localhost:3000/order', { ...data, date: time });
 
         // 清空vuex && firebase購物車
         store.commit('shoppingCart/resetCartAndUser');
