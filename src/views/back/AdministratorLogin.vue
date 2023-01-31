@@ -2,8 +2,10 @@
   <div class="wrapper">
     <form class="col-12 col-md-6 col-lg-3 login-wrap">
       <h2>管理員登入</h2>
-      <input type="text" aria-label="a" class="form-control" placeholder="請輸入帳號" />
-      <input type="password" aria-label="a" class="form-control" placeholder="請輸入密碼" />
+      <input type="text" aria-label="a" class="form-control"
+      placeholder="請輸入帳號" v-model.trim="admin.account" />
+      <input type="password" aria-label="a" class="form-control"
+      placeholder="請輸入密碼" v-model.trim="admin.password" />
       <div>
         <button class="btn" @click.prevent="login">登入</button>
       </div>
@@ -12,17 +14,28 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 export default {
 
   setup() {
     const router = useRouter();
+    const admin = ref({});
+
     const login = () => {
-      router.push('/management');
+      axios.post('http://localhost:3000/admin/login', admin.value, { withCredentials: true })
+        .then((res) => {
+          if (res.data.success) {
+            router.push('/management');
+          }
+        })
+        // eslint-disable-next-line no-alert
+        .catch((e) => alert(e));
     };
 
-    return { login };
+    return { admin, login };
   },
 };
 </script>

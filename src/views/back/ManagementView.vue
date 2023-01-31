@@ -1,3 +1,4 @@
+<!-- eslint-disable no-alert -->
 <template>
   <div class="wrapper">
     <div class="side-menu">
@@ -9,7 +10,7 @@
         <a href="#">預留欄位</a>
         <a href="#">預留欄位</a>
       </div>
-      <a href="#" class="logout">登出</a>
+      <a href="#" class="logout" @click.prevent="logout">登出</a>
     </div>
     <div class="main">
       <router-view />
@@ -18,8 +19,39 @@
 </template>
 
 <script>
-export default {
+import { onMounted } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
 
+export default {
+  setup() {
+    const router = useRouter();
+    function logout() {
+      // 使用post withCredentials要放第三參數!!!
+      axios.post('http://localhost:3000/admin/logout', {}, { withCredentials: true })
+        .then((res) => {
+          if (res.data.success) {
+            router.push('/admin-login');
+          }
+        })
+        // eslint-disable-next-line no-alert
+        .catch((e) => alert(e));
+    }
+
+    onMounted(() => {
+      // 使用post withCredentials要放第三參數!!!
+      axios.post('http://localhost:3000/admin/verify', {}, { withCredentials: true })
+        .then((res) => {
+          if (!res.data.isLogin) {
+            router.push('/admin-login');
+          }
+        })
+        // eslint-disable-next-line no-alert
+        .catch((e) => alert(e));
+    });
+
+    return { logout };
+  },
 };
 </script>
 
