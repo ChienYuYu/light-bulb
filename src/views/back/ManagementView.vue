@@ -4,11 +4,11 @@
     <div class="side-menu">
       <div class="wrap">
         <h2>後臺管理</h2>
-        <router-link to="/management/order">訂單管理</router-link>
-        <a href="#">預留欄位</a>
-        <a href="#">預留欄位</a>
-        <a href="#">預留欄位</a>
-        <a href="#">預留欄位</a>
+        <router-link to="/management/order" class="temp">訂單管理</router-link>
+        <router-link to="/management">預留欄位</router-link>
+        <router-link to="/management">預留欄位</router-link>
+        <router-link to="/management">預留欄位</router-link>
+        <router-link to="/management">預留欄位</router-link>
       </div>
       <a href="#" class="logout" @click.prevent="logout">登出</a>
     </div>
@@ -79,6 +79,9 @@ export default {
     }
     .wrap{
       width: 100%;
+    }
+    .temp{
+      color: rgb(255, 211, 77);
     }
     a{
       width: 100%;

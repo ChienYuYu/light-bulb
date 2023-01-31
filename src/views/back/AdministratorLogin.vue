@@ -28,7 +28,7 @@ export default {
       axios.post('http://localhost:3000/admin/login', admin.value, { withCredentials: true })
         .then((res) => {
           if (res.data.success) {
-            router.push('/management');
+            router.push('/management/order');
           }
         })
         // eslint-disable-next-line no-alert
@@ -52,7 +52,10 @@ export default {
   right: 0;
   left: 0;
   bottom: 0;
-  padding: 10rem .5rem 0;
+  padding: 14rem .5rem 0;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
 
   form {
     margin: 0 auto;

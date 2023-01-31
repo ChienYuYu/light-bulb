@@ -41,7 +41,6 @@ export default {
     const getOrderData = () => {
       axios.get('http://localhost:3000/admin/order', { withCredentials: true })
         .then((res) => {
-          console.log(res);
           order.value = res.data.order;
         })
         // eslint-disable-next-line no-alert
