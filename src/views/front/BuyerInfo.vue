@@ -74,7 +74,8 @@ export default {
     // 取得帳號資訊(購買者(自己))
     const getBuyerInfo = () => {
       const id = localStorage.getItem('userId');
-      axios.get(`http://localhost:3000/customer/user/${id}`, { withCredentials: true })
+      // http://localhost:3000/customer/user/${id}
+      axios.get(`${process.env.VUE_APP_API}/customer/user/${id}`, { withCredentials: true })
         .then((res) => {
           const x = buyerInfo.value;
           x.buyerName = res.data.name;

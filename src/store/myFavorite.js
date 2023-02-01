@@ -30,19 +30,21 @@ export default {
   },
   actions: {
     // 存入資料庫網路請求
+    // http://localhost:3000/customer/favorite/${id}
     saveOnFirebase(context) {
       const id = localStorage.getItem('userId');
       const favorite = context.state.myFavorite;
-      axios.post(`http://localhost:3000/customer/favorite/${id}`, favorite, { withCredentials: true })
+      axios.post(`${process.env.VUE_APP_API}/customer/favorite/${id}`, favorite, { withCredentials: true })
         .then()
         // eslint-disable-next-line no-alert
         .catch((e) => alert(e));
     },
 
     // 取得收藏清單網路請求
+    // http://localhost:3000/customer/favorite/${id}
     getFavoriteOnFirebase(context) {
       const id = localStorage.getItem('userId');
-      axios.get(`http://localhost:3000/customer/favorite/${id}`)
+      axios.get(`${process.env.VUE_APP_API}/customer/favorite/${id}`)
         .then((res) => {
           context.commit('initFavorite', res.data.favorite);
         })

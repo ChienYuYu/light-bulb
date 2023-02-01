@@ -57,7 +57,8 @@ export default {
       try {
         const res = await axios
           // 用get 這裡的Credentials要放第二參數
-          .get(`http://localhost:3000/customer/user/${verifyID.value}`, { withCredentials: true });
+          // http://localhost:3000/customer/user/${verifyID.value}
+          .get(`${process.env.VUE_APP_API}/customer/user/${verifyID.value}`, { withCredentials: true });
         const {
           name, email, address, tel,
         } = res.data;
@@ -76,7 +77,8 @@ export default {
     async function verifyLogin() {
       try {
         // 注意第二參數，這裡使用空物件佔位，因為post Credentials要放第三參數 !!!
-        const res = await axios.post('http://localhost:3000/customer/verify', {}, { withCredentials: true });
+        // http://localhost:3000/customer/verify
+        const res = await axios.post(`${process.env.VUE_APP_API}/customer/verify`, {}, { withCredentials: true });
         if (!res.data.isLogin) {
           router.push('/login');
         } else {
@@ -102,7 +104,8 @@ export default {
       }
       try {
         const res = await axios
-          .put(`http://localhost:3000/customer/user/${verifyID.value}`, userInfo.value, { withCredentials: true });
+        // http://localhost:3000/customer/user/${verifyID.value}
+          .put(`${process.env.VUE_APP_API}/customer/user/${verifyID.value}`, userInfo.value, { withCredentials: true });
         Swal.fire({
           title: res.data.msg,
           icon: 'success',

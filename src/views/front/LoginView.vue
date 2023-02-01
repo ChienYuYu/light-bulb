@@ -30,7 +30,8 @@ export default {
 
     async function login() {
       try {
-        const res = await axios.post('http://localhost:3000/customer/login', inputData.value, { withCredentials: true });
+        // http://localhost:3000/customer/login
+        const res = await axios.post(`${process.env.VUE_APP_API}/customer/login`, inputData.value, { withCredentials: true });
         if (res.data.success) {
           // 取出id存入localStorage 避免vuex刷新state遺失問題
           localStorage.setItem('userId', res.data.user);

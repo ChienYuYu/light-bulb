@@ -39,7 +39,8 @@ export default {
     const router = useRouter();
 
     const getOrderData = () => {
-      axios.get('http://localhost:3000/admin/order', { withCredentials: true })
+      // http://localhost:3000/admin/order
+      axios.get(`${process.env.VUE_APP_API}/admin/order`, { withCredentials: true })
         .then((res) => {
           order.value = res.data.order;
         })
@@ -48,7 +49,8 @@ export default {
     };
 
     const deleteOrder = (id) => {
-      axios.delete(`http://localhost:3000/admin/order/${id}`)
+      // http://localhost:3000/admin/order/${id}
+      axios.delete(`${process.env.VUE_APP_API}/admin/order/${id}`)
         .then(() => {
           router.go(0);
         })

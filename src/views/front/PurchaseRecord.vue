@@ -34,7 +34,8 @@ export default {
     onMounted(async () => {
       const id = localStorage.getItem('userId');
       try {
-        const res = await axios.get(`http://localhost:3000/customer/history/${id}`, { withCredentials: true });
+        // http://localhost:3000/customer/history/${id}
+        const res = await axios.get(`${process.env.VUE_APP_API}/customer/history/${id}`, { withCredentials: true });
         if (res.data.order.length !== 0) {
           noRecord.value = false;
         } else {

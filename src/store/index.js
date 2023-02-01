@@ -34,8 +34,9 @@ export default createStore({
           context.commit('storeProductData', result);
         });
     },
+    // http://localhost:3000/customer/verify
     verifyLogin(context) {
-      axios.post('http://localhost:3000/customer/verify', {}, { withCredentials: true })
+      axios.post(`${process.env.VUE_APP_API}/customer/verify`, {}, { withCredentials: true })
         .then((res) => {
           if (res.data.isLogin === true) {
             context.commit('loginStatus', true);
@@ -48,13 +49,13 @@ export default createStore({
         .catch();
     },
 
+    // http://localhost:3000/customer/logout
     logout(context) {
-      axios.post('http://localhost:3000/customer/logout', {}, { withCredentials: true })
+      axios.post(`${process.env.VUE_APP_API}/customer/logout`, {}, { withCredentials: true })
         .then(() => {
           context.commit('loginStatus', false);
           context.commit('shoppingCart/resetCartAndUser');
           context.commit('myFavorite/resetFavoriteAndUser');
-          // localStorage.removeItem('userId');
           localStorage.clear();
         })
         .catch((e) => console.log(e));

@@ -28,7 +28,8 @@ export default {
     const router = useRouter();
     function logout() {
       // 使用post withCredentials要放第三參數!!!
-      axios.post('http://localhost:3000/admin/logout', {}, { withCredentials: true })
+      // http://localhost:3000/admin/logout
+      axios.post(`${process.env.VUE_APP_API}/admin/logout`, {}, { withCredentials: true })
         .then((res) => {
           if (res.data.success) {
             router.push('/admin-login');
@@ -40,7 +41,8 @@ export default {
 
     onMounted(() => {
       // 使用post withCredentials要放第三參數!!!
-      axios.post('http://localhost:3000/admin/verify', {}, { withCredentials: true })
+      // http://localhost:3000/admin/verify
+      axios.post(`${process.env.VUE_APP_API}/admin/verify`, {}, { withCredentials: true })
         .then((res) => {
           if (!res.data.isLogin) {
             router.push('/admin-login');

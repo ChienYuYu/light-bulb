@@ -94,19 +94,21 @@ export default {
   },
   actions: {
     // 存入資料庫網路請求
+    // http://localhost:3000/customer/cart/${id}
     saveOnFirebase(context) {
       const id = localStorage.getItem('userId');
       const cart = context.state.shoppingCart;
-      axios.post(`http://localhost:3000/customer/cart/${id}`, cart, { withCredentials: true })
+      axios.post(`${process.env.VUE_APP_API}/customer/cart/${id}`, cart, { withCredentials: true })
         .then()
         // eslint-disable-next-line no-alert
         .catch((e) => alert(e));
     },
 
     // 取得購物車網路請求
+    // http://localhost:3000/customer/cart/${id}
     getCartOnFirebase(context) {
       const id = localStorage.getItem('userId');
-      axios.get(`http://localhost:3000/customer/cart/${id}`)
+      axios.get(`${process.env.VUE_APP_API}/customer/cart/${id}`)
         .then((res) => {
           context.commit('initCart', res.data.cart);
         })

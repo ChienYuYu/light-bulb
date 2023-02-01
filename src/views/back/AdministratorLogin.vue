@@ -25,7 +25,8 @@ export default {
     const admin = ref({});
 
     const login = () => {
-      axios.post('http://localhost:3000/admin/login', admin.value, { withCredentials: true })
+      // http://localhost:3000/admin/login
+      axios.post(`${process.env.VUE_APP_API}/admin/login`, admin.value, { withCredentials: true })
         .then((res) => {
           if (res.data.success) {
             router.push('/management/order');
