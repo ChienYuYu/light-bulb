@@ -32,13 +32,13 @@ export default {
       try {
         // http://localhost:3000/customer/login
         const res = await axios.post(`${process.env.VUE_APP_API}/customer/login`, inputData.value, { withCredentials: true });
-        if (res.data.success) {
+        if (await res.data.success) {
           // 取出id存入localStorage 避免vuex刷新state遺失問題
           localStorage.setItem('userId', res.data.user);
           store.commit('loginStatus', true);
-          store.dispatch('shoppingCart/getCartOnFirebase');
-          store.dispatch('myFavorite/getFavoriteOnFirebase');
-          router.push('/user/account');
+          await store.dispatch('shoppingCart/getCartOnFirebase');
+          await store.dispatch('myFavorite/getFavoriteOnFirebase');
+          await router.push('/user/account');
         } else {
           Swal.fire({
             title: res.data.msg,
