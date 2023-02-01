@@ -24,24 +24,28 @@
 import Footer from '@/components/FooterComponent.vue';
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
   components: { Footer },
   setup() {
+    const store = useStore();
     const order = ref([]);
     const noRecord = ref(true);
 
     onMounted(async () => {
       const id = localStorage.getItem('userId');
+      store.commit('showLoadingCircle', true);
       try {
         // http://localhost:3000/customer/history/${id}
         const res = await axios.get(`${process.env.VUE_APP_API}/customer/history/${id}`, { withCredentials: true });
-        if (res.data.order.length !== 0) {
+        if (await res.data.order.length !== 0) {
           noRecord.value = false;
         } else {
           noRecord.value = true;
         }
         order.value = res.data.order;
+        store.commit('showLoadingCircle', false);
       } catch (e) {
         // eslint-disable-next-line no-alert
         alert(e);
