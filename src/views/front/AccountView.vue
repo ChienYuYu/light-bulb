@@ -55,13 +55,14 @@ export default {
 
     async function getUserData() {
       try {
+        store.commit('showLoadingCircle', true);
         const res = await axios
           // 用get 這裡的Credentials要放第二參數
           // http://localhost:3000/customer/user/${verifyID.value}
           .get(`${process.env.VUE_APP_API}/customer/user/${verifyID.value}`, { withCredentials: true });
         const {
           name, email, address, tel,
-        } = res.data;
+        } = await res.data;
 
         userInfo.value = {
           name,
@@ -69,6 +70,7 @@ export default {
           address,
           tel,
         };
+        store.commit('showLoadingCircle', false);
       } catch (e) {
         console.log(e);
       }
@@ -76,15 +78,17 @@ export default {
 
     async function verifyLogin() {
       try {
+        store.commit('showLoadingCircle', true);
         // 注意第二參數，這裡使用空物件佔位，因為post Credentials要放第三參數 !!!
         // http://localhost:3000/customer/verify
         const res = await axios.post(`${process.env.VUE_APP_API}/customer/verify`, {}, { withCredentials: true });
         if (!res.data.isLogin) {
-          router.push('/login');
+          await router.push('/login');
         } else {
           // console.log(res);
           verifyID.value = await res.data.user;
           store.commit('loginStatus', true);
+          store.commit('showLoadingCircle', false);
           getUserData();
         }
       } catch (e) {

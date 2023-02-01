@@ -92,9 +92,9 @@ export default {
       router.push('/cart');
     };
 
-    const logout = () => {
-      store.dispatch('logout');
-      router.push('/login');
+    const logout = async () => {
+      await store.dispatch('logout');
+      await router.push('/login');
     };
 
     // 顯示/隱藏  購物車清單 or 收藏清單 ---------------------

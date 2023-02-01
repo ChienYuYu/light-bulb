@@ -30,6 +30,7 @@ export default {
 
     async function login() {
       try {
+        store.commit('showLoadingCircle', true);
         // http://localhost:3000/customer/login
         const res = await axios.post(`${process.env.VUE_APP_API}/customer/login`, inputData.value, { withCredentials: true });
         if (await res.data.success) {
@@ -39,6 +40,7 @@ export default {
           await store.dispatch('shoppingCart/getCartOnFirebase');
           await store.dispatch('myFavorite/getFavoriteOnFirebase');
           await router.push('/user/account');
+          store.commit('showLoadingCircle', false);
         } else {
           Swal.fire({
             title: res.data.msg,

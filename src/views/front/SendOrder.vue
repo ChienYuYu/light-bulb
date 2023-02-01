@@ -74,15 +74,17 @@ export default {
     const sendOrder = async () => {
       const time = new Date().toLocaleString();
       try {
+        store.commit('showLoadingCircle', true);
         // 透過API將資料傳至後端(訂單api)
-        const data = JSON.parse(sessionStorage.getItem('orderInfo'));
+        const data = await JSON.parse(sessionStorage.getItem('orderInfo'));
         // http://localhost:3000/order
         await axios.post(`${process.env.VUE_APP_API}/order`, { ...data, date: time });
 
         // 清空vuex && firebase購物車
         store.commit('shoppingCart/resetCartAndUser');
-        store.dispatch('shoppingCart/saveOnFirebase');
+        await store.dispatch('shoppingCart/saveOnFirebase');
         sessionStorage.removeItem('orderInfo');
+        store.commit('showLoadingCircle', false);
 
         Swal.fire({
           icon: 'success',

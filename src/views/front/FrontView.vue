@@ -1,21 +1,25 @@
 <template>
+  <LoadingView v-if="showLoadingCircle"/>
   <Navbar></Navbar>
   <router-view/>
 </template>
 
 <script>
 import { useStore } from 'vuex';
+import { computed } from 'vue';
 import Navbar from '@/components/Navbar/NavbarComponent.vue';
+import LoadingView from '@/components/LoadingEffect.vue';
 
 export default {
-  components: { Navbar },
+  components: { Navbar, LoadingView },
   setup() {
     const store = useStore();
-
-    // 驗證是否登入 //////////////////
+    const showLoadingCircle = computed(() => store.state.showLoadingCircle);
     const verifyLogin = () => {
       store.dispatch('verifyLogin');
     }; verifyLogin();
+
+    return { showLoadingCircle };
   },
 };
 </script>

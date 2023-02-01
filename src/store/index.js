@@ -9,6 +9,7 @@ export default createStore({
     isLogin: false,
     products: [],
     hotProduct: [],
+    showLoadingCircle: false,
   },
   getters: {
   },
@@ -22,6 +23,9 @@ export default createStore({
     },
     loginStatus(state, tf) {
       state.isLogin = tf;
+    },
+    showLoadingCircle(state, tf) {
+      state.showLoadingCircle = tf;
     },
 
   },
@@ -51,12 +55,14 @@ export default createStore({
 
     // http://localhost:3000/customer/logout
     logout(context) {
+      context.commit('showLoadingCircle', true);
       axios.post(`${process.env.VUE_APP_API}/customer/logout`, {}, { withCredentials: true })
         .then(() => {
           context.commit('loginStatus', false);
           context.commit('shoppingCart/resetCartAndUser');
           context.commit('myFavorite/resetFavoriteAndUser');
           localStorage.clear();
+          context.commit('showLoadingCircle', false);
         })
         .catch((e) => console.log(e));
     },
