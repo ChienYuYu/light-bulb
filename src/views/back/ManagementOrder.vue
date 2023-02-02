@@ -57,7 +57,6 @@ export default {
         store.commit('showLoadingCircle', true);
         await axios.delete(`${process.env.VUE_APP_API}/admin/order/${id}`);
         router.go(0);
-        store.commit('showLoadingCircle', false);
       } catch (e) {
         // eslint-disable-next-line no-alert
         alert(e);
