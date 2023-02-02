@@ -1,5 +1,6 @@
 <!-- eslint-disable no-alert -->
 <template>
+  <LoadingView v-if="showLoadingCircle"/>
   <div class="wrapper">
     <div class="side-menu">
       <div class="wrap">
@@ -19,15 +20,18 @@
 </template>
 
 <script>
-import { onMounted } from 'vue';
+import { onMounted, computed } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import LoadingView from '@/components/LoadingEffect.vue';
 
 export default {
+  components: { LoadingView },
   setup() {
     const router = useRouter();
     const store = useStore();
+    const showLoadingCircle = computed(() => store.state.showLoadingCircle);
 
     async function logout() {
       try {
@@ -59,7 +63,7 @@ export default {
       }
     });
 
-    return { logout };
+    return { logout, showLoadingCircle };
   },
 };
 </script>
