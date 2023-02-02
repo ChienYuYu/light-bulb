@@ -85,12 +85,11 @@ export default {
         if (!res.data.isLogin) {
           await router.push('/login');
         } else {
-          // console.log(res);
           verifyID.value = await res.data.user;
           store.commit('loginStatus', true);
-          store.commit('showLoadingCircle', false);
-          getUserData();
+          await getUserData();
         }
+        store.commit('showLoadingCircle', false);
       } catch (e) {
         console.log(e);
       }

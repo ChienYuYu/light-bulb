@@ -22,34 +22,41 @@
 import { onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 export default {
   setup() {
     const router = useRouter();
-    function logout() {
-      // 使用post withCredentials要放第三參數!!!
-      // http://localhost:3000/admin/logout
-      axios.post(`${process.env.VUE_APP_API}/admin/logout`, {}, { withCredentials: true })
-        .then((res) => {
-          if (res.data.success) {
-            router.push('/admin-login');
-          }
-        })
+    const store = useStore();
+
+    async function logout() {
+      try {
+        store.commit('showLoadingCircle', true);
+        // 使用post withCredentials要放第三參數!!!
+        const res = await axios.post(`${process.env.VUE_APP_API}/admin/logout`, {}, { withCredentials: true });
+        if (await res.data.success) {
+          router.push('/admin-login');
+        }
+        store.commit('showLoadingCircle', false);
+      } catch (e) {
         // eslint-disable-next-line no-alert
-        .catch((e) => alert(e));
+        alert(e);
+      }
     }
 
-    onMounted(() => {
-      // 使用post withCredentials要放第三參數!!!
-      // http://localhost:3000/admin/verify
-      axios.post(`${process.env.VUE_APP_API}/admin/verify`, {}, { withCredentials: true })
-        .then((res) => {
-          if (!res.data.isLogin) {
-            router.push('/admin-login');
-          }
-        })
+    onMounted(async () => {
+      try {
+        store.commit('showLoadingCircle', true);
+        // 使用post withCredentials要放第三參數!!!
+        const res = await axios.post(`${process.env.VUE_APP_API}/admin/verify`, {}, { withCredentials: true });
+        if (!res.data.isLogin) {
+          router.push('/admin-login');
+        }
+        store.commit('showLoadingCircle', false);
+      } catch (e) {
         // eslint-disable-next-line no-alert
-        .catch((e) => alert(e));
+        alert(e);
+      }
     });
 
     return { logout };

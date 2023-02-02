@@ -32,30 +32,36 @@
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 export default {
   setup() {
     const order = ref([]);
     const router = useRouter();
+    const store = useStore();
 
-    const getOrderData = () => {
-      // http://localhost:3000/admin/order
-      axios.get(`${process.env.VUE_APP_API}/admin/order`, { withCredentials: true })
-        .then((res) => {
-          order.value = res.data.order;
-        })
+    const getOrderData = async () => {
+      try {
+        store.commit('showLoadingCircle', true);
+        const res = await axios.get(`${process.env.VUE_APP_API}/admin/order`, { withCredentials: true });
+        order.value = await res.data.order;
+        store.commit('showLoadingCircle', false);
+      } catch (e) {
         // eslint-disable-next-line no-alert
-        .catch((e) => alert(e));
+        alert(e);
+      }
     };
 
-    const deleteOrder = (id) => {
-      // http://localhost:3000/admin/order/${id}
-      axios.delete(`${process.env.VUE_APP_API}/admin/order/${id}`)
-        .then(() => {
-          router.go(0);
-        })
+    const deleteOrder = async (id) => {
+      try {
+        store.commit('showLoadingCircle', true);
+        await axios.delete(`${process.env.VUE_APP_API}/admin/order/${id}`);
+        router.go(0);
+        store.commit('showLoadingCircle', false);
+      } catch (e) {
         // eslint-disable-next-line no-alert
-        .catch((e) => alert(e));
+        alert(e);
+      }
     };
 
     onMounted(() => {
