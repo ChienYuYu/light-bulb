@@ -30,7 +30,6 @@ export default {
   },
   actions: {
     // 存入資料庫網路請求
-    // http://localhost:3000/customer/favorite/${id}
     saveOnFirebase(context) {
       const id = localStorage.getItem('userId');
       const favorite = context.state.myFavorite;
@@ -41,7 +40,6 @@ export default {
     },
 
     // 取得收藏清單網路請求
-    // http://localhost:3000/customer/favorite/${id}
     getFavoriteOnFirebase(context) {
       const id = localStorage.getItem('userId');
       axios.get(`${process.env.VUE_APP_API}/customer/favorite/${id}`)

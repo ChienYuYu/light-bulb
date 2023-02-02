@@ -38,7 +38,7 @@ export default createStore({
           context.commit('storeProductData', result);
         });
     },
-    // http://localhost:3000/customer/verify
+
     verifyLogin(context) {
       axios.post(`${process.env.VUE_APP_API}/customer/verify`, {}, { withCredentials: true })
         .then((res) => {
@@ -53,7 +53,6 @@ export default createStore({
         .catch();
     },
 
-    // http://localhost:3000/customer/logout
     logout(context) {
       context.commit('showLoadingCircle', true);
       axios.post(`${process.env.VUE_APP_API}/customer/logout`, {}, { withCredentials: true })

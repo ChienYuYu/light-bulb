@@ -77,7 +77,6 @@ export default {
         store.commit('showLoadingCircle', true);
         // 透過API將資料傳至後端(訂單api)
         const data = await JSON.parse(sessionStorage.getItem('orderInfo'));
-        // http://localhost:3000/order
         await axios.post(`${process.env.VUE_APP_API}/order`, { ...data, date: time });
 
         // 清空vuex && firebase購物車

@@ -56,9 +56,8 @@ export default {
     async function getUserData() {
       try {
         store.commit('showLoadingCircle', true);
+        // 用get 這裡的Credentials要放第二參數
         const res = await axios
-          // 用get 這裡的Credentials要放第二參數
-          // http://localhost:3000/customer/user/${verifyID.value}
           .get(`${process.env.VUE_APP_API}/customer/user/${verifyID.value}`, { withCredentials: true });
         const {
           name, email, address, tel,
@@ -80,7 +79,6 @@ export default {
       try {
         store.commit('showLoadingCircle', true);
         // 注意第二參數，這裡使用空物件佔位，因為post Credentials要放第三參數 !!!
-        // http://localhost:3000/customer/verify
         const res = await axios.post(`${process.env.VUE_APP_API}/customer/verify`, {}, { withCredentials: true });
         if (!res.data.isLogin) {
           await router.push('/login');
@@ -107,7 +105,6 @@ export default {
       }
       try {
         const res = await axios
-        // http://localhost:3000/customer/user/${verifyID.value}
           .put(`${process.env.VUE_APP_API}/customer/user/${verifyID.value}`, userInfo.value, { withCredentials: true });
         Swal.fire({
           title: res.data.msg,

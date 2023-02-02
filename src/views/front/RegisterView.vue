@@ -60,7 +60,6 @@ export default {
       };
 
       try {
-        // http://localhost:3000/customer/register
         const res = await axios.post(`${process.env.VUE_APP_API}/customer/register`, sendData);
         if (res.data.success === true) {
           await Swal.fire({

@@ -5,7 +5,7 @@
     </div>
 
     <div class="container send-message">
-      <form class="info-group col-10 col-md-8 col-lg-6" @submit="sendMsg">
+      <form class="info-group col-10 col-md-8 col-lg-6" @submit.prevent="sendMsg">
         <div class="col-12 mb-3">
           <label for="phone-number" class="form-label w-100">
             <input type="tel" class="form-control phone" id="phone-number"

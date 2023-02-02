@@ -31,7 +31,6 @@ export default {
     async function login() {
       try {
         store.commit('showLoadingCircle', true);
-        // http://localhost:3000/customer/login
         const res = await axios.post(`${process.env.VUE_APP_API}/customer/login`, inputData.value, { withCredentials: true });
         if (await res.data.success) {
           // 取出id存入localStorage 避免vuex刷新state遺失問題

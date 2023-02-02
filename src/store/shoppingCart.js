@@ -94,7 +94,6 @@ export default {
   },
   actions: {
     // 存入資料庫網路請求
-    // http://localhost:3000/customer/cart/${id}
     saveOnFirebase(context) {
       const id = localStorage.getItem('userId');
       const cart = context.state.shoppingCart;
@@ -105,7 +104,6 @@ export default {
     },
 
     // 取得購物車網路請求
-    // http://localhost:3000/customer/cart/${id}
     getCartOnFirebase(context) {
       const id = localStorage.getItem('userId');
       axios.get(`${process.env.VUE_APP_API}/customer/cart/${id}`)

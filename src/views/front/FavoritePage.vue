@@ -4,22 +4,6 @@
       <h1>收藏清單</h1>
     </div>
     <div class="main">
-      <!-- <ul>
-        <li v-for="item in favoriteList" :key="item">
-          <img :src="item.picture" alt="">
-          <div class="txt">
-            <h3> {{ item.title }} </h3>
-            <p>${{ item.price }}</p>
-            <button class="btn add-cart-mobile">加入購物車</button>
-          </div>
-
-          <div class="btn-wrap">
-            <button class="btn add-cart-pad">加入購物車</button>
-            <button class="btn remove" @click="removeFavorite(item)">X</button>
-          </div>
-        </li>
-      </ul> -->
-      <!-- ----------------- -->
       <div class="row">
         <div class="col-md-8 col-lg-6 col-xl-5 mx-auto">
           <ul>
@@ -32,7 +16,6 @@
                 <p>${{ item.price }}</p>
                 <button class="btn add-cart-mobile" @click="addCart(item)">加入購物車</button>
               </div>
-              <!-- ------------- -->
               <div class="btn-wrap">
                 <button class="btn add-cart-pad"  @click="addCart(item)">加入購物車</button>
                 <button class="btn remove" @click="removeFavorite(item)">X</button>
@@ -41,7 +24,6 @@
           </ul>
         </div>
       </div>
-      <!-- ----------------- -->
       <div class="noFavoriteItem" v-if="favoriteList.length === 0">
         <h2>尚無收藏</h2>
         <router-link to="/product/全部" class="btn">購物去</router-link>

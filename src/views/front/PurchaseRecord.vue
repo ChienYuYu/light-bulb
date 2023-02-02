@@ -37,7 +37,6 @@ export default {
       const id = localStorage.getItem('userId');
       store.commit('showLoadingCircle', true);
       try {
-        // http://localhost:3000/customer/history/${id}
         const res = await axios.get(`${process.env.VUE_APP_API}/customer/history/${id}`, { withCredentials: true });
         if (await res.data.order.length !== 0) {
           noRecord.value = false;

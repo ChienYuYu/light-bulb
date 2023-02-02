@@ -75,7 +75,6 @@ export default {
     const getBuyerInfo = () => {
       store.commit('showLoadingCircle', true);
       const id = localStorage.getItem('userId');
-      // http://localhost:3000/customer/user/${id}
       axios.get(`${process.env.VUE_APP_API}/customer/user/${id}`, { withCredentials: true })
         .then((res) => {
           const x = buyerInfo.value;
