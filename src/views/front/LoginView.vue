@@ -39,7 +39,6 @@ export default {
           await store.dispatch('shoppingCart/getCartOnFirebase');
           await store.dispatch('myFavorite/getFavoriteOnFirebase');
           await router.push('/user/account');
-          store.commit('showLoadingCircle', false);
         } else {
           Swal.fire({
             title: res.data.msg,
@@ -48,6 +47,7 @@ export default {
             timer: 1500,
           });
         }
+        store.commit('showLoadingCircle', false);
       } catch (e) {
         // eslint-disable-next-line no-alert
         alert('error', e);
