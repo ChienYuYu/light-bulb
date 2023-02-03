@@ -27,7 +27,7 @@
 後端
 https://github.com/ChienYuYu/bulb-backend-public
 <br>
-webServer 部署於 render.com <br>
+webServer 部署於 Render.com <br>
 商品資料使用JSON檔放置github
 https://github.com/ChienYuYu/myJSON
 ******************
