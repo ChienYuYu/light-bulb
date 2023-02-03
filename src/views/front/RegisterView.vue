@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <form class="col-lg-3 register-wrap">
+    <form class="col-10 col-md-6 col-lg-3 register-wrap">
       <h2>註冊</h2>
       <input type="email" placeholder="請輸入Email"
       aria-label="a" class="form-control" v-model.trim="inputData.email">

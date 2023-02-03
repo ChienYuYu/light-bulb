@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <form class="col-lg-2">
+    <form class="col-10 col-md-5 col-lg-2">
       <h2>我的帳戶</h2>
       <div>
         <label for="email">
