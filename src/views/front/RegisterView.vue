@@ -2,15 +2,14 @@
   <div class="wrapper">
     <form class="col-10 col-md-6 col-lg-3 register-wrap">
       <h2>註冊</h2>
-      <input type="email" placeholder="請輸入Email"
-      aria-label="a" class="form-control" v-model.trim="inputData.email">
-      <input type="password" placeholder="請輸入密碼"
-      aria-label="a" class="form-control" v-model.trim="inputData.password1">
-      <input type="password" placeholder="再次輸入密碼"
-      aria-label="a" class="form-control"
+      <input type="email" placeholder="請輸入Email" aria-label="a" class="form-control"
+      v-model.trim="inputData.email">
+      <input type="password" placeholder="請輸入密碼" aria-label="a" class="form-control"
+      v-model.trim="inputData.password1">
+      <input type="password" placeholder="再次輸入密碼" aria-label="a" class="form-control"
         v-model.trim="inputData.password2">
-      <input type="text" placeholder="請輸入姓名"
-      aria-label="a" class="form-control" v-model.trim="inputData.name">
+      <input type="text" placeholder="請輸入姓名" aria-label="a" class="form-control"
+      v-model.trim="inputData.name">
 
       <button class="btn" @click.prevent="register">註冊</button>
       <div class="login-btn-wrap">
@@ -32,10 +31,32 @@ export default {
     const inputData = ref({});
 
     async function register() {
+      const emailRule = /^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+
       if (!inputData.value.name || !inputData.value.email
         || !inputData.value.password1 || !inputData.value.password2) {
         Swal.fire({
           title: '所有欄位為必填',
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        return;
+      }
+
+      if (inputData.value.email.search(emailRule) === -1) {
+        Swal.fire({
+          title: 'email格式錯誤',
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        return;
+      }
+
+      if (inputData.value.password1.length < 8) {
+        Swal.fire({
+          title: '密碼長度至少為8碼',
           icon: 'error',
           showConfirmButton: false,
           timer: 1500,
