@@ -24,11 +24,13 @@ import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
+import { useStore } from 'vuex';
 
 export default {
   setup() {
     const router = useRouter();
     const inputData = ref({});
+    const store = useStore();
 
     async function register() {
       const emailRule = /^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
@@ -81,8 +83,9 @@ export default {
       };
 
       try {
+        store.commit('showLoadingCircle', true);
         const res = await axios.post(`${process.env.VUE_APP_API}/customer/register`, sendData);
-        if (res.data.success === true) {
+        if (await res.data.success === true) {
           await Swal.fire({
             title: res.data.msg,
             icon: 'success',
@@ -98,6 +101,7 @@ export default {
             timer: 1500,
           });
         }
+        store.commit('showLoadingCircle', false);
       } catch (e) {
         console.log(e);
       }
