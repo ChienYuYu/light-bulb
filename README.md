@@ -1,11 +1,10 @@
 # 燈具電商網站
-【DEMO : https://chienyuyu.github.io/light-bulb/ 】
+【DEMO : https://bulbgo.onrender.com 】
 <br><br>
 包含會員系統的電商網站，可記錄個人購物車、收藏清單、購買紀錄、個人資料修改
 <br><br>
-※ 不支援無痕模式 <br>
-※ 部分ios設備瀏覽器須設定→ 取消阻擋cookie & 跨網站追蹤 <br>
-※ 後端部署於Render.com 超過15分鐘無人造訪會進入休眠模式，進行登入或註冊需耐心等待30秒左右等待服務器喚醒
+
+※ 網站部署在Render.com 超過15分鐘無人造訪會進入休眠模式，進行登入或註冊需耐心等待30秒左右等待服務器喚醒
 <br><br>
 
 ******************
@@ -67,7 +66,7 @@ https://github.com/ChienYuYu/myJSON
 ***
 
 後台網址 (僅提供訂單查看 && 刪除)<br>
-https://chienyuyu.github.io/light-bulb/#/admin-login
+https://bulbgo.onrender.com/#/admin-login
 
 demo 帳密 <br>
 帳號: admin <br>
