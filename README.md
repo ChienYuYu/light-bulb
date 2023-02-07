@@ -4,7 +4,7 @@
 包含會員系統的電商網站，可記錄個人購物車、收藏清單、購買紀錄、個人資料修改
 <br><br>
 
-※ 網站部署在Render.com 超過15分鐘無人造訪會進入休眠模式，進行登入或註冊需耐心等待30秒左右等待服務器喚醒
+※ 網站部署在Render.com 超過15分鐘無人造訪會進入休眠模式，首次造訪需耐心等待30秒左右等待服務器喚醒
 <br><br>
 
 ******************
@@ -21,7 +21,7 @@
 |axios / fetch|串接後端資料|
 | vue-sweetalert2  | 彈出提示窗 |
 |Node.js / express| 撰寫RESTful API提供前端串接資料 |
-|bcrypt / saltRounds|註冊功能加密密碼後儲存|
+|bcrypt / saltRounds|註冊功能加密密碼|
 |express-session|驗證使用者|
 |Firebase|資料庫儲存會員資料、訂單資料|
 ***
