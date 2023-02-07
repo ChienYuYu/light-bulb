@@ -20,7 +20,9 @@
 | Swiper  | 圖片輪播 |
 |axios / fetch|串接後端資料|
 | vue-sweetalert2  | 彈出提示窗 |
-|Node.js / express| 撰寫API提供前端串接資料 |
+|Node.js / express| 撰寫RESTful API提供前端串接資料 |
+|bcrypt / saltRounds|註冊功能加密密碼後儲存|
+|express-session|驗證使用者|
 |Firebase|資料庫儲存會員資料、訂單資料|
 ***
 後端
