@@ -1,98 +1,94 @@
 import axios from 'axios';
-import { useStore } from 'vuex';
-
-const store = useStore();
 
 // //////////////////////////////////////////////////
 
-// 取得購物車
-async function getCart() {
-  try {
-    const id = localStorage.getItem('userId');
-    const res = await axios.get(`${process.env.VUE_APP_API}/customer/cart/${id}`);
-    store.commit('shoppingCart/initCart', res.data.cart);
-  } catch (e) {
-    // eslint-disable-next-line no-alert
-    alert(e);
-  }
-}
-
 // 購物車存入資料庫
-async function saveCart() {
+async function saveCart(shoppingCart) {
   try {
-    const id = localStorage.getItem('userId');
-    const cart = store.state.shoppingCart.shoppingCart;
+    const uid = localStorage.getItem('userId');
     await axios
-      .post(`${process.env.VUE_APP_API}/customer/cart/${id}`, cart, { withCredentials: true });
+      .post(`${process.env.VUE_APP_API}/customer/cart/${uid}`, shoppingCart, { withCredentials: true });
   } catch (e) {
     // eslint-disable-next-line no-alert
-    alert(e);
-  }
-}
-
-// 取得收藏清單
-async function getFavorite() {
-  try {
-    const id = localStorage.getItem('userId');
-    const res = await axios.get(`${process.env.VUE_APP_API}/customer/favorite/${id}
-    `);
-    store.commit('myFavorite/initFavorite', res.data.favorite);
-  } catch (e) {
-    // eslint-disable-next-line no-alert
-    alert(e);
+    // alert(e);
+    console.log(e);
   }
 }
 
 // 收藏清單存入資料庫
-async function saveFavorite() {
+async function saveFavorite(myFavorite) {
   try {
-    const id = localStorage.getItem('userId');
-    const favorite = store.state.myFavorite.myFavorite;
+    const uid = localStorage.getItem('userId');
     await axios
-      .post(`${process.env.VUE_APP_API}/customer/favorite/${id}`, favorite, { withCredentials: true });
+      .post(`${process.env.VUE_APP_API}/customer/favorite/${uid}`, myFavorite, { withCredentials: true });
   } catch (e) {
     // eslint-disable-next-line no-alert
-    alert(e);
+    // alert(e);
+    console.log(e);
   }
 }
 
-// 首次造訪驗證有無登入
-async function verifyLogin1() {
-  try {
-    const res = await axios
-      .post(`${process.env.VUE_APP_API}/customer/verify`, {}, { withCredentials: true });
-    if (await res.data.isLogin === true) {
-      store.commit('loginStatus', true);
-      getFavorite();
-      getCart();
-    } else {
-      store.commit('loginStatus', false);
-    }
-  } catch (e) {
-    // eslint-disable-next-line no-alert
-    alert(e);
-  }
+// 取得購物車
+function getCart(uid) {
+  // const uid = localStorage.getItem('userId');
+  return axios.get(`${process.env.VUE_APP_API}/customer/cart/${uid}`);
 }
 
-function customerLogin() {}
+// 取得收藏清單
+function getFavorite(uid) {
+  // const uid = localStorage.getItem('userId');
+  return axios.get(`${process.env.VUE_APP_API}/customer/favorite/${uid}`);
+}
 
-function customerLogout() {}
+// 驗證有無登入
+// 注意第二參數，這裡使用空物件佔位，因為post Credentials要放第三參數 !!!
+function verifyLogin() {
+  return axios.post(`${process.env.VUE_APP_API}/customer/verify`, {}, { withCredentials: true });
+}
 
-function verifyLogin2() {}
+// 顧客登入
+function customerLogin(data) {
+  return axios.post(`${process.env.VUE_APP_API}/customer/login`, data, { withCredentials: true });
+}
+
+// 登入後取得顧客資料
+// 用get 這裡的Credentials要放第二參數
+function getCustomer(verifyID) {
+  return axios
+    .get(`${process.env.VUE_APP_API}/customer/user/${verifyID}`, { withCredentials: true });
+}
+
+// 顧客更新資料
+function customerUpdate(verifyID, userInfo) {
+  return axios
+    .put(`${process.env.VUE_APP_API}/customer/user/${verifyID}`, userInfo, { withCredentials: true });
+}
+
+// 送出訂單
+function customerSendOrder(data) {
+  return axios.post(`${process.env.VUE_APP_API}/order`, data);
+}
+
+// 顧客登出
+function customerLogout() {
+  return axios.post(`${process.env.VUE_APP_API}/customer/logout`, {}, { withCredentials: true });
+}
 
 function adminLogin() {}
 
 function adminLogout() {}
 
 export {
-  verifyLogin1,
+  verifyLogin,
   customerLogin,
   customerLogout,
-  verifyLogin2,
   getCart,
   getFavorite,
   adminLogin,
   adminLogout,
   saveCart,
   saveFavorite,
+  getCustomer,
+  customerUpdate,
+  customerSendOrder,
 };

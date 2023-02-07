@@ -39,11 +39,14 @@
 
 <script>
 import { ref } from 'vue';
-import axios from 'axios';
 import Footer from '@/components/FooterComponent.vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import Swal from 'sweetalert2';
+import { verifyLogin, getCustomer, customerUpdate } from '@/apis/api';
+// import {
+//   verifyLogin, getCustomer, customerUpdate, getFavorite, getCart,
+// } from '@/apis/api';
 
 export default {
   components: { Footer },
@@ -53,12 +56,11 @@ export default {
     const router = useRouter();
     const userInfo = ref({});
 
+    // 取得顧客資料
     async function getUserData() {
+      store.commit('showLoadingCircle', true);
       try {
-        store.commit('showLoadingCircle', true);
-        // 用get 這裡的Credentials要放第二參數
-        const res = await axios
-          .get(`${process.env.VUE_APP_API}/customer/user/${verifyID.value}`, { withCredentials: true });
+        const res = await getCustomer(verifyID.value);
         const {
           name, email, address, tel,
         } = await res.data;
@@ -69,30 +71,31 @@ export default {
           address,
           tel,
         };
-        store.commit('showLoadingCircle', false);
       } catch (e) {
         console.log(e);
       }
+      store.commit('showLoadingCircle', false);
     }
 
-    async function verifyLogin() {
+    // 驗證是否登入
+    async function checkLogin() {
+      store.commit('showLoadingCircle', true);
       try {
-        store.commit('showLoadingCircle', true);
-        // 注意第二參數，這裡使用空物件佔位，因為post Credentials要放第三參數 !!!
-        const res = await axios.post(`${process.env.VUE_APP_API}/customer/verify`, {}, { withCredentials: true });
+        const res = await verifyLogin();
         if (!res.data.isLogin) {
           await router.push('/login');
         } else {
-          verifyID.value = await res.data.user;
+          verifyID.value = res.data.user;
           store.commit('loginStatus', true);
           await getUserData();
         }
-        store.commit('showLoadingCircle', false);
       } catch (e) {
         console.log(e);
       }
+      store.commit('showLoadingCircle', false);
     }
 
+    // 顧客更新資料
     async function updateUserData() {
       if (userInfo.value.name === '') {
         Swal.fire({
@@ -104,9 +107,8 @@ export default {
         return;
       }
       try {
-        const res = await axios
-          .put(`${process.env.VUE_APP_API}/customer/user/${verifyID.value}`, userInfo.value, { withCredentials: true });
-        Swal.fire({
+        const res = await customerUpdate(verifyID.value, userInfo.value);
+        await Swal.fire({
           title: res.data.msg,
           icon: 'success',
           showConfirmButton: false,
@@ -117,7 +119,7 @@ export default {
       }
     }
 
-    verifyLogin();
+    checkLogin();
 
     return {
       verifyLogin, getUserData, verifyID, userInfo, updateUserData,

@@ -38,6 +38,7 @@
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { ref, computed } from 'vue';
+// import { customerLogout } from '@/apis/api';
 
 export default {
   setup() {
@@ -63,7 +64,7 @@ export default {
 
     const isLogin = computed(() => store.state.isLogin);
 
-    const logout = () => {
+    const logout = async () => {
       store.dispatch('logout');
       changeBtn();
       router.push('/login');

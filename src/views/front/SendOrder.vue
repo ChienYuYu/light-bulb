@@ -59,7 +59,8 @@ import Footer from '@/components/FooterComponent.vue';
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import Swal from 'sweetalert2';
-import axios from 'axios';
+import { customerSendOrder, saveCart } from '@/apis/api';
+// import axios from 'axios';
 
 export default {
   components: { Footer, ProgressBar },
@@ -77,11 +78,13 @@ export default {
         store.commit('showLoadingCircle', true);
         // 透過API將資料傳至後端(訂單api)
         const data = await JSON.parse(sessionStorage.getItem('orderInfo'));
-        await axios.post(`${process.env.VUE_APP_API}/order`, { ...data, date: time });
+        // await axios.post(`${process.env.VUE_APP_API}/order`, { ...data, date: time });
+        await customerSendOrder({ ...data, date: time });
 
         // 清空vuex && firebase購物車
         store.commit('shoppingCart/resetCartAndUser');
-        await store.dispatch('shoppingCart/saveOnFirebase');
+        // await store.dispatch('shoppingCart/saveOnFirebase');
+        await saveCart(store.state.shoppingCart);
         sessionStorage.removeItem('orderInfo');
         store.commit('showLoadingCircle', false);
 

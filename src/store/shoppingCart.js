@@ -33,7 +33,7 @@ export default {
         const tempObj = state.shoppingCart[tempV];
         state.shoppingCart[tempV].totalPrice = tempObj.price * tempObj.qty;
       }
-      await saveCart();
+      await saveCart(state.shoppingCart);
       await this.commit('shoppingCart/sweetAlert');
     },
 
@@ -50,7 +50,7 @@ export default {
         tempItem.qty -= 1;
       }
       tempItem.totalPrice = await tempItem.qty * tempItem.price;
-      await saveCart();
+      await saveCart(state.shoppingCart);
     },
 
     // 需同時加入購物車 & 數量設定 (ProductItem.vue頁面的加入購物車邏輯)
@@ -67,14 +67,14 @@ export default {
         state.shoppingCart[temp].totalPrice = state
           .shoppingCart[temp].price * state.shoppingCart[temp].qty;
       }
-      await saveCart();
+      await saveCart(state.shoppingCart);
       this.commit('shoppingCart/sweetAlert');
     },
 
     // 移除項目-------------------------------------------
     async removeCart(state, data) {
       state.shoppingCart = await state.shoppingCart.filter((item) => item.id !== data.id);
-      await saveCart();
+      await saveCart(state.shoppingCart);
     },
 
     // 共用加入購物車sweetalert

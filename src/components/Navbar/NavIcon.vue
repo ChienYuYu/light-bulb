@@ -71,6 +71,7 @@
 import { ref, computed, watch } from 'vue';
 import { useRouter, onBeforeRouteUpdate } from 'vue-router';
 import { useStore } from 'vuex';
+// import { customerLogout } from '@/apis/api';
 
 export default {
   setup() {
@@ -93,8 +94,14 @@ export default {
     };
 
     const logout = async () => {
-      await store.dispatch('logout');
+      store.dispatch('logout');
       await router.push('/login');
+      // try {
+      //   await customerLogout();
+      // } catch (e) {
+      //   // eslint-disable-next-line no-alert
+      //   alert(e);
+      // }
     };
 
     // 顯示/隱藏  購物車清單 or 收藏清單 ---------------------
