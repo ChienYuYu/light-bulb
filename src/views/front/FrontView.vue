@@ -17,30 +17,18 @@ export default {
     const store = useStore();
     const showLoadingCircle = computed(() => store.state.showLoadingCircle);
 
-    async function getMyFavorite() {
-      const uid = localStorage.getItem('userId');
-      const res = await getFavorite(uid);
-      store.commit('myFavorite/initFavorite', res.data.favorite);
-    }
-
-    async function getMyCart() {
-      const uid = localStorage.getItem('userId');
-      const res = await getCart(uid);
-      store.commit('shoppingCart/initCart', res.data.cart);
-    }
-
     async function checkLogin() {
       try {
         const res = await verifyLogin();
         if (await res.data.isLogin === true) {
           store.commit('loginStatus', true);
-          await getMyFavorite();
-          await getMyCart();
-          // const uid = localStorage.getItem('userId');
-          // const res1 = await getFavorite(uid);
-          // store.commit('myFavorite/initFavorite', res1.data.favorite);
-          // const res2 = await getCart(uid);
-          // store.commit('shoppingCart/initCart', res2.data.cart);
+          // await getMyFavorite();
+          // await getMyCart();
+          const uid = localStorage.getItem('userId');
+          const res1 = await getFavorite(uid);
+          store.commit('myFavorite/initFavorite', res1.data.favorite);
+          const res2 = await getCart(uid);
+          store.commit('shoppingCart/initCart', res2.data.cart);
         } else {
           store.commit('loginStatus', false);
         }

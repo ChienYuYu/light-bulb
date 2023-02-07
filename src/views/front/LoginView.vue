@@ -19,8 +19,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-// import { customerLogin, getCart, getFavorite } from '@/apis/api';
-import { customerLogin } from '@/apis/api';
+import { customerLogin, getCart, getFavorite } from '@/apis/api';
 import Swal from 'sweetalert2';
 
 export default {
@@ -29,52 +28,19 @@ export default {
     const router = useRouter();
     const store = useStore();
 
-    // async function login() {
-    //   store.commit('showLoadingCircle', true);
-    //   try {
-    //     const res = await customerLogin(inputData.value);
-    //     if (res.data.success) {
-    //       // 取出id存入localStorage 避免vuex刷新state遺失問題
-    //       localStorage.setItem('userId', res.data.user);
-    //       store.commit('loginStatus', true);
-    //       const res1 = await getFavorite();
-    //       store.commit('myFavorite/initFavorite', res1.data.favorite);
-    //       const res2 = await getCart();
-    //       store.commit('shoppingCart/initCart', res2.data.cart);
-    //       router.push('/user/account');
-    //     } else {
-    //       Swal.fire({
-    //         title: res.data.msg,
-    //         icon: 'error',
-    //         showConfirmButton: false,
-    //         timer: 1500,
-    //       });
-    //     }
-    //   } catch (e) {
-    //     // eslint-disable-next-line no-alert
-    //     alert('error', e);
-    //   }
-    //   store.commit('showLoadingCircle', false);
-    // }
-
-    // //////////////////////////////////////////
-
     async function login() {
       store.commit('showLoadingCircle', true);
       try {
         const res = await customerLogin(inputData.value);
         if (res.data.success) {
-          // 取出id存入localStorage 避免vuex刷新state遺失問題
-          console.log(res.data);
           const uid = res.data.user;
+          // 取出id存入localStorage 避免vuex刷新state遺失問題
           localStorage.setItem('userId', uid);
           store.commit('loginStatus', true);
-
-          // const res1 = await getFavorite(uid);
-          // store.commit('myFavorite/initFavorite', res1.data.favorite);
-          // const res2 = await getCart(uid);
-          // store.commit('shoppingCart/initCart', res2.data.cart);
-
+          const res1 = await getFavorite(uid);
+          store.commit('myFavorite/initFavorite', res1.data.favorite);
+          const res2 = await getCart(uid);
+          store.commit('shoppingCart/initCart', res2.data.cart);
           router.push('/user/account');
         } else {
           Swal.fire({

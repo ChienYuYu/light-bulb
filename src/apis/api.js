@@ -10,8 +10,7 @@ async function saveCart(shoppingCart) {
       .post(`${process.env.VUE_APP_API}/customer/cart/${uid}`, shoppingCart, { withCredentials: true });
   } catch (e) {
     // eslint-disable-next-line no-alert
-    // alert(e);
-    console.log(e);
+    alert(e);
   }
 }
 
@@ -23,20 +22,17 @@ async function saveFavorite(myFavorite) {
       .post(`${process.env.VUE_APP_API}/customer/favorite/${uid}`, myFavorite, { withCredentials: true });
   } catch (e) {
     // eslint-disable-next-line no-alert
-    // alert(e);
-    console.log(e);
+    alert(e);
   }
 }
 
 // 取得購物車
 function getCart(uid) {
-  // const uid = localStorage.getItem('userId');
   return axios.get(`${process.env.VUE_APP_API}/customer/cart/${uid}`);
 }
 
 // 取得收藏清單
 function getFavorite(uid) {
-  // const uid = localStorage.getItem('userId');
   return axios.get(`${process.env.VUE_APP_API}/customer/favorite/${uid}`);
 }
 

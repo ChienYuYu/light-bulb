@@ -44,9 +44,6 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import Swal from 'sweetalert2';
 import { verifyLogin, getCustomer, customerUpdate } from '@/apis/api';
-// import {
-//   verifyLogin, getCustomer, customerUpdate, getFavorite, getCart,
-// } from '@/apis/api';
 
 export default {
   components: { Footer },
@@ -72,7 +69,8 @@ export default {
           tel,
         };
       } catch (e) {
-        console.log(e);
+        // eslint-disable-next-line no-alert
+        alert(e);
       }
       store.commit('showLoadingCircle', false);
     }
@@ -90,7 +88,8 @@ export default {
           await getUserData();
         }
       } catch (e) {
-        console.log(e);
+        // eslint-disable-next-line no-alert
+        alert(e);
       }
       store.commit('showLoadingCircle', false);
     }
@@ -115,7 +114,8 @@ export default {
           timer: 1500,
         });
       } catch (e) {
-        console.log(e);
+        // eslint-disable-next-line no-alert
+        alert(e);
       }
     }
 
