@@ -18,7 +18,7 @@ const routes = [
       },
       {
         path: '/productItem/:id',
-        name: 'productItem',
+        name: '產品詳細頁',
         component: () => import('../views/front/ProductItem.vue'),
       },
       {

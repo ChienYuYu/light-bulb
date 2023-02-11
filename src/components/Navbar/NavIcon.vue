@@ -40,8 +40,8 @@
       <li v-if="cartNum === 0">
         <router-link to="/product/全部">購物車沒東西</router-link>
       </li>
-      <li v-for="item in cartList" :key="item">
-        <router-link :to="{ name: 'productItem', params: { id: item.id } }">
+      <li v-for="item in cartList" :key="item.id">
+        <router-link :to="{ name: '產品詳細頁', params: { id: item.id } }">
           {{ item.title }}
         </router-link>
         <!-- <a href="#">{{ item.title }}</a> -->
@@ -56,8 +56,8 @@
       <li v-if="favoriteNum === 0">
         <router-link to="/product/全部">尚無收藏</router-link>
       </li>
-      <li v-for="item in favoriteList" :key="item">
-        <router-link :to="{ name: 'productItem', params: { id: item.id } }">
+      <li v-for="item in favoriteList" :key="item.id">
+        <router-link :to="{ name: '產品詳細頁', params: { id: item.id } }">
           {{ item.title }}
         </router-link>
         <!-- <a href="#">{{ item.title }}</a> -->

@@ -33,7 +33,7 @@ export default {
       try {
         const res = await customerLogin(inputData.value);
         if (res.data.success) {
-          const uid = res.data.user;
+          const uid = await res.data.user;
           // 取出id存入localStorage 避免vuex刷新state遺失問題
           localStorage.setItem('userId', uid);
           store.commit('loginStatus', true);

@@ -59,8 +59,7 @@ import Footer from '@/components/FooterComponent.vue';
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import Swal from 'sweetalert2';
-import { customerSendOrder, saveCart } from '@/apis/api';
-// import axios from 'axios';
+import { customerSendOrder, clearCart } from '@/apis/api';
 
 export default {
   components: { Footer, ProgressBar },
@@ -82,8 +81,8 @@ export default {
 
         // 清空vuex && firebase購物車
         store.commit('shoppingCart/resetCartAndUser');
-        // await store.dispatch('shoppingCart/saveOnFirebase');
-        await saveCart(store.state.shoppingCart);
+        // await saveCart(store.state.shoppingCart); // 好像找到問題了
+        await clearCart();
         sessionStorage.removeItem('orderInfo');
         store.commit('showLoadingCircle', false);
 

@@ -26,6 +26,12 @@ async function saveFavorite(myFavorite) {
   }
 }
 
+// 資料庫顧客購物車清空
+function clearCart() {
+  const uid = localStorage.getItem('userId');
+  return axios.delete(`${process.env.VUE_APP_API}/customer/cart/${uid}`);
+}
+
 // 取得購物車
 function getCart(uid) {
   return axios.get(`${process.env.VUE_APP_API}/customer/cart/${uid}`);
@@ -119,4 +125,5 @@ export {
   adminVerify,
   getAllOrder,
   adminDeleteOrder,
+  clearCart,
 };
