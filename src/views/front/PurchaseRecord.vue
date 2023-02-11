@@ -22,9 +22,9 @@
 
 <script>
 import Footer from '@/components/FooterComponent.vue';
-import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import { customerBuyHistory } from '@/apis/api';
 
 export default {
   components: { Footer },
@@ -33,12 +33,12 @@ export default {
     const order = ref([]);
     const noRecord = ref(true);
 
-    onMounted(async () => {
+    const getHistory = async () => {
       const id = localStorage.getItem('userId');
       store.commit('showLoadingCircle', true);
       try {
-        const res = await axios.get(`${process.env.VUE_APP_API}/customer/history/${id}`, { withCredentials: true });
-        if (await res.data.order.length !== 0) {
+        const res = await customerBuyHistory(id);
+        if (res.data.order.length !== 0) {
           noRecord.value = false;
         } else {
           noRecord.value = true;
@@ -49,6 +49,10 @@ export default {
         // eslint-disable-next-line no-alert
         alert(e);
       }
+    };
+
+    onMounted(async () => {
+      getHistory();
     });
     return { noRecord, order };
   },

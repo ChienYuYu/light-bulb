@@ -11,9 +11,9 @@
       <swiper :slides-per-view="slidesPerView"
       :space-between="20" navigation :autoplay="true" :loop="true"
         :modules="modules" data-aos="fade-up" data-aos-duration="1500">
-        <swiper-slide v-for="item in hotProduct" :key="item">
+        <swiper-slide v-for="item in hotProduct" :key="item.id">
           <div class="card">
-            <router-link :to="{ name: 'productItem', params: { id: item.id } }">
+            <router-link :to="{ name: '產品詳細頁', params: { id: item.id } }">
               <img :src="item.picture" class="card-img-top" alt="">
             </router-link>
             <!-- <img :src="item.picture" class="card-img-top" alt=""> -->

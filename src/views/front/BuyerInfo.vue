@@ -43,7 +43,7 @@ import Footer from '@/components/FooterComponent.vue';
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
+import { getCustomer } from '@/apis/api';
 
 export default {
   components: { Footer, ProgressBar },
@@ -72,19 +72,20 @@ export default {
     };
 
     // 取得帳號資訊(購買者(自己))
-    const getBuyerInfo = () => {
+    const getBuyerInfo = async () => {
       store.commit('showLoadingCircle', true);
-      const id = localStorage.getItem('userId');
-      axios.get(`${process.env.VUE_APP_API}/customer/user/${id}`, { withCredentials: true })
-        .then((res) => {
-          const x = buyerInfo.value;
-          x.buyerName = res.data.name;
-          x.buyerPhone = res.data.tel;
-          x.buyerAddress = res.data.address;
-          store.commit('showLoadingCircle', false);
-        })
+      try {
+        const id = localStorage.getItem('userId');
+        const res = await getCustomer(id);
+        const x = buyerInfo.value;
+        x.buyerName = await res.data.name;
+        x.buyerPhone = await res.data.tel;
+        x.buyerAddress = await res.data.address;
+      } catch (e) {
         // eslint-disable-next-line no-alert
-        .catch((e) => alert(e));
+        alert(e);
+      }
+      store.commit('showLoadingCircle', false);
     };
 
     onMounted(() => {

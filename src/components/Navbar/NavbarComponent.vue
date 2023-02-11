@@ -5,16 +5,12 @@
         <img src="@/assets/img/fakelogo2.png" alt="">
       </router-link>
     </div>
-    <!-- <router-link to="/">
-      <img src="@/assets/img/fakelogo2.png" alt="">
-    </router-link> -->
     <nav>
       <router-link to="/" class="nav-item">首頁</router-link>
       <router-link to="/product/全部" class="nav-item"
         :class="{ 'router-link-exact-active': activeProductItem }">商品列表</router-link>
       <router-link to="/about" class="nav-item">關於我們</router-link>
       <router-link to="/contact" class="nav-item">聯絡我們</router-link>
-      <!-- <router-link to="/order-search" class="nav-item">訂單查詢</router-link> -->
     </nav>
     <IconWrap /> <!-- component -->
   </div>

@@ -7,10 +7,10 @@
       <div class="row">
         <div class="col-md-8 col-lg-6 col-xl-5 mx-auto">
           <ul>
-            <li v-for="item in favoriteList" :key="item">
+            <li v-for="item in favoriteList" :key="item.id">
               <img :src="item.picture" alt="">
               <div class="txt">
-                <router-link :to= "{ name: 'productItem', params:{id: item.id}}">
+                <router-link :to= "{ name: '產品詳細頁', params:{id: item.id}}">
                   {{ item.title }}
                 </router-link>
                 <p>${{ item.price }}</p>
