@@ -16,7 +16,7 @@
 <script>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
+import { adminLogin } from '@/apis/api';
 
 export default {
 
@@ -24,15 +24,16 @@ export default {
     const router = useRouter();
     const admin = ref({});
 
-    const login = () => {
-      axios.post(`${process.env.VUE_APP_API}/admin/login`, admin.value, { withCredentials: true })
-        .then((res) => {
-          if (res.data.success) {
-            router.push('/management/order');
-          }
-        })
+    const login = async () => {
+      try {
+        const res = await adminLogin(admin.value);
+        if (res.data.success) {
+          router.push('/management/order');
+        }
+      } catch (e) {
         // eslint-disable-next-line no-alert
-        .catch((e) => alert(e));
+        alert(e);
+      }
     };
 
     return { admin, login };

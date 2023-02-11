@@ -47,6 +47,12 @@ function customerLogin(data) {
   return axios.post(`${process.env.VUE_APP_API}/customer/login`, data, { withCredentials: true });
 }
 
+// 顧客更新資料
+function customerUpdate(verifyID, userInfo) {
+  return axios
+    .put(`${process.env.VUE_APP_API}/customer/user/${verifyID}`, userInfo, { withCredentials: true });
+}
+
 // 登入後取得顧客資料
 // 用get 這裡的Credentials要放第二參數
 function getCustomer(verifyID) {
@@ -54,15 +60,14 @@ function getCustomer(verifyID) {
     .get(`${process.env.VUE_APP_API}/customer/user/${verifyID}`, { withCredentials: true });
 }
 
-// 顧客更新資料
-function customerUpdate(verifyID, userInfo) {
-  return axios
-    .put(`${process.env.VUE_APP_API}/customer/user/${verifyID}`, userInfo, { withCredentials: true });
-}
-
 // 送出訂單
 function customerSendOrder(data) {
   return axios.post(`${process.env.VUE_APP_API}/order`, data);
+}
+
+// 取得購買紀錄
+function customerBuyHistory(id) {
+  return axios.get(`${process.env.VUE_APP_API}/customer/history/${id}`, { withCredentials: true });
 }
 
 // 顧客登出
@@ -70,9 +75,32 @@ function customerLogout() {
   return axios.post(`${process.env.VUE_APP_API}/customer/logout`, {}, { withCredentials: true });
 }
 
-function adminLogin() {}
+// 管理員登入
+function adminLogin(data) {
+  return axios.post(`${process.env.VUE_APP_API}/admin/login`, data, { withCredentials: true });
+}
 
-function adminLogout() {}
+// 管理員登出
+function adminLogout() {
+  // 使用post withCredentials要放第三參數!!!
+  return axios.post(`${process.env.VUE_APP_API}/admin/logout`, {}, { withCredentials: true });
+}
+
+// 驗證管理員登入狀態
+function adminVerify() {
+  // 使用post withCredentials要放第三參數!!!
+  return axios.post(`${process.env.VUE_APP_API}/admin/verify`, {}, { withCredentials: true });
+}
+
+// 取得所有訂單資料
+function getAllOrder() {
+  return axios.get(`${process.env.VUE_APP_API}/admin/order`, { withCredentials: true });
+}
+
+// 刪除訂單
+function adminDeleteOrder(id) {
+  return axios.delete(`${process.env.VUE_APP_API}/admin/order/${id}`);
+}
 
 export {
   verifyLogin,
@@ -87,4 +115,8 @@ export {
   getCustomer,
   customerUpdate,
   customerSendOrder,
+  customerBuyHistory,
+  adminVerify,
+  getAllOrder,
+  adminDeleteOrder,
 };

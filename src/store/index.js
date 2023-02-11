@@ -44,10 +44,8 @@ export default createStore({
         context.commit('showLoadingCircle', true);
         await customerLogout();
         context.commit('loginStatus', false);
-        // context.commit('shoppingCart/resetCartAndUser');
-        this.commit('shoppingCart/resetCartAndUser');
-        // context.commit('myFavorite/resetFavoriteAndUser');
-        this.commit('myFavorite/resetFavoriteAndUser');
+        context.commit('shoppingCart/resetCartAndUser');
+        context.commit('myFavorite/resetFavoriteAndUser');
         localStorage.clear();
         context.commit('showLoadingCircle', false);
       } catch (e) {
