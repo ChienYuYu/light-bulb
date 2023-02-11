@@ -115,6 +115,7 @@ export default {
   .main{
     width: 80%;
     // border: 1px solid #fa0;
+    overflow: auto;
   }
 }
 </style>
