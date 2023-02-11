@@ -29,10 +29,10 @@
 </template>
 
 <script>
-import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { getAllOrder, adminDeleteOrder } from '@/apis/api';
 
 export default {
   setup() {
@@ -43,7 +43,7 @@ export default {
     const getOrderData = async () => {
       try {
         store.commit('showLoadingCircle', true);
-        const res = await axios.get(`${process.env.VUE_APP_API}/admin/order`, { withCredentials: true });
+        const res = await getAllOrder();
         order.value = await res.data.order;
         store.commit('showLoadingCircle', false);
       } catch (e) {
@@ -55,7 +55,7 @@ export default {
     const deleteOrder = async (id) => {
       try {
         store.commit('showLoadingCircle', true);
-        await axios.delete(`${process.env.VUE_APP_API}/admin/order/${id}`);
+        await adminDeleteOrder(id);
         router.go(0);
       } catch (e) {
         // eslint-disable-next-line no-alert

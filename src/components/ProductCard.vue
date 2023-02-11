@@ -1,10 +1,13 @@
 <template>
   <div class="row g-3">
-    <div class="col-lg-3 col-md-6" v-for="item in renderData" :key="item">
+    <div class="col-lg-3 col-md-6" v-for="item in renderData" :key="item.id">
       <div class="card">
-        <router-link :to="{ name: 'productItem', params: { id: item.id } }">
+        <router-link :to="{ name: '產品詳細頁', params: { id: item.id } }">
           <img :src="item.picture" class="card-img-top" alt="">
         </router-link>
+        <!-- <router-link :to="`/productItem/${item.id}`">
+          <img :src="item.picture" class="card-img-top" alt="">
+        </router-link> -->
         <div class="card-body">
           <h5 class="card-title">{{ item.title }}</h5>
           <p class="card-text"> {{ item.description }} </p>

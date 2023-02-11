@@ -12,7 +12,7 @@
             <li v-for="item in carts" :key="item.id">
               <div class="img-title-group col-12 col-md-6">
                 <img :src="item.picture" alt="">
-                <router-link :to="{ name: 'productItem', params: { id: item.id } }">
+                <router-link :to="{ name: '產品詳細頁', params: { id: item.id } }">
                   <h3 class="title">{{ item.title }}</h3>
                 </router-link>
               </div>

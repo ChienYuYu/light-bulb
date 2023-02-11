@@ -21,10 +21,10 @@
 
 <script>
 import { onMounted, computed } from 'vue';
-import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import LoadingView from '@/components/LoadingEffect.vue';
+import { adminLogout, adminVerify } from '@/apis/api';
 
 export default {
   components: { LoadingView },
@@ -36,8 +36,7 @@ export default {
     async function logout() {
       try {
         store.commit('showLoadingCircle', true);
-        // 使用post withCredentials要放第三參數!!!
-        const res = await axios.post(`${process.env.VUE_APP_API}/admin/logout`, {}, { withCredentials: true });
+        const res = await adminLogout();
         if (await res.data.success) {
           router.push('/admin-login');
         }
@@ -51,8 +50,7 @@ export default {
     onMounted(async () => {
       try {
         store.commit('showLoadingCircle', true);
-        // 使用post withCredentials要放第三參數!!!
-        const res = await axios.post(`${process.env.VUE_APP_API}/admin/verify`, {}, { withCredentials: true });
+        const res = await adminVerify();
         if (!res.data.isLogin) {
           router.push('/admin-login');
         }

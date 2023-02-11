@@ -1,5 +1,5 @@
 import Swal from 'sweetalert2';
-import axios from 'axios';
+import { saveCart } from '@/apis/api';
 
 export default {
   namespaced: true,
@@ -7,7 +7,7 @@ export default {
     shoppingCart: [],
   },
   mutations: {
-    // 網路請求取得購物車後 寫入vuex ////////////////
+    // 網路請求取得購物車後 寫入vuex
     initCart(state, data) {
       state.shoppingCart = data;
     },
@@ -18,10 +18,10 @@ export default {
     },
 
     // 加入購物車-------------------------------------------
-    addCart(state, data) {
+    async addCart(state, data) {
       // findIndex()判斷資料是否存在// 不存在=> push() // 存在=> 數量+1 & 總價:價格x數量
-      const tempV = state.shoppingCart.findIndex((item) => item.id === data.id);
-      if (tempV === -1) {
+      const tempV = await state.shoppingCart.findIndex((item) => item.id === data.id);
+      if (await tempV === -1) {
         const qty = 1;
         state.shoppingCart.push({
           ...data,
@@ -33,30 +33,30 @@ export default {
         const tempObj = state.shoppingCart[tempV];
         state.shoppingCart[tempV].totalPrice = tempObj.price * tempObj.qty;
       }
-      this.commit('shoppingCart/sweetAlert');
-      this.dispatch('shoppingCart/saveOnFirebase');
+      await saveCart(state.shoppingCart);
+      await this.commit('shoppingCart/sweetAlert');
     },
 
     // 修改數量-------------------------------------------
-    setQty(state, data) {
-      const i = state.shoppingCart.findIndex((item) => item.id === data.id);
-      const tempItem = state.shoppingCart[i];
-      if (data.addOrSub === 'add') {
+    async setQty(state, data) {
+      const i = await state.shoppingCart.findIndex((item) => item.id === data.id);
+      const tempItem = await state.shoppingCart[i];
+      if (await data.addOrSub === 'add') {
         tempItem.qty += 1;
       } else {
-        if (tempItem.qty === 1) {
+        if (await tempItem.qty === 1) {
           return;
         }
         tempItem.qty -= 1;
       }
-      tempItem.totalPrice = tempItem.qty * tempItem.price;
-      this.dispatch('shoppingCart/saveOnFirebase');
+      tempItem.totalPrice = await tempItem.qty * tempItem.price;
+      await saveCart(state.shoppingCart);
     },
 
     // 需同時加入購物車 & 數量設定 (ProductItem.vue頁面的加入購物車邏輯)
-    addCart2(state, data) {
-      const temp = state.shoppingCart.findIndex((value) => value.id === data.item.id);
-      if (temp === -1) {
+    async addCart2(state, data) {
+      const temp = await state.shoppingCart.findIndex((value) => value.id === data.item.id);
+      if (await temp === -1) {
         state.shoppingCart.push({
           ...data.item,
           qty: data.qty,
@@ -67,14 +67,14 @@ export default {
         state.shoppingCart[temp].totalPrice = state
           .shoppingCart[temp].price * state.shoppingCart[temp].qty;
       }
-      this.dispatch('shoppingCart/saveOnFirebase');
+      await saveCart(state.shoppingCart);
       this.commit('shoppingCart/sweetAlert');
     },
 
     // 移除項目-------------------------------------------
-    removeCart(state, data) {
-      state.shoppingCart = state.shoppingCart.filter((item) => item.id !== data.id);
-      this.dispatch('shoppingCart/saveOnFirebase');
+    async removeCart(state, data) {
+      state.shoppingCart = await state.shoppingCart.filter((item) => item.id !== data.id);
+      await saveCart(state.shoppingCart);
     },
 
     // 共用加入購物車sweetalert
@@ -93,26 +93,6 @@ export default {
     },
   },
   actions: {
-    // 存入資料庫網路請求
-    saveOnFirebase(context) {
-      const id = localStorage.getItem('userId');
-      const cart = context.state.shoppingCart;
-      axios.post(`${process.env.VUE_APP_API}/customer/cart/${id}`, cart, { withCredentials: true })
-        .then()
-        // eslint-disable-next-line no-alert
-        .catch((e) => alert(e));
-    },
-
-    // 取得購物車網路請求
-    getCartOnFirebase(context) {
-      const id = localStorage.getItem('userId');
-      axios.get(`${process.env.VUE_APP_API}/customer/cart/${id}`)
-        .then((res) => {
-          context.commit('initCart', res.data.cart);
-        })
-        // eslint-disable-next-line no-alert
-        .catch((e) => alert(e));
-    },
   },
   getters: {
     // 總金額

@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import axios from 'axios';
+import { customerLogout } from '@/apis/api';
 import myFavorite from './myFavorite';
 import shoppingCart from './shoppingCart';
 import checkout from './checkout';
@@ -39,31 +39,19 @@ export default createStore({
         });
     },
 
-    verifyLogin(context) {
-      axios.post(`${process.env.VUE_APP_API}/customer/verify`, {}, { withCredentials: true })
-        .then((res) => {
-          if (res.data.isLogin === true) {
-            context.commit('loginStatus', true);
-            this.dispatch('myFavorite/getFavoriteOnFirebase');
-            this.dispatch('shoppingCart/getCartOnFirebase');
-          } else {
-            context.commit('loginStatus', false);
-          }
-        })
-        .catch();
-    },
-
-    logout(context) {
-      context.commit('showLoadingCircle', true);
-      axios.post(`${process.env.VUE_APP_API}/customer/logout`, {}, { withCredentials: true })
-        .then(() => {
-          context.commit('loginStatus', false);
-          context.commit('shoppingCart/resetCartAndUser');
-          context.commit('myFavorite/resetFavoriteAndUser');
-          localStorage.clear();
-          context.commit('showLoadingCircle', false);
-        })
-        .catch((e) => console.log(e));
+    async logout(context) {
+      try {
+        context.commit('showLoadingCircle', true);
+        await customerLogout();
+        context.commit('loginStatus', false);
+        context.commit('shoppingCart/resetCartAndUser');
+        context.commit('myFavorite/resetFavoriteAndUser');
+        localStorage.clear();
+        context.commit('showLoadingCircle', false);
+      } catch (e) {
+        // eslint-disable-next-line no-alert
+        alert(e);
+      }
     },
 
   },

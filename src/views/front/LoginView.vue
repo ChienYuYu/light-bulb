@@ -17,10 +17,10 @@
 
 <script>
 import { ref } from 'vue';
-import axios from 'axios';
 import { useRouter } from 'vue-router';
-import Swal from 'sweetalert2';
 import { useStore } from 'vuex';
+import { customerLogin, getCart, getFavorite } from '@/apis/api';
+import Swal from 'sweetalert2';
 
 export default {
   setup() {
@@ -29,16 +29,19 @@ export default {
     const store = useStore();
 
     async function login() {
+      store.commit('showLoadingCircle', true);
       try {
-        store.commit('showLoadingCircle', true);
-        const res = await axios.post(`${process.env.VUE_APP_API}/customer/login`, inputData.value, { withCredentials: true });
-        if (await res.data.success) {
+        const res = await customerLogin(inputData.value);
+        if (res.data.success) {
+          const uid = await res.data.user;
           // 取出id存入localStorage 避免vuex刷新state遺失問題
-          localStorage.setItem('userId', res.data.user);
+          localStorage.setItem('userId', uid);
           store.commit('loginStatus', true);
-          await store.dispatch('shoppingCart/getCartOnFirebase');
-          await store.dispatch('myFavorite/getFavoriteOnFirebase');
-          await router.push('/user/account');
+          const res1 = await getFavorite(uid);
+          store.commit('myFavorite/initFavorite', res1.data.favorite);
+          const res2 = await getCart(uid);
+          store.commit('shoppingCart/initCart', res2.data.cart);
+          router.push('/user/account');
         } else {
           Swal.fire({
             title: res.data.msg,
@@ -47,11 +50,11 @@ export default {
             timer: 1500,
           });
         }
-        store.commit('showLoadingCircle', false);
       } catch (e) {
         // eslint-disable-next-line no-alert
         alert('error', e);
       }
+      store.commit('showLoadingCircle', false);
     }
 
     return { inputData, login };
