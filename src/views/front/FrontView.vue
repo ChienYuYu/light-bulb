@@ -22,8 +22,6 @@ export default {
         const res = await verifyLogin();
         if (await res.data.isLogin === true) {
           store.commit('loginStatus', true);
-          // await getMyFavorite();
-          // await getMyCart();
           const uid = localStorage.getItem('userId');
           const res1 = await getFavorite(uid);
           store.commit('myFavorite/initFavorite', res1.data.favorite);

@@ -33,7 +33,9 @@ export default {
         const tempObj = state.shoppingCart[tempV];
         state.shoppingCart[tempV].totalPrice = tempObj.price * tempObj.qty;
       }
+      await this.commit('showLoadingCircle', true);
       await saveCart(state.shoppingCart);
+      await this.commit('showLoadingCircle', false);
       await this.commit('shoppingCart/sweetAlert');
     },
 
@@ -67,7 +69,9 @@ export default {
         state.shoppingCart[temp].totalPrice = state
           .shoppingCart[temp].price * state.shoppingCart[temp].qty;
       }
+      await this.commit('showLoadingCircle', true);
       await saveCart(state.shoppingCart);
+      await this.commit('showLoadingCircle', false);
       this.commit('shoppingCart/sweetAlert');
     },
 
