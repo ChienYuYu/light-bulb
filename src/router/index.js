@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
+import store from '@/store';
 
 const routes = [
   {
@@ -110,6 +111,15 @@ const router = createRouter({
       top: 0,
     };
   },
+});
+
+// 路由守衛
+router.beforeEach(() => {
+  store.commit('showLoadingCircle', true);
+});
+
+router.beforeResolve(() => {
+  store.commit('showLoadingCircle', false);
 });
 
 export default router;
